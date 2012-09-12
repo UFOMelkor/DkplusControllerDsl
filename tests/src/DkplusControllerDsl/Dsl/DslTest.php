@@ -18,33 +18,55 @@ use DkplusUnitTest\TestCase;
  */
 class DslTest extends TestCase
 {
-    /** @var Executor */
+    /** @var ExecutorInterface|\PHPUnit_Framework_MockObject_MockObject */
     private $executor;
+
+    /** @var \Zend\ServiceManager\AbstractPluginManager|\PHPUnit_Framework_MockObject_MockObject */
+    private $pluginManager;
+
+    /** @var Dsl */
+    private $dsl;
 
     protected function setUp()
     {
-        $this->executor = new Executor();
+        $this->executor      = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\ExecutorInterface');
+        $this->pluginManager = $this->getMockBuilder('Zend\ServiceManager\AbstractPluginManager')
+                                    ->setMethods(array('get', 'validatePlugin'))
+                                    ->getMock();
+        $this->dsl           = new Dsl($this->pluginManager, $this->executor);
     }
 
     /**
      * @test
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
-     * @testdox is a dsl executor
+     * @testdox is a dsl
      */
-    public function isDslExecutor()
+    public function isDsl()
     {
-        $this->assertInstanceOf('DkplusControllerDsl\Dsl\ExecutorInterface', $this->executor);
+        $this->assertInstanceOf('DkplusControllerDsl\Dsl\DslInterface', $this->dsl);
     }
 
     /**
      * @test
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
+     * @testdox has a plugin manager
      */
-    public function hasInitiallyNoPhrases()
+    public function hasPluginManager()
     {
-        $this->assertCount(0, $this->executor->getPhrases());
+        $this->assertSame($this->pluginManager, $this->dsl->getPluginManager());
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     * @testdox has a executor
+     */
+    public function hasExecutor()
+    {
+        $this->assertSame($this->executor, $this->dsl->getExecutor());
     }
 
     /**
@@ -52,11 +74,49 @@ class DslTest extends TestCase
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
      */
-    public function canGetMorePhrases()
+    public function usesTheExecuterToExecute()
+    {
+        $executionResult = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
+        $container       = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\ContainerInterface');
+
+        $this->executor->expects($this->once())
+                       ->method('execute')
+                       ->with($container)
+                       ->will($this->returnValue($executionResult));
+
+        $this->assertSame($executionResult, $this->dsl->execute($container));
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     */
+    public function fetchesPhrasesFromThePluginManager()
+    {
+        $phrase     = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\PhraseInterface');
+        $phraseName = 'phraseAbc';
+        $this->pluginManager->expects($this->once())
+                            ->method('get')
+                            ->with($phraseName)
+                            ->will($this->returnValue($phrase));
+        $this->dsl->{$phraseName}();
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     * @testdox passes arguments as options to the plugin manager when fetching a phrase
+     */
+    public function passesArgumentsAsOptionsToThePluginManagerWhenFetchingPhrase()
     {
         $phrase = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\PhraseInterface');
-        $this->executor->addPhrase($phrase);
-        $this->assertCount(1, $this->executor->getPhrases());
+        $this->pluginManager->expects($this->once())
+                            ->method('get')
+                            ->with($this->anything(), array('foo', 'bar', 'baz'))
+                            ->will($this->returnValue($phrase));
+        $this->dsl->phraseAbc('foo', 'bar', 'baz');
     }
 
     /**
@@ -64,125 +124,31 @@ class DslTest extends TestCase
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
      */
-    public function additionalPhrasesWillBeAddedAtTheEnd()
+    public function addsFetchedPhraseToTheExecutor()
     {
-        $phraseA = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\PhraseInterface');
-        $phraseB = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\PhraseInterface');
-
-        $this->executor->addPhrase($phraseA);
-        $this->executor->addPhrase($phraseB);
-        $this->assertSame(array($phraseA, $phraseB), $this->executor->getPhrases());
+        $phrase = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\PhraseInterface');
+        $this->pluginManager->expects($this->once())
+                            ->method('get')
+                            ->will($this->returnValue($phrase));
+        $this->executor->expects($this->once())
+                       ->method('addPhrase')
+                       ->with($phrase);
+        $this->dsl->phraseAbc();
     }
 
     /**
      * @test
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
+     * @testdox provides a fluent interface
      */
-    public function initiallyReturnsTheViewModelWhenNoPhraseHasBeenAdded()
+    public function providesFluentInterface()
     {
-        $viewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
-
-        $container = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\ContainerInterface');
-        $container->expects($this->any())
-                  ->method('getViewModel')
-                  ->will($this->returnValue($viewModel));
-
-        $this->assertSame($viewModel, $this->executor->execute($container));
-    }
-
-    /**
-     * @test
-     * @group Component/Dsl
-     * @group Module/DkplusControllerDsl
-     * @testdox returns a response when any phrase returns these response
-     * @dataProvider providePhrasesWithoneReturningResponse
-     */
-    public function returnsResponseWhenAnyPhraseReturnsTheseResponse(array $phrases, $response)
-    {
-        $container = $this->getContainerMock();
-
-        foreach ($phrases as $phrase) {
-            $this->executor->addPhrase($phrase);
-        }
-
-        $this->assertSame($response, $this->executor->execute($container));
-    }
-
-    public function providePhrasesWithOneReturningResponse()
-    {
-        $response          = $this->getMockForAbstractClass('Zend\Stdlib\ResponseInterface');
-        $returningResponse = $this->getPhraseMock();
-        $returningResponse->expects($this->any())
-                          ->method('execute')
-                          ->will($this->returnValue($response));
-        return array(
-            array(array($returningResponse), $response),
-            array(array($this->getPhraseMock(), $returningResponse), $response),
-            array(array($returningResponse, $this->getPhraseMock()), $response),
-            array(array($this->getPhraseMock(), $returningResponse, $this->getPhraseMock()), $response)
-        );
-    }
-
-    /** @return Phrase\PhraseInterface|\PHPUnit_Framework_MockObject_MockObject */
-    private function getPhraseMock()
-    {
-        return $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\PhraseInterface');
-    }
-
-    /** @return ContainerInterface|\PHPUnit_Framework_MockObject_MockObject */
-    private function getContainerMock()
-    {
-        return $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\ContainerInterface');
-    }
-
-    /**
-     * @test
-     * @group Component/Dsl
-     * @group Module/DkplusControllerDsl
-     * @testdox does not call other phrases if a response has been returned
-     */
-    public function doesNotCallOtherPhrasesIfResponseHasBeenReturned()
-    {
-        $response = $this->getMockForAbstractClass('Zend\Stdlib\ResponseInterface');
-
-        $responsePhrase = $this->getPhraseMock();
-        $responsePhrase->expects($this->any())
-                       ->method('execute')
-                       ->will($this->returnValue($response));
-
-        $otherPhrase = $this->getPhraseMock();
-        $otherPhrase->expects($this->never())
-                    ->method('execute');
-
-        $this->executor->addPhrase($responsePhrase);
-        $this->executor->addPhrase($otherPhrase);
-        $this->executor->execute($this->getContainerMock());
-    }
-
-    /**
-     * @test
-     * @group Component/Dsl
-     * @group Module/DkplusControllerDsl
-     */
-    public function assignsViewVariablesToTheViewModel()
-    {
-        $viewVariables = array('foo' => 'bar', 'bar' => 'baz', 'baz' => 'foo');
-
-        $viewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
-        $viewModel->expects($this->once())
-                  ->method('setVariables')
-                  ->with($viewVariables);
-
-        $container = $this->getContainerMock();
-        $container->expects($this->any())
-                  ->method('getViewVariables')
-                  ->will($this->returnValue($viewVariables));
-        $container->expects($this->any())
-                  ->method('getViewModel')
-                  ->will($this->returnValue($viewModel));
-
-        $this->executor->execute($container);
+        $phrase = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\PhraseInterface');
+        $this->pluginManager->expects($this->once())
+                            ->method('get')
+                            ->will($this->returnValue($phrase));
+        $this->assertSame($this->dsl, $this->dsl->phraseAbc());
     }
 }
 
