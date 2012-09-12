@@ -16,7 +16,7 @@ use DkplusUnitTest\TestCase;
  * @subpackage Dsl
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class ExecutorTest extends TestCase
+class DslTest extends TestCase
 {
     /** @var Executor */
     private $executor;

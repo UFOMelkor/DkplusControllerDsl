@@ -16,5 +16,9 @@ namespace DkplusControllerDsl\Dsl;
  */
 class Dsl implements DslInterface
 {
+
+    public function execute(ContainerInterface $container)
+    {
+    }
 }
 
