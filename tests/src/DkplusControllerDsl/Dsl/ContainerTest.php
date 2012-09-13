@@ -32,11 +32,17 @@ class ContainerTest extends TestCase
 
     protected function setUp()
     {
-        $this->controller = $this->getMockForAbstractClass('Zend\Mvc\Controller\AbstractController');
         $this->request    = $this->getMockForAbstractClass('Zend\Stdlib\RequestInterface');
         $this->response   = $this->getMockForAbstractClass('Zend\Stdlib\ResponseInterface');
+        $this->controller = $this->getMock('Zend\Mvc\Controller\AbstractController');
+        $this->controller->expects($this->any())
+                          ->method('getRequest')
+                          ->will($this->returnValue($this->request));
+        $this->controller->expects($this->any())
+                          ->method('getResponse')
+                          ->will($this->returnValue($this->response));
         $this->viewModel  = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
-        $this->container  = new Container($this->controller, $this->request, $this->response, $this->viewModel);
+        $this->container  = new Container($this->controller, $this->viewModel);
     }
 
     /**

@@ -8,7 +8,9 @@
 
 namespace DkplusControllerDsl\Dsl;
 
+use Zend\Mvc\Controller\AbstractController;
 use Zend\ServiceManager\AbstractPluginManager as PluginManager;
+use Zend\View\Model\ViewModel;
 
 /**
  * @category   DkplusControllerDsl
@@ -24,10 +26,14 @@ class Dsl implements DslInterface
     /** @var ExecutorInterface */
     private $executor;
 
-    public function __construct(PluginManager $plugins, ExecutorInterface $executor)
+    /** @var AbstractController */
+    private $controller;
+
+    public function __construct(PluginManager $plugins, ExecutorInterface $executor, AbstractController $controller)
     {
-        $this->plugins  = $plugins;
-        $this->executor = $executor;
+        $this->plugins    = $plugins;
+        $this->executor   = $executor;
+        $this->controller = $controller;
     }
 
     /** @return PluginManager */
@@ -43,8 +49,11 @@ class Dsl implements DslInterface
     }
 
     /** @return \Zend\Stdlib\ResponseInterface|\Zend\View\Model\ModelInterface */
-    public function execute(ContainerInterface $container)
+    public function execute(ContainerInterface $container = null)
     {
+        if ($container == null) {
+            $container = new Container($this->controller, new ViewModel());
+        }
         return $this->executor->execute($container);
     }
 

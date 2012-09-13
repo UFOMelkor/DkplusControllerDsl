@@ -17,6 +17,6 @@ namespace DkplusControllerDsl\Dsl;
 interface DslInterface
 {
     /** @return \Zend\Stdlib\ResponseInterface|\Zend\View\Model\ModelInterface */
-    public function execute(ContainerInterface $container);
+    public function execute(ContainerInterface $container = null);
 }
 

@@ -24,6 +24,9 @@ class DslTest extends TestCase
     /** @var \Zend\ServiceManager\AbstractPluginManager|\PHPUnit_Framework_MockObject_MockObject */
     private $pluginManager;
 
+    /** @var \Zend\Mvc\Controller\AbstractController|\PHPUnit_Framework_MockObject_MockObject */
+    private $controller;
+
     /** @var Dsl */
     private $dsl;
 
@@ -33,7 +36,8 @@ class DslTest extends TestCase
         $this->pluginManager = $this->getMockBuilder('Zend\ServiceManager\AbstractPluginManager')
                                     ->setMethods(array('get', 'validatePlugin'))
                                     ->getMock();
-        $this->dsl           = new Dsl($this->pluginManager, $this->executor);
+        $this->controller    = $this->getMock('Zend\Mvc\Controller\AbstractController');
+        $this->dsl           = new Dsl($this->pluginManager, $this->executor, $this->controller);
     }
 
     /**
@@ -149,6 +153,19 @@ class DslTest extends TestCase
                             ->method('get')
                             ->will($this->returnValue($phrase));
         $this->assertSame($this->dsl, $this->dsl->phraseAbc());
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     */
+    public function createsStandardContainerIfNoContainerIsGiven()
+    {
+        $this->executor->expects($this->once())
+                       ->method('execute')
+                       ->with($this->isInstanceOf('DkplusControllerDsl\Dsl\Container'));
+        $this->dsl->execute();
     }
 }
 

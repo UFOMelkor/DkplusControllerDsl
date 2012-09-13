@@ -71,8 +71,9 @@ class PhraseManagerTest extends TestCase
      * @expectedException \Zend\ServiceManager\Exception\RuntimeException
      * @expectedExceptionMessage Plugins must implement DkplusControllerDsl\Dsl\Phrase\PhraseInterface
      * @dataProvider provideInvalidPlugins
+     * @testdox does not accept non-phrases
      */
-    public function doesNotAccepts($plugin)
+    public function doesNotAccept($plugin)
     {
         $this->manager->validatePlugin($plugin);
     }
