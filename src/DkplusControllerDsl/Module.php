@@ -42,7 +42,7 @@ class Module implements
 
     public function getControllerPluginConfig()
     {
-        return array();
+        return include __DIR__ . '/../../config/controller_plugin.config.php';
     }
 
     public function getServiceConfig()
