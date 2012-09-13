@@ -50,7 +50,8 @@ class Container implements ContainerInterface
     /** @var array */
     private $variables = array();
 
-    public function __construct(AbstractController $controller, ViewModel $viewModel) {
+    public function __construct(AbstractController $controller, ViewModel $viewModel)
+    {
         $this->controller = $controller;
         $this->request    = $controller->getRequest();
         $this->response   = $controller->getResponse();
