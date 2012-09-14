@@ -60,9 +60,9 @@ class PrePostExecutorDecoratorTest extends TestCase
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
      * @expectedException RuntimeException
-     * @expectedExceptionMessage Needs a executable phrase to be added before
+     * @expectedExceptionMessage Needs a modifiable phrase to be added before
      */
-    public function throwsRuntimeExceptionWhenPostPhraseIsAddedButNoExecutableHasBeenAddedBefore()
+    public function throwsRuntimeExceptionWhenPostPhraseIsAddedButNoPhraseHasBeenAddedBefore()
     {
         $postPhrase = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\PostPhraseInterface');
         $this->executor->addPhrase($postPhrase);
@@ -72,13 +72,29 @@ class PrePostExecutorDecoratorTest extends TestCase
      * @test
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
+     * @expectedException RuntimeException
+     * @expectedExceptionMessage Needs a modifiable phrase to be added before
      */
-    public function refersOptionsOfPostPhraseToExecutablePhrases()
+    public function throwsRuntimeExceptionWhenPostPhraseIsAddedButNoModifiablePhraseHasBeenAddedBefore()
+    {
+        $executablePhrase = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\ExecutablePhraseInterface');
+        $this->executor->addPhrase($executablePhrase);
+
+        $postPhrase = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\PostPhraseInterface');
+        $this->executor->addPhrase($postPhrase);
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     */
+    public function refersOptionsOfPostPhraseToModifiablePhrases()
     {
         $postOptions = array('foo' => 'bar', 'bar' => 'baz');
 
-        $executablePhrase = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\ExecutablePhraseInterface');
-        $executablePhrase->expects($this->once())
+        $modifiablePhrase = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\ModifiablePhraseInterface');
+        $modifiablePhrase->expects($this->once())
                          ->method('setOptions')
                          ->with($postOptions);
 
@@ -87,7 +103,7 @@ class PrePostExecutorDecoratorTest extends TestCase
                    ->method('getOptions')
                    ->will($this->returnValue($postOptions));
 
-        $this->executor->addPhrase($executablePhrase);
+        $this->executor->addPhrase($modifiablePhrase);
         $this->executor->addPhrase($postPhrase);
     }
 
@@ -96,16 +112,16 @@ class PrePostExecutorDecoratorTest extends TestCase
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
      */
-    public function refersOptionsOfMultiplePostPhraseToExecutablePhrases()
+    public function refersOptionsOfMultiplePostPhraseToModifiablePhrases()
     {
         $firstPostOptions  = array('foo' => 'bar', 'bar' => 'baz');
         $secondPostOptions = array('baz' => 'foo');
 
-        $executablePhrase = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\ExecutablePhraseInterface');
-        $executablePhrase->expects($this->at(0))
+        $modifiablePhrase = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\ModifiablePhraseInterface');
+        $modifiablePhrase->expects($this->at(0))
                          ->method('setOptions')
                          ->with($firstPostOptions);
-        $executablePhrase->expects($this->at(1))
+        $modifiablePhrase->expects($this->at(1))
                          ->method('setOptions')
                          ->with($secondPostOptions);
 
@@ -119,7 +135,7 @@ class PrePostExecutorDecoratorTest extends TestCase
                          ->method('getOptions')
                          ->will($this->returnValue($secondPostOptions));
 
-        $this->executor->addPhrase($executablePhrase);
+        $this->executor->addPhrase($modifiablePhrase);
         $this->executor->addPhrase($firstPostPhrase);
         $this->executor->addPhrase($secondPostPhrase);
     }
@@ -129,18 +145,18 @@ class PrePostExecutorDecoratorTest extends TestCase
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
      */
-    public function refersOptionsOfPostPhraseOnlyToLastAddedExecutablePhrase()
+    public function refersOptionsOfPostPhraseOnlyToLastAddedModifiablePhrase()
     {
         $postOptions = array('foo' => 'bar', 'bar' => 'baz');
 
-        $executablePhrase = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\ExecutablePhraseInterface');
-        $executablePhrase->expects($this->never())
+        $modifiablePhrase = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\ModifiablePhraseInterface');
+        $modifiablePhrase->expects($this->never())
                          ->method('setOptions');
 
-        $lastExecutablePhrase = $this->getMockForAbstractClass(
-            'DkplusControllerDsl\Dsl\Phrase\ExecutablePhraseInterface'
+        $lastModifiablePhrase = $this->getMockForAbstractClass(
+            'DkplusControllerDsl\Dsl\Phrase\ModifiablePhraseInterface'
         );
-        $lastExecutablePhrase->expects($this->once())
+        $lastModifiablePhrase->expects($this->once())
                              ->method('setOptions')
                              ->with($postOptions);
 
@@ -149,8 +165,8 @@ class PrePostExecutorDecoratorTest extends TestCase
                    ->method('getOptions')
                    ->will($this->returnValue($postOptions));
 
-        $this->executor->addPhrase($executablePhrase);
-        $this->executor->addPhrase($lastExecutablePhrase);
+        $this->executor->addPhrase($modifiablePhrase);
+        $this->executor->addPhrase($lastModifiablePhrase);
         $this->executor->addPhrase($postPhrase);
     }
 
@@ -159,12 +175,12 @@ class PrePostExecutorDecoratorTest extends TestCase
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
      */
-    public function refersOptionsOfPrePhraseToExecutablePhrases()
+    public function refersOptionsOfPrePhraseToModifiablePhrases()
     {
         $preOptions = array('foo' => 'bar', 'bar' => 'baz');
 
-        $executablePhrase = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\ExecutablePhraseInterface');
-        $executablePhrase->expects($this->once())
+        $modifiablePhrase = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\ModifiablePhraseInterface');
+        $modifiablePhrase->expects($this->once())
                          ->method('setOptions')
                          ->with($preOptions);
 
@@ -174,7 +190,7 @@ class PrePostExecutorDecoratorTest extends TestCase
                    ->will($this->returnValue($preOptions));
 
         $this->executor->addPhrase($prePhrase);
-        $this->executor->addPhrase($executablePhrase);
+        $this->executor->addPhrase($modifiablePhrase);
     }
 
     /**
@@ -182,16 +198,16 @@ class PrePostExecutorDecoratorTest extends TestCase
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
      */
-    public function refersOptionsOfMultiplePrePhraseToExecutablePhrases()
+    public function refersOptionsOfMultiplePrePhraseToModifiablePhrases()
     {
         $firstPreOptions  = array('foo' => 'bar', 'bar' => 'baz');
         $secondPreOptions = array('baz' => 'foo');
 
-        $executablePhrase = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\ExecutablePhraseInterface');
-        $executablePhrase->expects($this->at(0))
+        $modifiablePhrase = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\ModifiablePhraseInterface');
+        $modifiablePhrase->expects($this->at(0))
                          ->method('setOptions')
                          ->with($firstPreOptions);
-        $executablePhrase->expects($this->at(1))
+        $modifiablePhrase->expects($this->at(1))
                          ->method('setOptions')
                          ->with($secondPreOptions);
 
@@ -207,7 +223,7 @@ class PrePostExecutorDecoratorTest extends TestCase
 
         $this->executor->addPhrase($firstPrePhrase);
         $this->executor->addPhrase($secondPrePhrase);
-        $this->executor->addPhrase($executablePhrase);
+        $this->executor->addPhrase($modifiablePhrase);
     }
 
     /**
@@ -215,18 +231,18 @@ class PrePostExecutorDecoratorTest extends TestCase
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
      */
-    public function refersOptionsOfPrePhraseOnlyToNextAddedExecutablePhrase()
+    public function refersOptionsOfPrePhraseOnlyToNextAddedModifiablePhrase()
     {
         $preOptions = array('foo' => 'bar', 'bar' => 'baz');
 
-        $executablePhrase = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\ExecutablePhraseInterface');
-        $executablePhrase->expects($this->never())
+        $modifiablePhrase = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\ModifiablePhraseInterface');
+        $modifiablePhrase->expects($this->never())
                          ->method('setOptions');
 
-        $nextExecutablePhrase = $this->getMockForAbstractClass(
-            'DkplusControllerDsl\Dsl\Phrase\ExecutablePhraseInterface'
+        $nextModifiablePhrase = $this->getMockForAbstractClass(
+            'DkplusControllerDsl\Dsl\Phrase\ModifiablePhraseInterface'
         );
-        $nextExecutablePhrase->expects($this->once())
+        $nextModifiablePhrase->expects($this->once())
                              ->method('setOptions')
                              ->with($preOptions);
 
@@ -236,8 +252,8 @@ class PrePostExecutorDecoratorTest extends TestCase
                   ->will($this->returnValue($preOptions));
 
         $this->executor->addPhrase($prePhrase);
-        $this->executor->addPhrase($nextExecutablePhrase);
-        $this->executor->addPhrase($executablePhrase);
+        $this->executor->addPhrase($nextModifiablePhrase);
+        $this->executor->addPhrase($modifiablePhrase);
     }
 
     /**

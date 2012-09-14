@@ -9,6 +9,7 @@ return array(
     'DkplusControllerDsl\Dsl\Executor'                         => __DIR__ . '/src/DkplusControllerDsl/Dsl/Executor.php',
     'DkplusControllerDsl\Dsl\ExecutorInterface'                => __DIR__ . '/src/DkplusControllerDsl/Dsl/ExecutorInterface.php',
     'DkplusControllerDsl\Dsl\Phrase\ExecutablePhraseInterface' => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/ExecutablePhraseInterface.php',
+    'DkplusControllerDsl\Dsl\Phrase\ModifiablePhraseInterface' => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/ModifiablePhraseInterface.php',
     'DkplusControllerDsl\Dsl\Phrase\PhraseInterface'           => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/PhraseInterface.php',
     'DkplusControllerDsl\Dsl\Phrase\PhraseManager'             => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/PhraseManager.php',
     'DkplusControllerDsl\Dsl\Phrase\PostPhraseInterface'       => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/PostPhraseInterface.php',

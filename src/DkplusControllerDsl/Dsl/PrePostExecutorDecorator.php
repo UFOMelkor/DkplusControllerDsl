@@ -22,7 +22,7 @@ class PrePostExecutorDecorator implements ExecutorInterface
     private $prePhrases = array();
 
     /** @var Phrase\ExecutablePhraseInterface */
-    private $lastExecutablePhrase;
+    private $lastModifiablePhrase;
 
     /** @var ExecutorInterface */
     private $decorated;
@@ -41,20 +41,22 @@ class PrePostExecutorDecorator implements ExecutorInterface
 
         if ($phrase instanceof Phrase\PostPhraseInterface) {
 
-            if ($this->lastExecutablePhrase == null) {
-                throw new RuntimeException('Needs a executable phrase to be added before');
+            if ($this->lastModifiablePhrase == null) {
+                throw new RuntimeException('Needs a modifiable phrase to be added before');
             }
 
-            $this->lastExecutablePhrase->setOptions($phrase->getOptions());
+            $this->lastModifiablePhrase->setOptions($phrase->getOptions());
             return;
         }
 
-        foreach ($this->prePhrases as $prePhrase) {
-            $phrase->setOptions($prePhrase->getOptions());
+        if ($phrase instanceof Phrase\ModifiablePhraseInterface) {
+            foreach ($this->prePhrases as $prePhrase) {
+                $phrase->setOptions($prePhrase->getOptions());
+            }
+            $this->prePhrases = array();
+            $this->lastModifiablePhrase = $phrase;
         }
-        $this->prePhrases = array();
 
-        $this->lastExecutablePhrase = $phrase;
         $this->decorated->addPhrase($phrase);
     }
 
