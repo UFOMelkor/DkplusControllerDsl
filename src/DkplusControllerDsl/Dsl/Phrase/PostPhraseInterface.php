@@ -14,7 +14,9 @@ namespace DkplusControllerDsl\Dsl\Phrase;
  * @subpackage Dsl\Phrase
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-interface PhraseInterface
+interface PostPhraseInterface extends PhraseInterface
 {
+    /** @param array $options */
+    public function getOptions();
 }
 

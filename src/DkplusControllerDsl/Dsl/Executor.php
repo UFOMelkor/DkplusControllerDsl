@@ -18,15 +18,18 @@ use Zend\Stdlib\ResponseInterface as Response;
  */
 class Executor implements ExecutorInterface
 {
-    /** @var Phrase\PhraseInterface[] */
+    /** @var Phrase\ExecutablePhraseInterface[] */
     private $phrases = array();
 
     public function addPhrase(Phrase\PhraseInterface $phrase)
     {
+        if (!$phrase instanceof Phrase\ExecutablePhraseInterface) {
+            return;
+        }
         $this->phrases[] = $phrase;
     }
 
-    /** @return Phrase\PhraseInterface[] */
+    /** @return Phrase\ExecutablePhraseInterface[] */
     public function getPhrases()
     {
         return $this->phrases;

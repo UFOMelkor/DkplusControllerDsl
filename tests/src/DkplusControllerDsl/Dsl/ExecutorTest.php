@@ -54,7 +54,7 @@ class ExecutorTest extends TestCase
      */
     public function canGetMorePhrases()
     {
-        $phrase = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\PhraseInterface');
+        $phrase = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\ExecutablePhraseInterface');
         $this->executor->addPhrase($phrase);
         $this->assertCount(1, $this->executor->getPhrases());
     }
@@ -64,10 +64,22 @@ class ExecutorTest extends TestCase
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
      */
+    public function ignoresNonExecutablePhrases()
+    {
+        $phrase = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\PhraseInterface');
+        $this->executor->addPhrase($phrase);
+        $this->assertCount(0, $this->executor->getPhrases());
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     */
     public function additionalPhrasesWillBeAddedAtTheEnd()
     {
-        $phraseA = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\PhraseInterface');
-        $phraseB = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\PhraseInterface');
+        $phraseA = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\ExecutablePhraseInterface');
+        $phraseB = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\ExecutablePhraseInterface');
 
         $this->executor->addPhrase($phraseA);
         $this->executor->addPhrase($phraseB);
@@ -127,7 +139,7 @@ class ExecutorTest extends TestCase
     /** @return Phrase\PhraseInterface|\PHPUnit_Framework_MockObject_MockObject */
     private function getPhraseMock()
     {
-        return $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\PhraseInterface');
+        return $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\ExecutablePhraseInterface');
     }
 
     /** @return ContainerInterface|\PHPUnit_Framework_MockObject_MockObject */
