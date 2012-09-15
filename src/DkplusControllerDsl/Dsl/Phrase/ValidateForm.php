@@ -9,6 +9,7 @@
 namespace DkplusControllerDsl\Dsl\Phrase;
 
 use DkplusControllerDsl\Dsl\ContainerInterface as Container;
+use DkplusControllerDsl\Dsl\DslInterface as Dsl;
 
 /**
  * @category   Dkplus
@@ -24,13 +25,13 @@ class ValidateForm implements ModifiablePhraseInterface
     /** @var array */
     private $validationData;
 
-    /** @var ExecutablePhraseInterface */
+    /** @var Dsl */
     private $ajaxHandler;
 
-    /** @var ExecutablePhraseInterface */
+    /** @var Dsl */
     private $successHandler;
 
-    /** @var ExecutablePhraseInterface */
+    /** @var Dsl */
     private $failureHandler;
 
     public function __construct(array $options)
@@ -56,19 +57,19 @@ class ValidateForm implements ModifiablePhraseInterface
         return $this->validationData;
     }
 
-    /** @return ExecutableInterface */
+    /** @return Dsl */
     public function getAjaxHandler()
     {
         return $this->ajaxHandler;
     }
 
-    /** @return ExecutableInterface */
+    /** @return Dsl */
     public function getSuccessHandler()
     {
         return $this->successHandler;
     }
 
-    /** @return ExecutableInterface */
+    /** @return Dsl */
     public function getFailureHandler()
     {
         return $this->failureHandler;
@@ -102,8 +103,18 @@ class ValidateForm implements ModifiablePhraseInterface
         }
 
         $form->setData($this->getValidateAgainst());
-        if ($form->isValid()) {
 
+        \Zend\Debug\Debug::dump($container->getRequest()->isXmlHttpRequest());
+        if ($container->getRequest()->isXmlHttpRequest()) {
+            if ($this->ajaxHandler instanceof Dsl) {
+                $this->ajaxHandler->execute($container);
+            }
+        } elseif ($form->isValid()) {
+            if ($this->successHandler instanceof Dsl) {
+                $this->successHandler->execute($container);
+            }
+        } elseif ($this->failureHandler instanceof Dsl) {
+            $this->failureHandler->execute($container);
         }
     }
 }
