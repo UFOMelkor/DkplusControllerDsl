@@ -10,6 +10,9 @@ namespace DkplusControllerDsl\Dsl;
 
 use DkplusUnitTest\TestCase;
 
+require_once __DIR__ . '/__assets/PostAndModifiableInterface.php';
+require_once __DIR__ . '/__assets/PreAndModifiableInterface.php';
+
 /**
  * @category   Dkplus
  * @package    ControllerDsl
@@ -272,6 +275,66 @@ class PrePostExecutorDecoratorTest extends TestCase
                         ->will($this->returnValue($viewModel));
 
         $this->assertSame($viewModel, $this->executor->execute($container));
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     */
+    public function canUsePhrasesAsExecutableAndPrePhrases()
+    {
+        $phraseOptions = array('foo' => 'bar');
+
+        $phrase     = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\PreAndModifiableInterface');
+        $phrase->expects($this->once())
+               ->method('getOptions')
+               ->will($this->returnValue($phraseOptions));
+
+        $lastPhrase = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\ModifiablePhraseInterface');
+        $lastPhrase->expects($this->once())
+                   ->method('setOptions')
+                   ->with($phraseOptions);
+
+        $this->decorated->expects($this->at(0))
+                        ->method('addPhrase')
+                        ->with($phrase);
+        $this->decorated->expects($this->at(1))
+                        ->method('addPhrase')
+                        ->with($lastPhrase);
+
+        $this->executor->addPhrase($phrase);
+        $this->executor->addPhrase($lastPhrase);
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     */
+    public function canUsePhrasesAsExecutableAndPostPhrases()
+    {
+        $phraseOptions = array('foo' => 'bar');
+
+        $phrase     = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\PostAndModifiableInterface');
+        $phrase->expects($this->once())
+               ->method('getOptions')
+               ->will($this->returnValue($phraseOptions));
+
+        $firstPhrase = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Phrase\ModifiablePhraseInterface');
+        $firstPhrase->expects($this->once())
+                   ->method('setOptions')
+                   ->with($phraseOptions);
+
+        $this->decorated->expects($this->at(0))
+                        ->method('addPhrase')
+                        ->with($firstPhrase);
+        $this->decorated->expects($this->at(1))
+                        ->method('addPhrase')
+                        ->with($phrase);
+
+        $this->executor->addPhrase($firstPhrase);
+        $this->executor->addPhrase($phrase);
     }
 }
 

@@ -34,11 +34,6 @@ class PrePostExecutorDecorator implements ExecutorInterface
 
     public function addPhrase(Phrase\PhraseInterface $phrase)
     {
-        if ($phrase instanceof Phrase\PrePhraseInterface) {
-            $this->prePhrases[] = $phrase;
-            return;
-        }
-
         if ($phrase instanceof Phrase\PostPhraseInterface) {
 
             if ($this->lastModifiablePhrase == null) {
@@ -46,7 +41,6 @@ class PrePostExecutorDecorator implements ExecutorInterface
             }
 
             $this->lastModifiablePhrase->setOptions($phrase->getOptions());
-            return;
         }
 
         if ($phrase instanceof Phrase\ModifiablePhraseInterface) {
@@ -57,7 +51,13 @@ class PrePostExecutorDecorator implements ExecutorInterface
             $this->lastModifiablePhrase = $phrase;
         }
 
-        $this->decorated->addPhrase($phrase);
+        if ($phrase instanceof Phrase\ExecutablePhraseInterface) {
+            $this->decorated->addPhrase($phrase);
+        }
+
+        if ($phrase instanceof Phrase\PrePhraseInterface) {
+            $this->prePhrases[] = $phrase;
+        }
     }
 
     public function execute(ContainerInterface $container)

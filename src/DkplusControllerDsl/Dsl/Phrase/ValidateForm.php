@@ -104,7 +104,6 @@ class ValidateForm implements ModifiablePhraseInterface
 
         $form->setData($this->getValidateAgainst());
 
-        \Zend\Debug\Debug::dump($container->getRequest()->isXmlHttpRequest());
         if ($container->getRequest()->isXmlHttpRequest()) {
             if ($this->ajaxHandler instanceof Dsl) {
                 $this->ajaxHandler->execute($container);
