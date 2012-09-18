@@ -48,10 +48,6 @@ class Message implements ModifiablePhraseInterface
 
     public function setOptions(array $options)
     {
-        if (isset($options['message'])) {
-            $this->message = $options['message'];
-        }
-
         if (isset($options['type'])) {
             $this->namespace = $options['type'];
         }
