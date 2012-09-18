@@ -236,5 +236,63 @@ class ContainerTest extends TestCase
     {
         $this->container->getVariable('foo');
     }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     */
+    public function hasTheViewModelAsDefaultResult()
+    {
+        $this->assertSame($this->viewModel, $this->container->getResult());
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     */
+    public function returnsTheResponseAsResultIfHeHasBeenSetLast()
+    {
+        $response = $this->getMockForAbstractClass('Zend\Stdlib\ResponseInterface');
+        $this->container->setResponse($response);
+
+        $this->assertSame($response, $this->container->getResult());
+
+        return $this->container;
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     * @depends returnsTheResponseAsResultIfHeHasBeenSetLast
+     */
+    public function returnsTheViewModelAsResultIfItHasBeenSetLast(Container $container)
+    {
+        $viewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
+        $container->setViewModel($viewModel);
+
+        $this->assertSame($viewModel, $container->getResult());
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     */
+    public function setsViewVariablesByReturningTheViewModelAsResult()
+    {
+        $variables = array('foo' => 'bar', 'bar' => 'baz');
+        foreach ($variables as $key => $value) {
+            $this->container->setViewVariable($key, $value);
+        }
+
+        $this->viewModel->expects($this->once())
+                        ->method('setVariables')
+                        ->with($variables);
+
+        $this->container->getResult();
+    }
 }
 

@@ -91,49 +91,40 @@ class ExecutorTest extends TestCase
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
      */
-    public function initiallyReturnsTheViewModelWhenNoPhraseHasBeenAdded()
+    public function returnsTheResultFromTheContainer()
     {
         $viewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
 
         $container = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\ContainerInterface');
         $container->expects($this->any())
-                  ->method('getViewModel')
+                  ->method('getResult')
                   ->will($this->returnValue($viewModel));
 
         $this->assertSame($viewModel, $this->executor->execute($container));
     }
 
+
     /**
      * @test
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
-     * @testdox returns a response when any phrase returns these response
-     * @dataProvider providePhrasesWithoneReturningResponse
      */
-    public function returnsResponseWhenAnyPhraseReturnsTheseResponse(array $phrases, $response)
+    public function doesNotCallOtherPhrasesIfTerminated()
     {
         $container = $this->getContainerMock();
+        $container->expects($this->at(0))
+                  ->method('isTerminated')
+                  ->will($this->returnValue(true));
 
-        foreach ($phrases as $phrase) {
-            $this->executor->addPhrase($phrase);
-        }
+        $terminationPhrase = $this->getPhraseMock();
 
-        $this->assertSame($response, $this->executor->execute($container));
-    }
+        $phraseAfter = $this->getPhraseMock();
+        $phraseAfter->expects($this->never())
+                    ->method('execute');
 
-    public function providePhrasesWithOneReturningResponse()
-    {
-        $response          = $this->getMockForAbstractClass('Zend\Stdlib\ResponseInterface');
-        $returningResponse = $this->getPhraseMock();
-        $returningResponse->expects($this->any())
-                          ->method('execute')
-                          ->will($this->returnValue($response));
-        return array(
-            array(array($returningResponse), $response),
-            array(array($this->getPhraseMock(), $returningResponse), $response),
-            array(array($returningResponse, $this->getPhraseMock()), $response),
-            array(array($this->getPhraseMock(), $returningResponse, $this->getPhraseMock()), $response)
-        );
+        $this->executor->addPhrase($terminationPhrase);
+        $this->executor->addPhrase($phraseAfter);
+        $this->executor->execute($container);
     }
 
     /** @return Phrase\PhraseInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -146,55 +137,6 @@ class ExecutorTest extends TestCase
     private function getContainerMock()
     {
         return $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\ContainerInterface');
-    }
-
-    /**
-     * @test
-     * @group Component/Dsl
-     * @group Module/DkplusControllerDsl
-     * @testdox does not call other phrases if a response has been returned
-     */
-    public function doesNotCallOtherPhrasesIfResponseHasBeenReturned()
-    {
-        $response = $this->getMockForAbstractClass('Zend\Stdlib\ResponseInterface');
-
-        $responsePhrase = $this->getPhraseMock();
-        $responsePhrase->expects($this->any())
-                       ->method('execute')
-                       ->will($this->returnValue($response));
-
-        $otherPhrase = $this->getPhraseMock();
-        $otherPhrase->expects($this->never())
-                    ->method('execute');
-
-        $this->executor->addPhrase($responsePhrase);
-        $this->executor->addPhrase($otherPhrase);
-        $this->executor->execute($this->getContainerMock());
-    }
-
-    /**
-     * @test
-     * @group Component/Dsl
-     * @group Module/DkplusControllerDsl
-     */
-    public function assignsViewVariablesToTheViewModel()
-    {
-        $viewVariables = array('foo' => 'bar', 'bar' => 'baz', 'baz' => 'foo');
-
-        $viewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
-        $viewModel->expects($this->once())
-                  ->method('setVariables')
-                  ->with($viewVariables);
-
-        $container = $this->getContainerMock();
-        $container->expects($this->any())
-                  ->method('getViewVariables')
-                  ->will($this->returnValue($viewVariables));
-        $container->expects($this->any())
-                  ->method('getViewModel')
-                  ->will($this->returnValue($viewModel));
-
-        $this->executor->execute($container);
     }
 }
 

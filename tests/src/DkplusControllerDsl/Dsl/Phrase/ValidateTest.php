@@ -16,7 +16,7 @@ use DkplusUnitTest\TestCase;
  * @subpackage Dsl\Phrase
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class ValidateFormTest extends TestCase
+class ValidateTest extends TestCase
 {
     /**
      * @test
@@ -26,7 +26,7 @@ class ValidateFormTest extends TestCase
      */
     public function isModifiablePhrase()
     {
-        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\ModifiablePhraseInterface', new ValidateForm(array()));
+        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\ModifiablePhraseInterface', new Validate(array()));
     }
 
     /**
@@ -37,7 +37,7 @@ class ValidateFormTest extends TestCase
     public function canRetrieveFormFromConstructorOptions()
     {
         $form   = $this->getMock('Zend\Form\Form');
-        $phrase = new ValidateForm(array($form));
+        $phrase = new Validate(array($form));
         $this->assertEquals($form, $phrase->getForm());
     }
 
@@ -50,7 +50,7 @@ class ValidateFormTest extends TestCase
     {
         $form   = $this->getMock('Zend\Form\Form');
         $data   = array('foo', 'bar');
-        $phrase = new ValidateForm(array($form, $data));
+        $phrase = new Validate(array($form, $data));
         $this->assertEquals($data, $phrase->getValidateAgainst());
     }
 
@@ -62,7 +62,7 @@ class ValidateFormTest extends TestCase
     public function canRetrieveValidationDataFromOptions()
     {
         $data   = array('foo', 'bar');
-        $phrase = new ValidateForm(array());
+        $phrase = new Validate(array());
         $phrase->setOptions(array('against' => $data));
         $this->assertEquals($data, $phrase->getValidateAgainst());
     }
@@ -76,7 +76,7 @@ class ValidateFormTest extends TestCase
     {
         $handler = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\DslInterface');
 
-        $phrase = new ValidateForm(array());
+        $phrase = new Validate(array());
         $phrase->setOptions(array('onAjax' => $handler));
         $this->assertEquals($handler, $phrase->getAjaxHandler());
     }
@@ -90,7 +90,7 @@ class ValidateFormTest extends TestCase
     {
         $handler = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\DslInterface');
 
-        $phrase = new ValidateForm(array());
+        $phrase = new Validate(array());
         $phrase->setOptions(array('onSuccess' => $handler));
         $this->assertEquals($handler, $phrase->getSuccessHandler());
     }
@@ -104,7 +104,7 @@ class ValidateFormTest extends TestCase
     {
         $handler = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\DslInterface');
 
-        $phrase = new ValidateForm(array());
+        $phrase = new Validate(array());
         $phrase->setOptions(array('onFailure' => $handler));
         $this->assertEquals($handler, $phrase->getFailureHandler());
     }
@@ -126,7 +126,7 @@ class ValidateFormTest extends TestCase
 
         $container = $this->getContainerWithRequest();
 
-        $phrase = new ValidateForm(array($form, $validationData));
+        $phrase = new Validate(array($form, $validationData));
         $phrase->execute($container);
     }
 
@@ -165,7 +165,7 @@ class ValidateFormTest extends TestCase
                   ->with('form')
                   ->will($this->returnValue($form));
 
-        $phrase = new ValidateForm(array(null, $validationData));
+        $phrase = new Validate(array(null, $validationData));
         $phrase->execute($container);
     }
 
@@ -184,7 +184,7 @@ class ValidateFormTest extends TestCase
                     ->method('execute')
                     ->with($container);
 
-        $phrase = new ValidateForm(array($form));
+        $phrase = new Validate(array($form));
         $phrase->setOptions(array('onAjax' => $ajaxHandler));
         $phrase->execute($container);
     }
@@ -208,7 +208,7 @@ class ValidateFormTest extends TestCase
                        ->method('execute')
                        ->with($container);
 
-        $phrase = new ValidateForm(array($form));
+        $phrase = new Validate(array($form));
         $phrase->setOptions(array('onSuccess' => $successHandler));
         $phrase->execute($container);
     }
@@ -232,7 +232,7 @@ class ValidateFormTest extends TestCase
                        ->method('execute')
                        ->with($container);
 
-        $phrase = new ValidateForm(array($form));
+        $phrase = new Validate(array($form));
         $phrase->setOptions(array('onFailure' => $successHandler));
         $phrase->execute($container);
     }

@@ -17,9 +17,9 @@ use DkplusControllerDsl\Dsl\DslInterface as Dsl;
  * @subpackage Dsl\Phrase
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class ValidateForm implements ModifiablePhraseInterface
+class Validate implements ModifiablePhraseInterface
 {
-    /** @var \Zend\Form\Form */
+    /** @var \Zend\Form\FormInterface */
     private $form;
 
     /** @var array */
@@ -45,7 +45,7 @@ class ValidateForm implements ModifiablePhraseInterface
         }
     }
 
-    /** @return \Zend\Form\Form */
+    /** @return \Zend\Form\FormInterface */
     public function getForm()
     {
         return $this->form;

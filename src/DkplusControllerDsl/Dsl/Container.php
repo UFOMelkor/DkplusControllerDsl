@@ -50,6 +50,9 @@ class Container implements ContainerInterface
     /** @var array */
     private $variables = array();
 
+    /** @var boolean */
+    private $returnViewModel = true;
+
     public function __construct(AbstractController $controller, ViewModel $viewModel)
     {
         $this->controller = $controller;
@@ -85,7 +88,8 @@ class Container implements ContainerInterface
         if ($this->responseLocked) {
             throw new BadMethodCallException('Cannot overwrite response when he is locked');
         }
-        $this->response = $response;
+        $this->response        = $response;
+        $this->returnViewModel = false;
     }
 
     public function lockResponse()
@@ -107,7 +111,8 @@ class Container implements ContainerInterface
         if ($this->viewModelLocked) {
             throw new BadMethodCallException('Cannot overwrite the view model when it is locked');
         }
-        $this->viewModel = $model;
+        $this->viewModel       = $model;
+        $this->returnViewModel = true;
     }
 
     public function lockViewModel()
@@ -152,6 +157,16 @@ class Container implements ContainerInterface
     public function setVariable($variable, $value)
     {
         $this->variables[$variable] = $value;
+    }
+
+    public function getResult()
+    {
+        if (!$this->returnViewModel) {
+            return $this->response;
+        }
+
+        $this->viewModel->setVariables($this->viewVariables);
+        return $this->viewModel;
     }
 }
 

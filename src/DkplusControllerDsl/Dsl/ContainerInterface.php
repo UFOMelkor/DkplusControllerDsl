@@ -62,5 +62,8 @@ interface ContainerInterface
     public function getVariable($variable);
 
     public function setVariable($variable, $value);
+
+    /** @return \Zend\Stdlib\ResponseInterface|Zend\View\Model\ModelInterface */
+    public function getResult();
 }
 

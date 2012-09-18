@@ -38,15 +38,14 @@ class Executor implements ExecutorInterface
     public function execute(ContainerInterface $container)
     {
         foreach ($this->phrases as $phrase) {
-            $phraseResult = $phrase->execute($container);
+            $phrase->execute($container);
 
-            if ($phraseResult instanceof Response) {
-                return $phraseResult;
+            if ($container->isTerminated()) {
+                break;
             }
         }
 
-        $container->getViewModel()->setVariables($container->getViewVariables());
-        return $container->getViewModel();
+        return $container->getResult();
     }
 }
 
