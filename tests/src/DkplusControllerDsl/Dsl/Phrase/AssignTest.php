@@ -73,6 +73,21 @@ class AssignTest extends TestCase
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
      */
+    public function canRetrieveVariableFromOptions()
+    {
+        $variable = 'example';
+
+        $phrase = new Assign(array());
+        $phrase->setOptions(array('variable' => $variable));
+
+        $this->assertEquals($variable, $phrase->getVariable());
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     */
     public function setsViewVariable()
     {
         $container = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\ContainerInterface');

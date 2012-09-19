@@ -52,6 +52,9 @@ class Assign implements ModifiablePhraseInterface
         if (isset($options['alias'])) {
             $this->alias = $options['alias'];
         }
+        if (isset($options['variable'])) {
+            $this->variable = $options['variable'];
+        }
     }
 
     public function execute(Container $container)

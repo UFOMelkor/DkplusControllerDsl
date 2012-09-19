@@ -16,7 +16,7 @@ use DkplusControllerDsl\Dsl\ContainerInterface as Container;
  * @subpackage Dsl\Phrase
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class UsePhrase implements ModifiablePhraseInterface
+class UsePhrase implements ModifiablePhraseInterface, PrePhraseInterface
 {
     /** @var mixed */
     private $variable;
@@ -52,6 +52,11 @@ class UsePhrase implements ModifiablePhraseInterface
         if (isset($options['alias'])) {
             $this->alias = $options['alias'];
         }
+    }
+
+    public function getOptions()
+    {
+        return array('variable' => $this->variable);
     }
 
     public function execute(Container $container)
