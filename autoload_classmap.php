@@ -27,6 +27,7 @@ return array(
     'DkplusControllerDsl\Dsl\Phrase\PrePhraseInterface'        => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/PrePhraseInterface.php',
     'DkplusControllerDsl\Dsl\Phrase\Redirect'                  => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/Redirect.php',
     'DkplusControllerDsl\Dsl\Phrase\Route'                     => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/Route.php',
+    'DkplusControllerDsl\Dsl\Phrase\Store'                     => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/Store.php',
     'DkplusControllerDsl\Dsl\Phrase\Success'                   => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/Success.php',
     'DkplusControllerDsl\Dsl\Phrase\ToPhrase'                  => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/ToPhrase.php',
     'DkplusControllerDsl\Dsl\Phrase\Url'                       => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/Url.php',
