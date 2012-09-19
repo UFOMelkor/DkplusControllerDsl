@@ -37,7 +37,7 @@ class Module implements
 
     public function getConfig()
     {
-        return array();
+        return include __DIR__ . '/../../config/module.config.php';
     }
 
     public function getControllerPluginConfig()
@@ -47,7 +47,7 @@ class Module implements
 
     public function getServiceConfig()
     {
-        return array();
+        return include __DIR__ . '/../../config/service.config.php';
     }
 }
 

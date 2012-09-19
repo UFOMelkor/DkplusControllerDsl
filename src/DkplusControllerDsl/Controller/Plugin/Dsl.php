@@ -10,6 +10,7 @@ namespace DkplusControllerDsl\Controller\Plugin;
 
 use DkplusControllerDsl\Dsl\Dsl as DslInstance;
 use DkplusControllerDsl\Dsl\Executor as DslExecutor;
+use DkplusControllerDsl\Dsl\PrePostExecutorDecorator;
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 use Zend\ServiceManager\AbstractPluginManager;
 
@@ -31,7 +32,8 @@ class Dsl extends AbstractPlugin
 
     public function __invoke()
     {
-        return new DslInstance($this->pluginManager, new DslExecutor(), $this->getController());
+        $executor = new PrePostExecutorDecorator(new DslExecutor());
+        return new DslInstance($this->pluginManager, $executor, $this->getController());
     }
 }
 

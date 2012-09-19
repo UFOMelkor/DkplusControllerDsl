@@ -69,10 +69,10 @@ class DslTest extends TestCase
      * @group Component/ControllerPlugin
      * @group Module/DkplusControllerDsl
      */
-    public function injectsStandardExecutorIntoDslInstances()
+    public function injectsPrePostExecutorIntoDslInstances()
     {
         $dsl = $this->plugin->__invoke();
-        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Executor', $dsl->getExecutor());
+        $this->assertInstanceOf('DkplusControllerDsl\Dsl\PrePostExecutorDecorator', $dsl->getExecutor());
     }
 
     /**

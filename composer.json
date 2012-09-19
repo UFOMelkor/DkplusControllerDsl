@@ -9,10 +9,10 @@
     "homepage": "https://github.com/UFOMelkor/DkplusControllerDsl",
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": "dev-master"
+        "zendframework/zendframework": "dev-master",
+        "dkplus/unit-test": "dev-master"
     },
     "require-dev": {
-        "dkplus/unit-test": "dev-master"
     },
     "autoload": {
         "psr-0": {
