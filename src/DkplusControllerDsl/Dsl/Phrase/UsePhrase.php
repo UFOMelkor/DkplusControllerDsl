@@ -9,6 +9,7 @@
 namespace DkplusControllerDsl\Dsl\Phrase;
 
 use DkplusControllerDsl\Dsl\ContainerInterface as Container;
+use Zend\Form\FormInterface;
 
 /**
  * @category   Dkplus
@@ -61,7 +62,7 @@ class UsePhrase implements ModifiablePhraseInterface, PrePhraseInterface
 
     public function execute(Container $container)
     {
-        if ($this->variable instanceof Zend\Form\FormInterface
+        if ($this->variable instanceof FormInterface
             && $this->alias == null
         ) {
             $this->alias = 'form';
