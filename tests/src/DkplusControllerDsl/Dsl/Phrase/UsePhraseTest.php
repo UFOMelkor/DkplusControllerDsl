@@ -118,6 +118,24 @@ class UsePhraseTest extends TestCase
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
      */
+    public function usesFormAsAliasForFormsOnlyIfNoAliasIsGiven()
+    {
+        $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
+
+        $container = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\ContainerInterface');
+        $container->expects($this->once())
+                  ->method('setVariable')
+                  ->with('another alias', $form);
+
+        $phrase = new UsePhrase(array($form, 'another alias'));
+        $phrase->execute($container);
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     */
     public function providesVariableOption()
     {
         $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
