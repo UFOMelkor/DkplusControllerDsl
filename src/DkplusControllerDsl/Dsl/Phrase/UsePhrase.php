@@ -62,11 +62,11 @@ class UsePhrase implements ModifiablePhraseInterface, PrePhraseInterface
     public function execute(Container $container)
     {
         if ($this->variable instanceof Zend\Form\FormInterface
-            && $this->alias === null
+            && $this->alias == null
         ) {
             $this->alias = 'form';
         }
-        
+
         $container->setVariable($this->alias, $this->variable);
     }
 }
