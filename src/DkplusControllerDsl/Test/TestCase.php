@@ -26,7 +26,7 @@ class TestCase extends BaseTestCase
     {
         parent::initSetUp();
 
-        $this->dslPlugin = new SetUp\Plugin\Dsl();
+        $this->dslPlugin = new SetUp\Plugin\Dsl($this);
         $this->addPlugin($this->dslPlugin);
     }
 
