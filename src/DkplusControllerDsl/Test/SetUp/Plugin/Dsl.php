@@ -61,8 +61,7 @@ class Dsl extends AbstractPlugin
     public function getNextDsl()
     {
         if (isset($this->dslMap[$this->getCounter])) {
-            ++$this->getCounter;
-            return $this->dslMap[$this->getCounter];
+            return $this->dslMap[$this->getCounter++];
         }
 
         ++$this->getCounter;

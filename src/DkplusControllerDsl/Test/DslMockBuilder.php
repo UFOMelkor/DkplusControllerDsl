@@ -33,8 +33,7 @@ class DslMockBuilder extends MockBuilder
      */
     public function withMockedPhrases(array $phrases)
     {
-        $this->setMethods($phrases);
-        return;
+        return $this->setMethods($phrases);
     }
 
     /**
@@ -62,7 +61,13 @@ class DslMockBuilder extends MockBuilder
     public function getMock()
     {
         $mock = parent::getMock();
-        $this->testCase->registerDsl($mock);
+        $mock->expects($this->testCase->any())
+             ->method('__call')
+             ->will($this->testCase->returnSelf());
+        $mock->expects($this->testCase->any())
+             ->method('execute')
+             ->will($this->testCase->returnSelf());
+        $this->testCase->registerDsl($mock, $this->position);
         return $mock;
     }
 
@@ -70,12 +75,12 @@ class DslMockBuilder extends MockBuilder
     public function getMockForAbstractClass()
     {
         $mock = parent::getMockForAbstractClass();
-        $mock->expects($this->any())
+        $mock->expects($this->testCase->any())
              ->method('__call')
-             ->will($this->returnSelf());
-        $mock->expects($this->any())
+             ->will($this->testCase->returnSelf());
+        $mock->expects($this->testCase->any())
              ->method('execute')
-             ->will($this->returnSelf());
+             ->will($this->testCase->returnSelf());
         $this->testCase->registerDsl($mock, $this->position);
         return $mock;
     }
