@@ -4,19 +4,19 @@
     "type": "library",
     "keywords": [
         "zf2",
-        "dsl"
+        "dsl",
+        "controller"
     ],
     "homepage": "https://github.com/UFOMelkor/DkplusControllerDsl",
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": "dev-master",
-        "dkplus/unit-test": "dev-master"
+        "zendframework/zendframework": "dev-master"
     },
     "require-dev": {
     },
     "autoload": {
         "psr-0": {
-            "DkplusBase": "src/"
+            "DkplusControllerDsl": "src/"
         }
     }
 }

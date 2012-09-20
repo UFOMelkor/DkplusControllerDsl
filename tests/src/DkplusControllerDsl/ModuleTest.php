@@ -8,7 +8,7 @@
 
 namespace DkplusControllerDsl;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit_Framework_TestCase as TestCase;;
 
 /**
  * @category   Dkplus

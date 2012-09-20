@@ -8,7 +8,7 @@
 
 namespace DkplusControllerDsl\Controller;
 
-use DkplusUnitTest\TestCase;
+use PHPUnit_Framework_TestCase as TestCase;
 
 /**
  * @category   DkplusTest
@@ -26,7 +26,9 @@ class AbstractActionControllerTest extends TestCase
 
     protected function setUp()
     {
-        $routeMatch = $this->getMockIgnoringConstructor('Zend\Mvc\Router\RouteMatch');
+        $routeMatch = $this->getMockBuilder('Zend\Mvc\Router\RouteMatch')
+                           ->disableOriginalConstructor()
+                           ->getMock();
         $routeMatch->expects($this->any())
                    ->method('getParam')
                    ->will($this->returnValue('test'));

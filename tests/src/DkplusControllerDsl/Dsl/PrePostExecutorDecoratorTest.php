@@ -8,7 +8,7 @@
 
 namespace DkplusControllerDsl\Dsl;
 
-use DkplusUnitTest\TestCase;
+use PHPUnit_Framework_TestCase as TestCase;
 
 require_once __DIR__ . '/__assets/PostAndModifiableInterface.php';
 require_once __DIR__ . '/__assets/PreAndModifiableInterface.php';
@@ -266,8 +266,12 @@ class PrePostExecutorDecoratorTest extends TestCase
      */
     public function leavesExecutionToDecoratedExecutor()
     {
-        $container = $this->getMockIgnoringConstructor('DkplusControllerDsl\Dsl\ContainerInterface');
-        $viewModel = $this->getMockIgnoringConstructor('Zend\View\Model\ModelInterface');
+        $container = $this->getMockBuilder('DkplusControllerDsl\Dsl\ContainerInterface')
+                          ->disableOriginalConstructor()
+                          ->getMock();
+        $viewModel = $this->getMockBuilder('Zend\View\Model\ModelInterface')
+                          ->disableOriginalConstructor()
+                          ->getMock();
 
         $this->decorated->expects($this->once())
                         ->method('execute')

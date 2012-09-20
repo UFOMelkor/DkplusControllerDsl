@@ -8,7 +8,7 @@
 
 namespace DkplusControllerDsl\Dsl\Phrase;
 
-use DkplusUnitTest\TestCase;
+use PHPUnit_Framework_TestCase as TestCase;
 
 /**
  * @category   Dkplus
