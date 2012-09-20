@@ -38,7 +38,7 @@ class Dsl extends AbstractPlugin
                                      ->getMock();
         $this->mock->expects($this->testCase->any())
                    ->method('__invoke')
-                   ->will($this->returnCallback(array($this, 'getNextDsl')));
+                   ->will($this->testCase->returnCallback(array($this, 'getNextDsl')));
 
         return $this->mock;
     }
@@ -68,10 +68,10 @@ class Dsl extends AbstractPlugin
         ++$this->getCounter;
 
         $mock = $this->testCase->getMockForAbstractClass('DkplusControllerDsl\Dsl\DslInterface');
-        $mock->expects($this->any())
+        $mock->expects($this->testCase->any())
              ->method('__call')
              ->will($this->testCase->returnSelf());
-        $mock->expects($this->any())
+        $mock->expects($this->testCase->any())
              ->method('execute')
              ->will($this->testCase->returnSelf());
         return $mock;
