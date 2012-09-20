@@ -95,7 +95,7 @@ class AbstractActionControllerTest extends TestCase
     }
 
     /**
-     * @ test
+     * @test
      * @group Component/Controller
      * @group Module/DkplusControllerDsl
      */
@@ -113,7 +113,7 @@ class AbstractActionControllerTest extends TestCase
     }
 
     /**
-     * @ test
+     * @test
      * @group Component/Controller
      * @group Module/DkplusControllerDsl
      */
@@ -130,10 +130,7 @@ class AbstractActionControllerTest extends TestCase
                          ->method('testAction')
                          ->will($this->returnValue($dsl));
 
-        $this->event->expects($this->at(0))
-                    ->method('setResult')
-                    ->with($dsl);
-        $this->event->expects($this->at(1))
+        $this->event->expects($this->at(2))
                     ->method('setResult')
                     ->with($viewModel);
 

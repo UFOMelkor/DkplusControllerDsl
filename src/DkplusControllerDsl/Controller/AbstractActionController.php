@@ -27,6 +27,10 @@ abstract class AbstractActionController extends BaseController
         if (!$parentResult instanceof Dsl) {
             return $parentResult;
         }
+
+        $result = $parentResult->execute();
+        $event->setResult($result);
+        return $result;
     }
 }
 
