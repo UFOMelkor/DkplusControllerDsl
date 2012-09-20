@@ -59,7 +59,11 @@ class Assign implements ModifiablePhraseInterface
 
     public function execute(Container $container)
     {
-        $container->setViewVariable($this->alias, $this->variable);
+        if ($this->getAlias() == null && \is_array($this->getVariable())) {
+            $container->setViewVariables($this->getVariable());
+        } else {
+            $container->setViewVariable($this->getAlias(), $this->getVariable());
+        }
     }
 }
 

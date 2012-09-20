@@ -185,6 +185,29 @@ class ContainerTest extends TestCase
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
      */
+    public function setsMultipleVariableAtOnce()
+    {
+        $this->container->setViewVariables(array('foo' => 'baz', 'bar' => 'baz'));
+        $this->assertSame(array('foo' => 'baz', 'bar' => 'baz'), $this->container->getViewVariables());
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     */
+    public function doesNotReplaceViewVariablesBySettingMultiplesAtOnce()
+    {
+        $this->container->setViewVariables(array('foo' => 'baz'));
+        $this->container->setViewVariables(array('bar' => 'baz'));
+        $this->assertSame(array('foo' => 'baz', 'bar' => 'baz'), $this->container->getViewVariables());
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     */
     public function isInitiallyNotTerminated()
     {
         $this->assertFalse($this->container->isTerminated());

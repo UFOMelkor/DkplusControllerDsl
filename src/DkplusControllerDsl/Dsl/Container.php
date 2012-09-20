@@ -131,6 +131,11 @@ class Container implements ContainerInterface
         $this->viewVariables[$variable] = $value;
     }
 
+    public function setViewVariables(array $variables)
+    {
+        $this->viewVariables = \array_merge($this->viewVariables, $variables);
+    }
+
     /** @return boolean */
     public function isTerminated()
     {

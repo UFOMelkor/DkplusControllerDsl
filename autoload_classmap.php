@@ -13,6 +13,7 @@ return array(
     'DkplusControllerDsl\Dsl\Phrase\AsJson'                    => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/AsJson.php',
     'DkplusControllerDsl\Dsl\Phrase\AsPhrase'                  => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/AsPhrase.php',
     'DkplusControllerDsl\Dsl\Phrase\Assign'                    => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/Assign.php',
+    'DkplusControllerDsl\Dsl\Phrase\AssignFormMessages'        => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/AssignFormMessages.php',
     'DkplusControllerDsl\Dsl\Phrase\Data'                      => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/Data.php',
     'DkplusControllerDsl\Dsl\Phrase\Error'                     => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/Error.php',
     'DkplusControllerDsl\Dsl\Phrase\ExecutablePhraseInterface' => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/ExecutablePhraseInterface.php',

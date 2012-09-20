@@ -53,6 +53,8 @@ interface ContainerInterface
 
     public function setViewVariable($variable, $value);
 
+    public function setViewVariables(array $variables);
+
     public function getViewVariables();
 
     /**

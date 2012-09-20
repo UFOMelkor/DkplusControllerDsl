@@ -98,5 +98,41 @@ class AssignTest extends TestCase
         $phrase = new Assign(array('my variable', 'my alias'));
         $phrase->execute($container);
     }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     */
+    public function setsArrayOfVariablesWhenNoAliasIsGiven()
+    {
+        $variables = array('foo' => 'bar', 'bar' => 'baz');
+
+        $container = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\ContainerInterface');
+        $container->expects($this->once())
+                  ->method('setViewVariables')
+                  ->with($variables);
+
+        $phrase = new Assign(array($variables));
+        $phrase->execute($container);
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     */
+    public function setsArrayOfVariablesOnlyWhenNoAliasIsGiven()
+    {
+        $variables = array('foo' => 'bar', 'bar' => 'baz');
+
+        $container = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\ContainerInterface');
+        $container->expects($this->once())
+                  ->method('setViewVariable')
+                  ->with('my alias', $variables);
+
+        $phrase = new Assign(array($variables, 'my alias'));
+        $phrase->execute($container);
+    }
 }
 
