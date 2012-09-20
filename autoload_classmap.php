@@ -40,4 +40,6 @@ return array(
     'DkplusControllerDsl\Dsl\Phrase\WithPhrase'                => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/WithPhrase.php',
     'DkplusControllerDsl\Dsl\PrePostExecutorDecorator'         => __DIR__ . '/src/DkplusControllerDsl/Dsl/PrePostExecutorDecorator.php',
     'DkplusControllerDsl\Module'                               => __DIR__ . '/src/DkplusControllerDsl/Module.php',
+    'DkplusControllerDsl\Test\SetUp\Plugin\Dsl'                => __DIR__ . '/src/DkplusControllerDsl/Test/SetUp/Plugin/Dsl.php',
+    'DkplusControllerDsl\Test\TestCase'                        => __DIR__ . '/src/DkplusControllerDsl/Test/TestCase.php',
 );

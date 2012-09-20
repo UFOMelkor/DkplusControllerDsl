@@ -1,0 +1,83 @@
+<?php
+/**
+ * @category   Dkplus
+ * @package    ControllerDsl
+ * @subpackage Test
+ * @author     Oskar Bley <oskar@programming-php.net>
+ */
+
+namespace DkplusControllerDsl\Test;
+
+use PHPUnit_Framework_MockObject_MockBuilder as MockBuilder;
+
+/**
+ * @category   Dkplus
+ * @package    ControllerDsl
+ * @subpackage Test
+ * @author     Oskar Bley <oskar@programming-php.net>
+ */
+class DslMockBuilder extends MockBuilder
+{
+    /** @var int|null */
+    protected $position = null;
+
+    public function __construct(TestCase $testCase)
+    {
+        parent::__construct($testCase, 'DkplusControllerDsl\Dsl\DslInterface');
+        $this->methods = array('__call', 'execute');
+    }
+
+    /**
+     * @param array $methods
+     * @return DslMockBuilder
+     */
+    public function withMockedPhrases(array $phrases)
+    {
+        $this->setMethods($phrases);
+        return;
+    }
+
+    /**
+     * @param array $methods
+     * @return DslMockBuilder
+     */
+    public function setMethods($methods)
+    {
+        $methods = \array_merge($methods, array('__call', 'execute'));
+        parent::setMethods($methods);
+        return $this;
+    }
+
+    /**
+     * @param int $position
+     * @return DslMockBuilder
+     */
+    public function usedAt($position)
+    {
+        $this->position = $position;
+        return $this;
+    }
+
+    /** @return \DkplusControllerDsl\Dsl\DslInterface|\PHPUnit_Framework_MockObject_MockObject */
+    public function getMock()
+    {
+        $mock = parent::getMock();
+        $this->testCase->registerDsl($mock);
+        return $mock;
+    }
+
+    /** @return \DkplusControllerDsl\Dsl\DslInterface|\PHPUnit_Framework_MockObject_MockObject */
+    public function getMockForAbstractClass()
+    {
+        $mock = parent::getMockForAbstractClass();
+        $mock->expects($this->any())
+             ->method('__call')
+             ->will($this->returnSelf());
+        $mock->expects($this->any())
+             ->method('execute')
+             ->will($this->returnSelf());
+        $this->testCase->registerDsl($mock, $this->position);
+        return $mock;
+    }
+}
+

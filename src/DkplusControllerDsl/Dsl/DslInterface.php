@@ -18,5 +18,7 @@ interface DslInterface
 {
     /** @return \Zend\Stdlib\ResponseInterface|\Zend\View\Model\ModelInterface */
     public function execute(ContainerInterface $container = null);
+
+    public function __call($method, $arguments);
 }
 
