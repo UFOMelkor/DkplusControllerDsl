@@ -208,7 +208,7 @@ class ValidateTest extends TestCase
                        ->method('execute')
                        ->with($container);
 
-        $phrase = new Validate(array($form));
+        $phrase = new Validate(array($form, array('foo' => 'bar')));
         $phrase->setOptions(array('onSuccess' => $successHandler));
         $phrase->execute($container);
     }
@@ -232,8 +232,196 @@ class ValidateTest extends TestCase
                        ->method('execute')
                        ->with($container);
 
-        $phrase = new Validate(array($form));
+        $phrase = new Validate(array($form, array('foo' => 'bar')));
         $phrase->setOptions(array('onFailure' => $successHandler));
+        $phrase->execute($container);
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     */
+    public function executesNothingWhenNoAjaxRequestAndNoValidationDataAreGiven()
+    {
+        $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
+        $form->expects($this->never())
+             ->method('setData');
+
+        $container = $this->getContainerWithRequest();
+        $execDsl = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\DslInterface');
+        $execDsl->expects($this->never())
+                ->method('execute');
+
+        $phrase = new Validate(array($form, array()));
+        $phrase->setOptions(array('onSuccess' => $execDsl, 'onFailure' => $execDsl));
+        $phrase->execute($container);
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     */
+    public function canUsePostData()
+    {
+        $postData = array('foo' => 'bar', 'bar' => 'baz');
+
+        $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
+        $form->expects($this->once())
+             ->method('setData')
+             ->with($postData);
+
+        $container = $this->getContainerWithRequest();
+        $request   = $container->getRequest();
+        $request->expects($this->any())
+                ->method('getPost')
+                ->will($this->returnValue($postData));
+
+        $phrase = new Validate(array($form, 'post'));
+        $phrase->execute($container);
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     */
+    public function canUseQueryData()
+    {
+        $getData = array('foo' => 'bar', 'bar' => 'baz');
+
+        $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
+        $form->expects($this->once())
+             ->method('setData')
+             ->with($getData);
+
+        $container = $this->getContainerWithRequest();
+        $request   = $container->getRequest();
+        $request->expects($this->any())
+                ->method('getQuery')
+                ->will($this->returnValue($getData));
+
+        $phrase = new Validate(array($form, 'query'));
+        $phrase->execute($container);
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     */
+    public function canUseDataStoredByPostRedirectGet()
+    {
+        $sessionData = array('foo' => 'bar', 'bar' => 'baz');
+
+        $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
+        $form->expects($this->once())
+             ->method('setData')
+             ->with($sessionData);
+
+        $controller = $this->getMock('Zend\Mvc\Controller\AbstractActionController', array('postredirectget'));
+        $controller->expects($this->any())
+                   ->method('postredirectget')
+                   ->will($this->returnValue($sessionData));
+
+        $container = $this->getContainerWithRequest();
+        $container->expects($this->any())
+                  ->method('getController')
+                  ->will($this->returnValue($controller));
+
+        $phrase = new Validate(array($form, 'postredirectget'));
+        $phrase->execute($container);
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     */
+    public function doesNothingWhenUsingPrgAndFalseIsReturned()
+    {
+        $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
+
+        $controller = $this->getMock('Zend\Mvc\Controller\AbstractActionController', array('postredirectget'));
+        $controller->expects($this->any())
+                   ->method('postredirectget')
+                   ->will($this->returnValue(false));
+
+        $container = $this->getContainerWithRequest();
+        $container->expects($this->any())
+                  ->method('getController')
+                  ->will($this->returnValue($controller));
+
+        $container->expects($this->never())
+                  ->method('setResponse');
+        $container->expects($this->never())
+                  ->method('terminate');
+
+        $execDsl = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\DslInterface');
+        $execDsl->expects($this->never())
+                ->method('execute');
+
+        $phrase = new Validate(array($form, 'postredirectget'));
+        $phrase->setOptions(array('onSuccess' => $execDsl, 'onFailure' => $execDsl));
+        $phrase->execute($container);
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     */
+    public function redirectsWhenUsingPostRedirectGetAndPostDataAreGiven()
+    {
+
+        $response = $this->getMockForAbstractClass('Zend\Stdlib\ResponseInterface');
+
+        $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
+        $form->expects($this->never())
+             ->method('setData');
+
+        $controller = $this->getMock('Zend\Mvc\Controller\AbstractActionController', array('postredirectget'));
+        $controller->expects($this->any())
+                   ->method('postredirectget')
+                   ->will($this->returnValue($response));
+
+        $container = $this->getContainerWithRequest();
+        $container->expects($this->any())
+                  ->method('getController')
+                  ->will($this->returnValue($controller));
+        $container->expects($this->once())
+                  ->method('setResponse')
+                  ->with($response);
+        $container->expects($this->once())
+                  ->method('terminate');
+
+        $phrase = new Validate(array($form, 'postredirectget'));
+        $phrase->execute($container);
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     */
+    public function redirectsOnlyWhenNoAjaxRequest()
+    {
+        $postData = array('foo' => 'bar', 'baz' => 'bar');
+
+        $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
+        $form->expects($this->once())
+             ->method('setData')
+             ->with($postData);
+
+        $container = $this->getContainerWithRequest(true);
+
+        $request = $container->getRequest();
+        $request->expects($this->any())
+                ->method('getPost')
+                ->will($this->returnValue($postData));
+
+        $phrase = new Validate(array($form, 'postredirectget'));
         $phrase->execute($container);
     }
 }

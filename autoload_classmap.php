@@ -9,6 +9,7 @@ return array(
     'DkplusControllerDsl\Dsl\DslInterface'                     => __DIR__ . '/src/DkplusControllerDsl/Dsl/DslInterface.php',
     'DkplusControllerDsl\Dsl\Executor'                         => __DIR__ . '/src/DkplusControllerDsl/Dsl/Executor.php',
     'DkplusControllerDsl\Dsl\ExecutorInterface'                => __DIR__ . '/src/DkplusControllerDsl/Dsl/ExecutorInterface.php',
+    'DkplusControllerDsl\Dsl\Phrase\Against'                   => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/Against.php',
     'DkplusControllerDsl\Dsl\Phrase\AndPhrase'                 => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/AndPhrase.php',
     'DkplusControllerDsl\Dsl\Phrase\AsJson'                    => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/AsJson.php',
     'DkplusControllerDsl\Dsl\Phrase\AsPhrase'                  => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/AsPhrase.php',
@@ -41,6 +42,7 @@ return array(
     'DkplusControllerDsl\Dsl\Phrase\WithPhrase'                => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/WithPhrase.php',
     'DkplusControllerDsl\Dsl\PrePostExecutorDecorator'         => __DIR__ . '/src/DkplusControllerDsl/Dsl/PrePostExecutorDecorator.php',
     'DkplusControllerDsl\Module'                               => __DIR__ . '/src/DkplusControllerDsl/Module.php',
+    'DkplusControllerDsl\Test\DslMockBuilder'                  => __DIR__ . '/src/DkplusControllerDsl/Test/DslMockBuilder.php',
     'DkplusControllerDsl\Test\SetUp\Plugin\Dsl'                => __DIR__ . '/src/DkplusControllerDsl/Test/SetUp/Plugin/Dsl.php',
     'DkplusControllerDsl\Test\TestCase'                        => __DIR__ . '/src/DkplusControllerDsl/Test/TestCase.php',
 );
