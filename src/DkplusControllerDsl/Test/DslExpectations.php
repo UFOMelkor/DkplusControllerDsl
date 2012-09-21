@@ -23,10 +23,18 @@ class DslExpectations
     /** @var TestCase */
     protected $testCase;
 
+    /** @var int */
+    protected $starting = 0;
+
     public function __construct(TestCase $testCase, $position = null)
     {
         $this->position = $position;
         $this->testCase = $testCase;
+    }
+
+    public function startingFromPhraseNumber($number)
+    {
+        $this->starting = $number;
     }
 
     /** @return \DkplusControllerDsl\Dsl\DslInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -70,11 +78,11 @@ class DslExpectations
     public function toAssignAs($variable, $key = null)
     {
         $mock = $this->getMockWithPhrases(array('assign'));
-        $mock->expects($this->testCase->once())
+        $mock->expects($this->testCase->at($this->starting++))
              ->method('assign')
              ->with($variable)
              ->will($this->testCase->returnSelf());
-        $mock->expects($this->testCase->once())
+        $mock->expects($this->testCase->at($this->starting++))
              ->method('__call')
              ->with('as', array($key))
              ->will($this->testCase->returnSelf());
@@ -85,14 +93,14 @@ class DslExpectations
     public function toUseAndAssignAs($variable, $key = null)
     {
         $mock = $this->getMockWithPhrases(array('assign'));
-        $mock->expects($this->testCase->at(0))
+        $mock->expects($this->testCase->at($this->starting++))
              ->method('__call')
              ->with('use', array($variable))
              ->will($this->testCase->returnSelf());
-        $mock->expects($this->testCase->at(1))
+        $mock->expects($this->testCase->at($this->starting++))
              ->method('assign')
              ->will($this->testCase->returnSelf());
-        $mock->expects($this->testCase->at(2))
+        $mock->expects($this->testCase->at($this->starting++))
              ->method('__call')
              ->with('as', array($key))
              ->will($this->testCase->returnSelf());
