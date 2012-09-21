@@ -32,9 +32,11 @@ class DslExpectations
         $this->testCase = $testCase;
     }
 
+    /** @return \DkplusControllerDsl\Dsl\DslInterface|\PHPUnit_Framework_MockObject_MockObject */
     public function startingFromPhraseNumber($number)
     {
         $this->starting = $number;
+        return $this;
     }
 
     /** @return \DkplusControllerDsl\Dsl\DslInterface|\PHPUnit_Framework_MockObject_MockObject */
