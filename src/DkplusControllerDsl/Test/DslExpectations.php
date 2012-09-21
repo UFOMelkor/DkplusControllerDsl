@@ -65,6 +65,49 @@ class DslExpectations
     }
 
     /** @return \DkplusControllerDsl\Dsl\DslInterface|\PHPUnit_Framework_MockObject_MockObject */
+    public function toAddFlashMessage($message, $namespace = null)
+    {
+        $mock = $namespace == null
+              ? $this->getMockWithPhrases(array('message'))
+              : $this->getMockWithPhrases(array('message', $namespace));
+
+        if ($namespace != null) {
+            $mock->expects($this->testCase->once())
+                 ->method($namespace)
+                 ->will($this->testCase->returnSelf());
+        }
+
+        $mock->expects($this->testCase->once())
+             ->method('message')
+             ->with($message)
+             ->will($this->testCase->returnSelf());
+        return $mock;
+    }
+
+    /** @return \DkplusControllerDsl\Dsl\DslInterface|\PHPUnit_Framework_MockObject_MockObject */
+    public function toDisableLayout()
+    {
+        $mock = $this->getMockWithPhrases(array('disableLayout'));
+        $mock->expects($this->testCase->once())
+             ->method('disableLayout')
+             ->will($this->testCase->returnSelf());
+        return $mock;
+    }
+
+    /** @return \DkplusControllerDsl\Dsl\DslInterface|\PHPUnit_Framework_MockObject_MockObject */
+    public function toDisableLayoutOnAjax()
+    {
+        $mock = $this->getMockWithPhrases(array('disableLayout', 'onAjax'));
+        $mock->expects($this->testCase->at($this->starting))
+             ->method('disableLayout')
+             ->will($this->testCase->returnSelf());
+        $mock->expects($this->testCase->at($this->starting))
+             ->method('onAjax')
+             ->will($this->testCase->returnSelf());
+        return $mock;
+    }
+
+    /** @return \DkplusControllerDsl\Dsl\DslInterface|\PHPUnit_Framework_MockObject_MockObject */
     public function toReturnJson()
     {
         $mock = $this->getMockWithPhrases(array('asJson'));
