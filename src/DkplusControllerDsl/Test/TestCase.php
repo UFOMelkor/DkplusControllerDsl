@@ -46,5 +46,22 @@ class TestCase extends BaseTestCase
     {
         $this->dslPlugin->addDsl($dsl, $position);
     }
+
+    public function assertDsl($result)
+    {
+        $this->assertInstanceOf('DkplusControllerDsl\Dsl\DslInterface', $result);
+    }
+
+    /** @return DslExpectations */
+    public function expectsDsl()
+    {
+        return new DslExpectations($this);
+    }
+
+    /** @return DslExpectations */
+    public function expectsDslNo($number)
+    {
+        return new DslExpectations($this, $number);
+    }
 }
 
