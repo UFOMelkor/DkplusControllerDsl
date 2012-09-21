@@ -69,14 +69,14 @@ class DslExpectations
     /** @return \DkplusControllerDsl\Dsl\DslInterface|\PHPUnit_Framework_MockObject_MockObject */
     public function toAssignAs($variable, $key = null)
     {
-        $mock = $this->getMockWithPhrases(array('assign', 'as'));
+        $mock = $this->getMockWithPhrases(array('assign'));
         $mock->expects($this->testCase->once())
              ->method('assign')
              ->with($variable)
              ->will($this->testCase->returnSelf());
         $mock->expects($this->testCase->once())
-             ->method('as')
-             ->with($key)
+             ->method('__call')
+             ->with('as', array($key))
              ->will($this->testCase->returnSelf());
         return $mock;
     }
@@ -84,17 +84,17 @@ class DslExpectations
     /** @return \DkplusControllerDsl\Dsl\DslInterface|\PHPUnit_Framework_MockObject_MockObject */
     public function toUseAndAssignAs($variable, $key = null)
     {
-        $mock = $this->getMockWithPhrases(array('assign', 'as'));
-        $mock->expects($this->testCase->once())
-             ->method('use')
-             ->with($variable)
+        $mock = $this->getMockWithPhrases(array('assign'));
+        $mock->expects($this->testCase->at(0))
+             ->method('__call')
+             ->with('use', array($variable))
              ->will($this->testCase->returnSelf());
-        $mock->expects($this->testCase->once())
+        $mock->expects($this->testCase->at(1))
              ->method('assign')
              ->will($this->testCase->returnSelf());
-        $mock->expects($this->testCase->once())
-             ->method('as')
-             ->with($key)
+        $mock->expects($this->testCase->at(2))
+             ->method('__call')
+             ->with('as', array($key))
              ->will($this->testCase->returnSelf());
         return $mock;
     }
