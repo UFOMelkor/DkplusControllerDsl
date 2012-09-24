@@ -102,8 +102,7 @@ class ContainerTest extends TestCase
      * @test
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
-     * @expectedException BadMethodCallException
-     * @expectedExceptionMessage Cannot overwrite response when he is locked
+     * @expectedException \DkplusControllerDsl\Dsl\Exception\ResultLocked
      */
     public function cannotOverwriteResponseWhenHeIsLocked()
     {
@@ -137,8 +136,7 @@ class ContainerTest extends TestCase
      * @test
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
-     * @expectedException BadMethodCallException
-     * @expectedExceptionMessage Cannot overwrite the view model when it is locked
+     * @expectedException \DkplusControllerDsl\Dsl\Exception\ResultLocked
      */
     public function cannotOverwriteTheViewModelWhenItIsLocked()
     {
@@ -252,8 +250,7 @@ class ContainerTest extends TestCase
      * @test
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage There is no variable 'foo' stored
+     * @expectedException \DkplusControllerDsl\Dsl\Exception\VariableNotFound
      */
     public function throwsExceptionOnAccessingNonExistingVariables()
     {

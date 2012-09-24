@@ -8,8 +8,6 @@
 
 namespace DkplusControllerDsl\Dsl;
 
-use Zend\Stdlib\ResponseInterface as Response;
-
 /**
  * @category   Dkplus
  * @package    ControllerDsl

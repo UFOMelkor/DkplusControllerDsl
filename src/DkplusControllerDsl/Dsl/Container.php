@@ -86,7 +86,7 @@ class Container implements ContainerInterface
     public function setResponse(Response $response)
     {
         if ($this->responseLocked) {
-            throw new BadMethodCallException('Cannot overwrite response when he is locked');
+            throw new Exception\ResultLocked('response');
         }
         $this->response        = $response;
         $this->returnViewModel = false;
@@ -109,7 +109,7 @@ class Container implements ContainerInterface
     public function setViewModel(ViewModel $model)
     {
         if ($this->viewModelLocked) {
-            throw new BadMethodCallException('Cannot overwrite the view model when it is locked');
+            throw new Exception\ResultLocked('view model');
         }
         $this->viewModel       = $model;
         $this->returnViewModel = true;
@@ -154,7 +154,7 @@ class Container implements ContainerInterface
     public function getVariable($variable)
     {
         if (!isset($this->variables[$variable])) {
-            throw new InvalidArgumentException("There is no variable '$variable' stored");
+            throw new Exception\VariableNotFound($variable);
         }
         return $this->variables[$variable];
     }

@@ -30,7 +30,7 @@ interface ContainerInterface
 
     /**
      * @param Response $response
-     * @throws \BadMethodCallException when the response is locked
+     * @throws \DkplusControllerDsl\Dsl\Exception\ResultLocked when the response is locked
      */
     public function setResponse(Response $response);
 
@@ -41,7 +41,7 @@ interface ContainerInterface
 
     /**
      * @param ViewModel $model
-     * @throws \BadMethodCallException when the view model is locked
+     * @throws \DkplusControllerDsl\Dsl\Exception\ResultLocked when the view model is locked
      */
     public function setViewModel(ViewModel $model);
 
@@ -59,13 +59,13 @@ interface ContainerInterface
 
     /**
      * @param string $variable
-     * @throws \InvalidArgumentException on non existing variable
+     * @throws \DkplusControllerDsl\Dsl\Exception\VariableNotFound on non existing variable
      */
     public function getVariable($variable);
 
     public function setVariable($variable, $value);
 
-    /** @return \Zend\Stdlib\ResponseInterface|Zend\View\Model\ModelInterface */
+    /** @return Response|ViewModel */
     public function getResult();
 }
 
