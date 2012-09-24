@@ -6,7 +6,10 @@
  * @author     Oskar Bley <oskar@programming-php.net>
  */
 
-namespace DkplusControllerDsl\Dsl;
+namespace DkplusControllerDsl\Dsl\Executor;
+
+use DkplusControllerDsl\Dsl\Phrase\PhraseInterface as Phrase;
+use DkplusControllerDsl\Dsl\ContainerInterface as Container;
 
 /**
  * @category   Dkplus
@@ -16,13 +19,13 @@ namespace DkplusControllerDsl\Dsl;
  */
 interface ExecutorInterface
 {
-    /** @param \DkplusControllerDsl\Dsl\Phrase\PhraseInterface $phrase */
-    public function addPhrase(Phrase\PhraseInterface $phrase);
+    /** @param Phrase $phrase */
+    public function addPhrase(Phrase $phrase);
 
     /**
-     * @param ContainerInterface $container
+     * @param Container $container
      * @return \Zend\View\Model\ModelInterface|\Zend\Stdlib\ResponseInterface
      */
-    public function execute(ContainerInterface $container);
+    public function execute(Container $container);
 }
 

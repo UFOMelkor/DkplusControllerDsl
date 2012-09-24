@@ -9,8 +9,8 @@
 namespace DkplusControllerDsl\Controller\Plugin;
 
 use DkplusControllerDsl\Dsl\Dsl as DslInstance;
-use DkplusControllerDsl\Dsl\Executor as DslExecutor;
-use DkplusControllerDsl\Dsl\PrePostExecutorDecorator;
+use DkplusControllerDsl\Dsl\Executor\Executor as DslExecutor;
+use DkplusControllerDsl\Dsl\Executor\PrePostExecutorDecorator;
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 use Zend\ServiceManager\AbstractPluginManager;
 

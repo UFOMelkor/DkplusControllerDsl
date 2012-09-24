@@ -32,7 +32,7 @@ class DslTest extends TestCase
 
     protected function setUp()
     {
-        $this->executor      = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\ExecutorInterface');
+        $this->executor      = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Executor\ExecutorInterface');
         $this->pluginManager = $this->getMockBuilder('Zend\ServiceManager\AbstractPluginManager')
                                     ->setMethods(array('get', 'validatePlugin'))
                                     ->getMock();

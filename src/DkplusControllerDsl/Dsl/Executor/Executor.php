@@ -6,7 +6,11 @@
  * @author     Oskar Bley <oskar@programming-php.net>
  */
 
-namespace DkplusControllerDsl\Dsl;
+namespace DkplusControllerDsl\Dsl\Executor;
+
+use DkplusControllerDsl\Dsl\Phrase\PhraseInterface as Phrase;
+use DkplusControllerDsl\Dsl\Phrase\ExecutablePhraseInterface as ExecutablePhrase;
+use DkplusControllerDsl\Dsl\ContainerInterface as Container;
 
 /**
  * @category   Dkplus
@@ -19,9 +23,9 @@ class Executor implements ExecutorInterface
     /** @var Phrase\ExecutablePhraseInterface[] */
     private $phrases = array();
 
-    public function addPhrase(Phrase\PhraseInterface $phrase)
+    public function addPhrase(Phrase $phrase)
     {
-        if (!$phrase instanceof Phrase\ExecutablePhraseInterface) {
+        if (!$phrase instanceof ExecutablePhrase) {
             return;
         }
         $this->phrases[] = $phrase;
@@ -33,7 +37,7 @@ class Executor implements ExecutorInterface
         return $this->phrases;
     }
 
-    public function execute(ContainerInterface $container)
+    public function execute(Container $container)
     {
         foreach ($this->phrases as $phrase) {
             $phrase->execute($container);

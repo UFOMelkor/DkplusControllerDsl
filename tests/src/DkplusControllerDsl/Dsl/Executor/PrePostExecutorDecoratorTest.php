@@ -6,7 +6,7 @@
  * @author     Oskar Bley <oskar@programming-php.net>
  */
 
-namespace DkplusControllerDsl\Dsl;
+namespace DkplusControllerDsl\Dsl\Executor;
 
 use PHPUnit_Framework_TestCase as TestCase;
 
@@ -29,7 +29,7 @@ class PrePostExecutorDecoratorTest extends TestCase
 
     protected function setUp()
     {
-        $this->decorated = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\ExecutorInterface');
+        $this->decorated = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Executor\ExecutorInterface');
         $this->executor  = new PrePostExecutorDecorator($this->decorated);
     }
 
@@ -41,7 +41,7 @@ class PrePostExecutorDecoratorTest extends TestCase
      */
     public function isDslExecutor()
     {
-        $this->assertInstanceOf('DkplusControllerDsl\Dsl\ExecutorInterface', $this->executor);
+        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Executor\ExecutorInterface', $this->executor);
     }
 
     /**

@@ -6,9 +6,15 @@
  * @author     Oskar Bley <oskar@programming-php.net>
  */
 
-namespace DkplusControllerDsl\Dsl;
+namespace DkplusControllerDsl\Dsl\Executor;
 
 use RuntimeException;
+use DkplusControllerDsl\Dsl\Phrase\PhraseInterface as Phrase;
+use DkplusControllerDsl\Dsl\Phrase\PrePhraseInterface as PrePhrase;
+use DkplusControllerDsl\Dsl\Phrase\PostPhraseInterface as PostPhrase;
+use DkplusControllerDsl\Dsl\Phrase\ExecutablePhraseInterface as ExecutablePhrase;
+use DkplusControllerDsl\Dsl\Phrase\ModifiablePhraseInterface as ModifiablePhrase;
+use DkplusControllerDsl\Dsl\ContainerInterface as Container;
 
 /**
  * @category   Dkplus
@@ -18,10 +24,10 @@ use RuntimeException;
  */
 class PrePostExecutorDecorator implements ExecutorInterface
 {
-    /** @var Phrase\PrePhraseInterface[] */
+    /** @var PrePhrase[] */
     private $prePhrases = array();
 
-    /** @var Phrase\ExecutablePhraseInterface */
+    /** @var ExecutablePhrase */
     private $lastModifiablePhrase;
 
     /** @var ExecutorInterface */
@@ -32,9 +38,9 @@ class PrePostExecutorDecorator implements ExecutorInterface
         $this->decorated = $decorated;
     }
 
-    public function addPhrase(Phrase\PhraseInterface $phrase)
+    public function addPhrase(Phrase $phrase)
     {
-        if ($phrase instanceof Phrase\PostPhraseInterface) {
+        if ($phrase instanceof PostPhrase) {
 
             if ($this->lastModifiablePhrase == null) {
                 throw new RuntimeException('Needs a modifiable phrase to be added before');
@@ -43,7 +49,7 @@ class PrePostExecutorDecorator implements ExecutorInterface
             $this->lastModifiablePhrase->setOptions($phrase->getOptions());
         }
 
-        if ($phrase instanceof Phrase\ModifiablePhraseInterface) {
+        if ($phrase instanceof ModifiablePhrase) {
             foreach ($this->prePhrases as $prePhrase) {
                 $phrase->setOptions($prePhrase->getOptions());
             }
@@ -51,16 +57,16 @@ class PrePostExecutorDecorator implements ExecutorInterface
             $this->lastModifiablePhrase = $phrase;
         }
 
-        if ($phrase instanceof Phrase\ExecutablePhraseInterface) {
+        if ($phrase instanceof ExecutablePhrase) {
             $this->decorated->addPhrase($phrase);
         }
 
-        if ($phrase instanceof Phrase\PrePhraseInterface) {
+        if ($phrase instanceof PrePhrase) {
             $this->prePhrases[] = $phrase;
         }
     }
 
-    public function execute(ContainerInterface $container)
+    public function execute(Container $container)
     {
         return $this->decorated->execute($container);
     }

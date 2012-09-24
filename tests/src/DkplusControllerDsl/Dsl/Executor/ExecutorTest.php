@@ -6,7 +6,7 @@
  * @author     Oskar Bley <oskar@programming-php.net>
  */
 
-namespace DkplusControllerDsl\Dsl;
+namespace DkplusControllerDsl\Dsl\Executor;
 
 use PHPUnit_Framework_TestCase as TestCase;
 
@@ -34,7 +34,7 @@ class ExecutorTest extends TestCase
      */
     public function isDslExecutor()
     {
-        $this->assertInstanceOf('DkplusControllerDsl\Dsl\ExecutorInterface', $this->executor);
+        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Executor\ExecutorInterface', $this->executor);
     }
 
     /**
