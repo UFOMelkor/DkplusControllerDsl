@@ -23,13 +23,13 @@ class Dsl implements DslInterface
     /** @var PluginManager */
     private $plugins;
 
-    /** @var ExecutorInterface */
+    /** @var Executor\ExecutorInterface */
     private $executor;
 
     /** @var AbstractController */
     private $controller;
 
-    public function __construct(PluginManager $plugins, ExecutorInterface $executor, AbstractController $controller)
+    public function __construct(PluginManager $plugins, Executor\ExecutorInterface $executor, AbstractController $controller)
     {
         $this->plugins    = $plugins;
         $this->executor   = $executor;
