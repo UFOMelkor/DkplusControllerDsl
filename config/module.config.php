@@ -16,6 +16,7 @@ return array(
             'error'         => 'DkplusControllerDsl\Dsl\Phrase\Error',
             'form'          => 'DkplusControllerDsl\Dsl\Phrase\Form',
             'formData'      => 'DkplusControllerDsl\Dsl\Phrase\FormData',
+            'formMessages'  => 'DkplusControllerDsl\Dsl\Phrase\FormMessages',
             'info'          => 'DkplusControllerDsl\Dsl\Phrase\Info',
             'into'          => 'DkplusControllerDsl\Dsl\Phrase\Into',
             'message'       => 'DkplusControllerDsl\Dsl\Phrase\Message',
