@@ -22,11 +22,10 @@ class OnAjaxRequestTest extends TestCase
      * @test
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
-     * @testdox is a post phrase
      */
-    public function isPostPhrase()
+    public function isAnExecutablePhrase()
     {
-        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\PostPhraseInterface', new OnAjaxRequest(array()));
+        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\ExecutablePhraseInterface', new OnAjaxRequest(array()));
     }
 
     /**
@@ -34,11 +33,50 @@ class OnAjaxRequestTest extends TestCase
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
      */
-    public function canRetrieveAjaxHandlerFromConstructorOptions()
+    public function executesGivenDslIfAjaxRequestIsDetected()
     {
+        $request = $this->getMock('Zend\Http\Request');
+        $request->expects($this->any())
+                ->method('isXmlHttpRequest')
+                ->will($this->returnValue(true));
+
+        $container = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\ContainerInterface');
+        $container->expects($this->any())
+                  ->method('getRequest')
+                  ->will($this->returnValue($request));
+
         $ajaxHandler = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\DslInterface');
-        $phrase      = new OnAjaxRequest(array($ajaxHandler));
-        $this->assertSame(array('onAjax' => $ajaxHandler), $phrase->getOptions());
+        $ajaxHandler->expects($this->once())
+                    ->method('execute')
+                    ->with($container);
+
+        $phrase = new OnAjaxRequest(array($ajaxHandler));
+        $phrase->execute($container);
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     */
+    public function executesGivenDslOnlyIfAjaxRequestIsDetected()
+    {
+        $request = $this->getMock('Zend\Http\Request');
+        $request->expects($this->any())
+                ->method('isXmlHttpRequest')
+                ->will($this->returnValue(false));
+
+        $container = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\ContainerInterface');
+        $container->expects($this->any())
+                  ->method('getRequest')
+                  ->will($this->returnValue($request));
+
+        $ajaxHandler = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\DslInterface');
+        $ajaxHandler->expects($this->never())
+                    ->method('execute');
+
+        $phrase = new OnAjaxRequest(array($ajaxHandler));
+        $phrase->execute($container);
     }
 }
 
