@@ -1,6 +1,5 @@
 <?php
 /**
- * @codeCoverageIgnore
  * @category   Dkplus
  * @package    ControllerDsl
  * @subpackage Dsl\Phrase
@@ -12,7 +11,6 @@ namespace DkplusControllerDsl\Dsl\Phrase;
 use DkplusControllerDsl\Dsl\ContainerInterface as Container;
 
 /**
- * @codeCoverageIgnore
  * @category   Dkplus
  * @package    ControllerDsl
  * @subpackage Dsl\Phrase
