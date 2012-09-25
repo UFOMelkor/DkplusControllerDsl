@@ -26,14 +26,10 @@ class DisableLayoutTest extends TestCase
         parent::setUp();
 
         $viewModel       = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
-        $request         = $this->getMock('Zend\Http\Request');
         $this->container = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\ContainerInterface');
         $this->container->expects($this->any())
                         ->method('getViewModel')
                         ->will($this->returnValue($viewModel));
-        $this->container->expects($this->any())
-                        ->method('getRequest')
-                        ->will($this->returnValue($request));
     }
 
         /**
@@ -44,7 +40,7 @@ class DisableLayoutTest extends TestCase
      */
     public function isModifiablePhrase()
     {
-        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\ModifiablePhraseInterface', new DisableLayout(array()));
+        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\ExecutablePhraseInterface', new DisableLayout(array()));
     }
 
     /**
@@ -72,45 +68,6 @@ class DisableLayoutTest extends TestCase
                                         ->method('terminate');
 
         $phrase = new DisableLayout(array());
-        $phrase->execute($this->container);
-    }
-
-    /**
-     * @test
-     * @group Component/Dsl
-     * @group Module/DkplusControllerDsl
-     */
-    public function canBeDisabledOnNonAjaxRequest()
-    {
-        $this->container->expects($this->never())
-                        ->method('lockViewModel');
-
-        $this->container->getViewModel()->expects($this->never())
-                                        ->method('terminate');
-
-        $phrase = new DisableLayout(array());
-        $phrase->setOptions(array('onAjax' => null));
-        $phrase->execute($this->container);
-    }
-
-    /**
-     * @test
-     * @group Component/Dsl
-     * @group Module/DkplusControllerDsl
-     */
-    public function willBeEnabledOnAjaxAnyway()
-    {
-        $this->container->expects($this->once())
-                        ->method('lockViewModel');
-        $this->container->getViewModel()->expects($this->once())
-                                        ->method('terminate');
-
-        $this->container->getRequest()->expects($this->any())
-                                      ->method('isXmlHttpRequest')
-                                      ->will($this->returnValue(true));
-
-        $phrase = new DisableLayout(array());
-        $phrase->setOptions(array('onAjax' => null));
         $phrase->execute($this->container);
     }
 }
