@@ -14,6 +14,7 @@ return array(
             'assign'        => 'DkplusControllerDsl\Dsl\Phrase\Assign',
             'data'          => 'DkplusControllerDsl\Dsl\Phrase\Data',
             'error'         => 'DkplusControllerDsl\Dsl\Phrase\Error',
+            'fill'          => 'DkplusControllerDsl\Dsl\Phrase\Fill',
             'form'          => 'DkplusControllerDsl\Dsl\Phrase\Form',
             'formData'      => 'DkplusControllerDsl\Dsl\Phrase\FormData',
             'formMessages'  => 'DkplusControllerDsl\Dsl\Phrase\FormMessages',
@@ -31,7 +32,7 @@ return array(
             'to'            => 'DkplusControllerDsl\Dsl\Phrase\ToPhrase',
             'url'           => 'DkplusControllerDsl\Dsl\Phrase\Url',
             'use'           => 'DkplusControllerDsl\Dsl\Phrase\UsePhrase',
-            'validate'      => 'DkplusControllerDsl\Dsl\Phrase\Validate',
+            'validate'      => 'DkplusControllerDsl\Dsl\Phrase\Fill',
             'warning'       => 'DkplusControllerDsl\Dsl\Phrase\Warning',
             'with'          => 'DkplusControllerDsl\Dsl\Phrase\WithPhrase',
         )

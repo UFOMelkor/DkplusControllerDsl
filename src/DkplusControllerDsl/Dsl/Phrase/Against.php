@@ -29,7 +29,7 @@ class Against implements PostPhraseInterface
     /** @return array */
     public function getOptions()
     {
-        return array('against' => $this->against);
+        return array('data' => $this->against);
     }
 }
 
