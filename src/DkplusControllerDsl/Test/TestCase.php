@@ -59,7 +59,7 @@ class TestCase extends BaseTestCase
     }
 
     /** @return DslExpectations */
-    public function expectsDslNo($number)
+    public function expectsDslNumber($number)
     {
         return new DslExpectations($this, $number);
     }
