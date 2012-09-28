@@ -62,4 +62,3 @@ class VariableNotFoundTest extends TestCase
         $this->assertStringEndsNotWith('aLongVariableName', $exception->getMessage());
     }
 }
-

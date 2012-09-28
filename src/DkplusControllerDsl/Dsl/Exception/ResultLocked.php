@@ -23,4 +23,3 @@ class ResultLocked extends BadMethodCallException implements ExceptionInterface
         parent::__construct("Sorry, but the $resultType has been locked");
     }
 }
-

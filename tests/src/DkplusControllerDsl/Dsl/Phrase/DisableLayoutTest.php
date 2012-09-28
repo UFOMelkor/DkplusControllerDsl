@@ -71,4 +71,3 @@ class DisableLayoutTest extends TestCase
         $phrase->execute($this->container);
     }
 }
-

@@ -36,4 +36,3 @@ class OnAjaxRequest implements ExecutablePhraseInterface
         }
     }
 }
-

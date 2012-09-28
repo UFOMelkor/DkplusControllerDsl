@@ -19,4 +19,3 @@ interface PrePhraseInterface extends PhraseInterface
     /** @param array $options */
     public function getOptions();
 }
-

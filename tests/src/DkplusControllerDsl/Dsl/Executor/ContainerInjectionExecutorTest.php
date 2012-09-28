@@ -124,4 +124,3 @@ class ContainerInjectionExecutorTest extends TestCase
         $this->assertSame($response, $this->executor->execute($container));
     }
 }
-

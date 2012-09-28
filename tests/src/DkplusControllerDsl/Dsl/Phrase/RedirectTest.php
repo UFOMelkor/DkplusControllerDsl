@@ -158,4 +158,3 @@ class RedirectTest extends TestCase
         $phrase->execute($container);
     }
 }
-

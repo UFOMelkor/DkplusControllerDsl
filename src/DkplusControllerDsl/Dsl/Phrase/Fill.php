@@ -84,4 +84,3 @@ class Fill implements ModifiablePhraseInterface
         return $this->data;
     }
 }
-

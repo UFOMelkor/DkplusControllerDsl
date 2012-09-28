@@ -19,4 +19,3 @@ interface PostPhraseInterface extends PhraseInterface
     /** @param array $options */
     public function getOptions();
 }
-

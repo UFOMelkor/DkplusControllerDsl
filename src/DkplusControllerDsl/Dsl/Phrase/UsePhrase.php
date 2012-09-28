@@ -71,4 +71,3 @@ class UsePhrase implements ModifiablePhraseInterface, PrePhraseInterface
         $container->setVariable($this->alias, $this->variable);
     }
 }
-

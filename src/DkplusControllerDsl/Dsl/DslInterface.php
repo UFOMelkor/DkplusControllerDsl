@@ -21,4 +21,3 @@ interface DslInterface
 
     public function __call($method, $arguments);
 }
-

@@ -50,4 +50,3 @@ class Executor implements ExecutorInterface
         return $container->getResult();
     }
 }
-

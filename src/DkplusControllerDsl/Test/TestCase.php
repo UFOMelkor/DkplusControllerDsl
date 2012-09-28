@@ -64,4 +64,3 @@ class TestCase extends BaseTestCase
         return new DslExpectations($this, $number);
     }
 }
-

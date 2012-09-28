@@ -20,4 +20,3 @@ interface ContainerAwarePhraseInterface extends PhraseInterface
 {
     public function setContainer(Container $container);
 }
-

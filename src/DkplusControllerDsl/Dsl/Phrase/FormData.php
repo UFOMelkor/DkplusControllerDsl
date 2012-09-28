@@ -45,4 +45,3 @@ class FormData implements PostPhraseInterface, ContainerAwarePhraseInterface
         $this->container = $container;
     }
 }
-

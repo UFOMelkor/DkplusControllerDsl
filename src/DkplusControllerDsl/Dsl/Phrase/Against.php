@@ -32,4 +32,3 @@ class Against implements PostPhraseInterface
         return array('data' => $this->against);
     }
 }
-

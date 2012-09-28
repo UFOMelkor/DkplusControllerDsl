@@ -20,4 +20,3 @@ return array(
         return $result;
     }
 );
-

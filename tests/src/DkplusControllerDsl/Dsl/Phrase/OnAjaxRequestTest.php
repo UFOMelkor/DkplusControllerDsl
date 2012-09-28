@@ -79,4 +79,3 @@ class OnAjaxRequestTest extends TestCase
         $phrase->execute($container);
     }
 }
-

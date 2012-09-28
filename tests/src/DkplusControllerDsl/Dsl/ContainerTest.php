@@ -315,4 +315,3 @@ class ContainerTest extends TestCase
         $this->container->getResult();
     }
 }
-

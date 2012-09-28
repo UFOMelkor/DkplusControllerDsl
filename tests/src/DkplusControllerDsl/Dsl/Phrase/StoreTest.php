@@ -113,4 +113,3 @@ class StoreTest extends TestCase
         $phrase->execute($this->getMockForAbstractClass('DkplusControllerDsl\Dsl\ContainerInterface'));
     }
 }
-

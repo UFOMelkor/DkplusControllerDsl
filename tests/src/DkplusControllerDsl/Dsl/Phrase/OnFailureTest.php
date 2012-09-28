@@ -41,4 +41,3 @@ class OnFailureTest extends TestCase
         $this->assertSame(array('onFailure' => $failureHandler), $phrase->getOptions());
     }
 }
-

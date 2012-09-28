@@ -20,4 +20,3 @@ interface ExecutablePhraseInterface extends PhraseInterface
 {
     public function execute(Container $container);
 }
-

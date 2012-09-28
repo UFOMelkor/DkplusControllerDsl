@@ -50,4 +50,3 @@ class Module implements
         return include __DIR__ . '/../../config/service.config.php';
     }
 }
-

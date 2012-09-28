@@ -17,4 +17,3 @@ namespace DkplusControllerDsl\Dsl\Phrase;
 interface PhraseInterface
 {
 }
-

@@ -47,4 +47,3 @@ class ContainerInjectionExecutor implements ExecutorInterface
         return $this->decorated->execute($container);
     }
 }
-

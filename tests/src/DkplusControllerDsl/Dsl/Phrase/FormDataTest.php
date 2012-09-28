@@ -95,4 +95,3 @@ class FormDataTest extends TestCase
         $this->assertSame(array('data' => array($form, 'getData')), $phrase->getOptions());
     }
 }
-

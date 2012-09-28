@@ -41,4 +41,3 @@ class AgainstTest extends TestCase
         $this->assertSame(array('data' => $against), $phrase->getOptions());
     }
 }
-

@@ -34,4 +34,3 @@ class OnSuccess implements PostPhraseInterface
         return array('onSuccess' => $this->successHandler);
     }
 }
-

@@ -46,4 +46,3 @@ class Form implements ContainerAwarePhraseInterface, PostPhraseInterface
         $this->container = $container;
     }
 }
-

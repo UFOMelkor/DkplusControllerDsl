@@ -19,4 +19,3 @@ interface ModifiablePhraseInterface extends ExecutablePhraseInterface
     /** @param array $options */
     public function setOptions(array $options);
 }
-

@@ -24,4 +24,3 @@ class AsJson implements ExecutablePhraseInterface
         $container->setViewModel(new JsonModel());
     }
 }
-

@@ -135,4 +135,3 @@ class AssignTest extends TestCase
         $phrase->execute($container);
     }
 }
-

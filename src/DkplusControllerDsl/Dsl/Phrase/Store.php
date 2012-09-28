@@ -65,4 +65,3 @@ class Store implements ModifiablePhraseInterface
         \call_user_func($target, $data);
     }
 }
-

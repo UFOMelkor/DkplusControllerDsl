@@ -41,4 +41,3 @@ class RouteTest extends TestCase
         $this->assertSame(array('route' => $route), $phrase->getOptions());
     }
 }
-

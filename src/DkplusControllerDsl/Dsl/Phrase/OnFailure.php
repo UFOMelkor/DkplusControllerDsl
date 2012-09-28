@@ -34,4 +34,3 @@ class OnFailure implements PostPhraseInterface
         return array('onFailure' => $this->failureHandler);
     }
 }
-

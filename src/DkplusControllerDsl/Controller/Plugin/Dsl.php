@@ -36,4 +36,3 @@ class Dsl extends AbstractPlugin
         return new DslInstance($this->pluginManager, $executor, $this->getController());
     }
 }
-

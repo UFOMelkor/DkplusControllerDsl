@@ -22,4 +22,3 @@ class Error implements PrePhraseInterface
         return array('type' => 'error');
     }
 }
-

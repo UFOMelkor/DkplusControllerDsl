@@ -40,4 +40,3 @@ class ErrorTest extends TestCase
         $this->assertSame(array('type' => 'error'), $phrase->getOptions());
     }
 }
-

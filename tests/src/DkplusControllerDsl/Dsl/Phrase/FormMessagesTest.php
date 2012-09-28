@@ -100,4 +100,3 @@ class FormMessagesTest extends TestCase
         $phrase->getOptions();
     }
 }
-

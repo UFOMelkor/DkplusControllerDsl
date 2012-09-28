@@ -44,4 +44,3 @@ class AsJsonTest extends TestCase
         $phrase->execute($container);
     }
 }
-

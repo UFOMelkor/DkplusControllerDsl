@@ -41,4 +41,3 @@ class OnSuccessTest extends TestCase
         $this->assertSame(array('onSuccess' => $successHandler), $phrase->getOptions());
     }
 }
-

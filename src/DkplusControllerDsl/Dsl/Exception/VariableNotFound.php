@@ -23,4 +23,3 @@ class VariableNotFound extends InvalidArgumentException implements ExceptionInte
         parent::__construct("There is no variable '$variableName'");
     }
 }
-

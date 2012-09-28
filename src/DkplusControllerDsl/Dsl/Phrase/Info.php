@@ -22,4 +22,3 @@ class Info implements PrePhraseInterface
         return array('type' => 'info');
     }
 }
-
