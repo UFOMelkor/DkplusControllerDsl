@@ -315,4 +315,22 @@ class FillTest extends TestCase
         $phrase = new Fill(array($form, 'postredirectget'));
         $phrase->execute($container);
     }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     */
+    public function storesFormIntoContainer()
+    {
+        $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
+
+        $container = $this->getContainerWithRequest();
+        $container->expects($this->once())
+                  ->method('setVariable')
+                  ->with('__FORM__', $form);
+
+        $phrase = new Fill(array($form));
+        $phrase->execute($container);
+    }
 }

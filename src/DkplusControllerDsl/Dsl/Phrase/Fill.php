@@ -56,6 +56,8 @@ class Fill implements ModifiablePhraseInterface
 
         $data = $this->getData($container);
 
+        $container->setVariable('__FORM__', $form);
+
         if (!$container->getRequest()->isXmlHttpRequest()
             && $data instanceOf Response
         ) {
