@@ -341,4 +341,3 @@ class PrePostExecutorDecoratorTest extends TestCase
         $this->executor->addPhrase($phrase);
     }
 }
-

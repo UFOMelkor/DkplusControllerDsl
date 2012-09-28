@@ -40,4 +40,3 @@ class SuccessTest extends TestCase
         $this->assertSame(array('type' => 'success'), $phrase->getOptions());
     }
 }
-

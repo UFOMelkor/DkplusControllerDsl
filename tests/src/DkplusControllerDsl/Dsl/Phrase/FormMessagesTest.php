@@ -16,18 +16,8 @@ use PHPUnit_Framework_TestCase as TestCase;
  * @subpackage Dsl\Phrase
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class FormDataTest extends TestCase
+class FormMessagesTest extends TestCase
 {
-    /**
-     * @test
-     * @group Component/Dsl
-     * @group Module/DkplusControllerDsl
-     * @testdox is a container aware phrase
-     */
-    public function isContainerAwarePhrase()
-    {
-        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\ContainerAwarePhraseInterface', new FormData(array()));
-    }
     /**
      * @test
      * @group Component/Dsl
@@ -36,21 +26,20 @@ class FormDataTest extends TestCase
      */
     public function isPostPhrase()
     {
-        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\PostPhraseInterface', new FormData(array()));
+        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\PostPhraseInterface', new FormMessages(array()));
     }
-
     /**
      * @test
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
+     * @testdox is a container aware phrase
      */
-    public function providesFormDataAsCallable()
+    public function isContainerAwarePhrase()
     {
-        $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
-
-        $phrase  = new FormData(array($form));
-        $options = $phrase->getOptions();
-        $this->assertSame(array($form, 'getData'), $options['data']);
+        $this->assertInstanceOf(
+            'DkplusControllerDsl\Dsl\Phrase\ContainerAwarePhraseInterface',
+            new FormMessages(array())
+        );
     }
 
     /**
@@ -58,7 +47,25 @@ class FormDataTest extends TestCase
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
      */
-    public function canGetFormFromContainer()
+    public function canRetrieveFormFromConstructorOptions()
+    {
+        $messages = array('foo' => 'bar');
+
+        $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
+        $form->expects($this->any())
+             ->method('getMessages')
+             ->will($this->returnValue($messages));
+
+        $phrase = new FormMessages(array($form));
+        $this->assertEquals(array('variable' => $messages), $phrase->getOptions());
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     */
+    public function canRetrieveFormFromContainer()
     {
         $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
 
@@ -68,10 +75,9 @@ class FormDataTest extends TestCase
                   ->with('form')
                   ->will($this->returnValue($form));
 
-        $phrase  = new FormData(array());
+        $phrase = new FormMessages(array());
         $phrase->setContainer($container);
-
-        $this->assertSame(array('data' => array($form, 'getData')), $phrase->getOptions());
+        $phrase->getOptions();
     }
 
     /**
@@ -79,7 +85,7 @@ class FormDataTest extends TestCase
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
      */
-    public function canUseConfigurableKeyToGetFormFromContainer()
+    public function canUseConfigurableKeyToRetrieveFormFromContainer()
     {
         $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
 
@@ -89,9 +95,8 @@ class FormDataTest extends TestCase
                   ->with('my-form')
                   ->will($this->returnValue($form));
 
-        $phrase  = new FormData(array('my-form'));
+        $phrase = new FormMessages(array('my-form'));
         $phrase->setContainer($container);
-
-        $this->assertSame(array('data' => array($form, 'getData')), $phrase->getOptions());
+        $phrase->getOptions();
     }
 }

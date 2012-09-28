@@ -16,7 +16,7 @@ use DkplusControllerDsl\Dsl\ContainerInterface as Container;
  * @subpackage Dsl\Phrase
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class FormData implements PostPhraseInterface, ContainerAwarePhraseInterface
+class Form implements ContainerAwarePhraseInterface, PostPhraseInterface
 {
     /** @var mixed */
     private $form;
@@ -37,7 +37,8 @@ class FormData implements PostPhraseInterface, ContainerAwarePhraseInterface
         $form = \is_string($this->form)
               ? $this->container->getVariable($this->form)
               : $this->form;
-        return array('data' => array($form, 'getData'));
+
+        return array('form' => $form);
     }
 
     public function setContainer(Container $container)

@@ -137,4 +137,3 @@ class AbstractActionControllerTest extends TestCase
         $this->assertSame($viewModel, $this->controller->onDispatch($this->event));
     }
 }
-

@@ -41,4 +41,3 @@ class AsPhraseTest extends TestCase
         $this->assertEquals(array('alias' => $alias), $phrase->getOptions());
     }
 }
-

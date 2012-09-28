@@ -32,4 +32,3 @@ class Data implements PostPhraseInterface
         return array('data' => $this->data);
     }
 }
-

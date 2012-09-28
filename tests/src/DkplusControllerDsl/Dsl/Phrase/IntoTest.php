@@ -41,4 +41,3 @@ class IntoTest extends TestCase
         $this->assertSame(array('target' => $target), $phrase->getOptions());
     }
 }
-

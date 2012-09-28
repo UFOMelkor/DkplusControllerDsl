@@ -32,4 +32,3 @@ class Route implements PostPhraseInterface
         return array('route' => $this->route);
     }
 }
-

@@ -38,7 +38,6 @@ class AgainstTest extends TestCase
     {
         $against = array('foo', 'bar', 'baz');
         $phrase  = new Against(array($against));
-        $this->assertSame(array('against' => $against), $phrase->getOptions());
+        $this->assertSame(array('data' => $against), $phrase->getOptions());
     }
 }
-

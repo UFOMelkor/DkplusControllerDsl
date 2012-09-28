@@ -29,8 +29,11 @@ class Dsl implements DslInterface
     /** @var AbstractController */
     private $controller;
 
-    public function __construct(PluginManager $plugins, Executor\ExecutorInterface $executor, AbstractController $controller)
-    {
+    public function __construct(
+        PluginManager $plugins,
+        Executor\ExecutorInterface $executor,
+        AbstractController $controller
+    ) {
         $this->plugins    = $plugins;
         $this->executor   = $executor;
         $this->controller = $controller;
@@ -64,4 +67,3 @@ class Dsl implements DslInterface
         return $this;
     }
 }
-

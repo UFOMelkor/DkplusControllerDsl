@@ -9,6 +9,7 @@
 namespace DkplusControllerDsl\Dsl\Phrase;
 
 use DkplusControllerDsl\Dsl\DslInterface as Dsl;
+use DkplusControllerDsl\Dsl\ContainerInterface as Container;
 
 /**
  * @category   Dkplus
@@ -16,7 +17,7 @@ use DkplusControllerDsl\Dsl\DslInterface as Dsl;
  * @subpackage Dsl\Phrase
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class OnFailure implements PostPhraseInterface
+class OnFailure implements ExecutablePhraseInterface
 {
     /** @var Dsl */
     private $failureHandler;
@@ -28,10 +29,12 @@ class OnFailure implements PostPhraseInterface
         }
     }
 
-    /** @return array */
-    public function getOptions()
+    public function execute(Container $container)
     {
-        return array('onFailure' => $this->failureHandler);
+        $form = $container->getVariable('__FORM__');
+
+        if (!$form->isValid()) {
+            $this->failureHandler->execute($container);
+        }
     }
 }
-

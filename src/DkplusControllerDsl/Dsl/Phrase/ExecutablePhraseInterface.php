@@ -18,10 +18,5 @@ use DkplusControllerDsl\Dsl\ContainerInterface as Container;
  */
 interface ExecutablePhraseInterface extends PhraseInterface
 {
-    /**
-     * @param Container $container
-     * @return array|\Zend\View\Model\ModelInterface|\Zend\Stdlib\ResponseInterface An array of sub-phrases or a result.
-     */
     public function execute(Container $container);
 }
-

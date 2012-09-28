@@ -18,8 +18,11 @@ use DkplusControllerDsl\Dsl\ContainerInterface as Container;
  */
 class Store implements ModifiablePhraseInterface
 {
-    /** @var array */
+    /** @var mixed */
     private $data;
+
+    /** @var array */
+    private $additionalData = array();
 
     /** @var callable */
     private $target;
@@ -31,9 +34,12 @@ class Store implements ModifiablePhraseInterface
         }
     }
 
-    /** @return array */
+    /** @return mixed */
     public function getData()
     {
+        if (\is_callable($this->data)) {
+            return \call_user_func($this->data);
+        }
         return $this->data;
     }
 
@@ -48,21 +54,24 @@ class Store implements ModifiablePhraseInterface
         if (isset($options['data'])) {
             $this->data = $options['data'];
         }
+
         if (isset($options['target'])) {
             $this->target = $options['target'];
+        }
+
+        if (isset($options['with'])) {
+            $this->additionalData = $options['with'];
         }
     }
 
     public function execute(Container $container)
     {
-        $data   = $this->getData();
+
         $target = $this->getTarget();
 
-        if (\is_callable($data)) {
-            $data = \call_user_func($data);
-        }
+        $data = $this->additionalData;
+        \array_unshift($data, $this->getData());
 
-        \call_user_func($target, $data);
+        \call_user_func_array($target, $data);
     }
 }
-

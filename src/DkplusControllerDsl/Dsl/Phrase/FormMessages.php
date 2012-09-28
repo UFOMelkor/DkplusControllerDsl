@@ -9,6 +9,7 @@
 namespace DkplusControllerDsl\Dsl\Phrase;
 
 use DkplusControllerDsl\Dsl\ContainerInterface as Container;
+use Zend\Form\FormInterface;
 
 /**
  * @category   Dkplus
@@ -16,9 +17,9 @@ use DkplusControllerDsl\Dsl\ContainerInterface as Container;
  * @subpackage Dsl\Phrase
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class FormData implements PostPhraseInterface, ContainerAwarePhraseInterface
+class FormMessages implements ContainerAwarePhraseInterface, PostPhraseInterface
 {
-    /** @var mixed */
+    /** @var \Zend\Form\FormInterface|string */
     private $form;
 
     /** @var Container */
@@ -31,13 +32,13 @@ class FormData implements PostPhraseInterface, ContainerAwarePhraseInterface
                     : 'form';
     }
 
-    /** @return array */
     public function getOptions()
     {
         $form = \is_string($this->form)
               ? $this->container->getVariable($this->form)
               : $this->form;
-        return array('data' => array($form, 'getData'));
+
+        return array('variable' => $form->getMessages());
     }
 
     public function setContainer(Container $container)

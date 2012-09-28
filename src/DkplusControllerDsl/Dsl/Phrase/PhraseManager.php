@@ -36,4 +36,3 @@ class PhraseManager extends AbstractPluginManager
         throw new RuntimeException('Plugins must implement DkplusControllerDsl\Dsl\Phrase\PhraseInterface');
     }
 }
-

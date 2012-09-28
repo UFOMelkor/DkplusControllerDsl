@@ -32,4 +32,3 @@ class Url implements PostPhraseInterface
         return array('url' => $this->url);
     }
 }
-

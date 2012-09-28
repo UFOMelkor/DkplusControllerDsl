@@ -22,4 +22,3 @@ class Success implements PrePhraseInterface
         return array('type' => 'success');
     }
 }
-

@@ -8,6 +8,7 @@
 
 namespace DkplusControllerDsl\Dsl\Phrase;
 
+use DkplusControllerDsl\Dsl\ContainerInterface as Container;
 use DkplusControllerDsl\Dsl\DslInterface as Dsl;
 
 /**
@@ -16,7 +17,7 @@ use DkplusControllerDsl\Dsl\DslInterface as Dsl;
  * @subpackage Dsl\Phrase
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class OnAjaxRequest implements PostPhraseInterface
+class OnAjaxRequest implements ExecutablePhraseInterface
 {
     /** @var Dsl */
     private $ajaxHandler;
@@ -28,10 +29,10 @@ class OnAjaxRequest implements PostPhraseInterface
         }
     }
 
-    /** @return array */
-    public function getOptions()
+    public function execute(Container $container)
     {
-        return array('onAjax' => $this->ajaxHandler);
+        if ($container->getRequest()->isXmlHttpRequest()) {
+            $this->ajaxHandler->execute($container);
+        }
     }
 }
-

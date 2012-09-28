@@ -139,4 +139,3 @@ class ExecutorTest extends TestCase
         return $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\ContainerInterface');
     }
 }
-

@@ -88,4 +88,3 @@ class PhraseManagerTest extends TestCase
         );
     }
 }
-

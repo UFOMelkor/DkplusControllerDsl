@@ -62,4 +62,3 @@ class ResultLockedTest extends TestCase
         $this->assertStringEndsNotWith('response', $exception->getMessage());
     }
 }
-

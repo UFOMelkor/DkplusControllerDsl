@@ -40,4 +40,3 @@ class WarningTest extends TestCase
         $this->assertSame(array('type' => 'warning'), $phrase->getOptions());
     }
 }
-

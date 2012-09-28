@@ -42,4 +42,3 @@ class DataTest extends TestCase
         $this->assertSame(array('data' => $data), $phrase->getOptions());
     }
 }
-

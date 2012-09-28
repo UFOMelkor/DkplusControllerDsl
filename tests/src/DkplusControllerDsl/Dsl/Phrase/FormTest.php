@@ -16,7 +16,7 @@ use PHPUnit_Framework_TestCase as TestCase;
  * @subpackage Dsl\Phrase
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class FormDataTest extends TestCase
+class FormTest extends TestCase
 {
     /**
      * @test
@@ -26,8 +26,9 @@ class FormDataTest extends TestCase
      */
     public function isContainerAwarePhrase()
     {
-        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\ContainerAwarePhraseInterface', new FormData(array()));
+        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\ContainerAwarePhraseInterface', new Form(array()));
     }
+
     /**
      * @test
      * @group Component/Dsl
@@ -36,7 +37,7 @@ class FormDataTest extends TestCase
      */
     public function isPostPhrase()
     {
-        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\PostPhraseInterface', new FormData(array()));
+        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\PostPhraseInterface', new Form(array()));
     }
 
     /**
@@ -44,13 +45,11 @@ class FormDataTest extends TestCase
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
      */
-    public function providesFormDataAsCallable()
+    public function providesFormOption()
     {
-        $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
-
-        $phrase  = new FormData(array($form));
-        $options = $phrase->getOptions();
-        $this->assertSame(array($form, 'getData'), $options['data']);
+        $form   = $this->getMockForAbstractClass('Zend\Form\FormInterface');
+        $phrase = new Form(array($form));
+        $this->assertSame(array('form' => $form), $phrase->getOptions());
     }
 
     /**
@@ -68,10 +67,10 @@ class FormDataTest extends TestCase
                   ->with('form')
                   ->will($this->returnValue($form));
 
-        $phrase  = new FormData(array());
+        $phrase  = new Form(array());
         $phrase->setContainer($container);
 
-        $this->assertSame(array('data' => array($form, 'getData')), $phrase->getOptions());
+        $this->assertSame(array('form' => $form), $phrase->getOptions());
     }
 
     /**
@@ -89,9 +88,9 @@ class FormDataTest extends TestCase
                   ->with('my-form')
                   ->will($this->returnValue($form));
 
-        $phrase  = new FormData(array('my-form'));
+        $phrase  = new Form(array('my-form'));
         $phrase->setContainer($container);
 
-        $this->assertSame(array('data' => array($form, 'getData')), $phrase->getOptions());
+        $this->assertSame(array('form' => $form), $phrase->getOptions());
     }
 }

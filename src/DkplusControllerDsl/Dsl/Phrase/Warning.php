@@ -22,4 +22,3 @@ class Warning implements PrePhraseInterface
         return array('type' => 'warning');
     }
 }
-

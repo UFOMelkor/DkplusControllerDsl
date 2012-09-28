@@ -146,4 +146,3 @@ class UsePhraseTest extends TestCase
         $this->assertEquals($form, $options['variable']);
     }
 }
-

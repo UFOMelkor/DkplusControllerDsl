@@ -32,4 +32,3 @@ class AsPhrase implements PostPhraseInterface
         return array('alias' => $this->alias);
     }
 }
-

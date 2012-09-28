@@ -139,4 +139,3 @@ class MessageTest extends TestCase
         $phrase->execute($container);
     }
 }
-

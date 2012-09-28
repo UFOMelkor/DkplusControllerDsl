@@ -14,8 +14,10 @@ return array(
             'assign'        => 'DkplusControllerDsl\Dsl\Phrase\Assign',
             'data'          => 'DkplusControllerDsl\Dsl\Phrase\Data',
             'error'         => 'DkplusControllerDsl\Dsl\Phrase\Error',
-            'from'          => 'DkplusControllerDsl\Dsl\Phrase\From',
-            'fromForm'      => 'DkplusControllerDsl\Dsl\Phrase\FromForm',
+            'fill'          => 'DkplusControllerDsl\Dsl\Phrase\Fill',
+            'form'          => 'DkplusControllerDsl\Dsl\Phrase\Form',
+            'formData'      => 'DkplusControllerDsl\Dsl\Phrase\FormData',
+            'formMessages'  => 'DkplusControllerDsl\Dsl\Phrase\FormMessages',
             'info'          => 'DkplusControllerDsl\Dsl\Phrase\Info',
             'into'          => 'DkplusControllerDsl\Dsl\Phrase\Into',
             'message'       => 'DkplusControllerDsl\Dsl\Phrase\Message',
@@ -30,10 +32,9 @@ return array(
             'to'            => 'DkplusControllerDsl\Dsl\Phrase\ToPhrase',
             'url'           => 'DkplusControllerDsl\Dsl\Phrase\Url',
             'use'           => 'DkplusControllerDsl\Dsl\Phrase\UsePhrase',
-            'validate'      => 'DkplusControllerDsl\Dsl\Phrase\Validate',
+            'validate'      => 'DkplusControllerDsl\Dsl\Phrase\Fill',
             'warning'       => 'DkplusControllerDsl\Dsl\Phrase\Warning',
             'with'          => 'DkplusControllerDsl\Dsl\Phrase\WithPhrase',
         )
     )
 );
-

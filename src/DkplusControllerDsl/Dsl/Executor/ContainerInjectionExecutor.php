@@ -9,7 +9,7 @@
 namespace DkplusControllerDsl\Dsl\Executor;
 
 use DkplusControllerDsl\Dsl\Phrase\PhraseInterface as Phrase;
-use DkplusControllerDsl\Dsl\Phrase\ExecutablePhraseInterface as ExecutablePhrase;
+use DkplusControllerDsl\Dsl\Phrase\ContainerAwarePhraseInterface as ContainerAwarePhrase;
 use DkplusControllerDsl\Dsl\ContainerInterface as Container;
 
 /**
@@ -18,35 +18,32 @@ use DkplusControllerDsl\Dsl\ContainerInterface as Container;
  * @subpackage Dsl
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class Executor implements ExecutorInterface
+class ContainerInjectionExecutor implements ExecutorInterface
 {
-    /** @var Phrase\ExecutablePhraseInterface[] */
+    /** @var Phrase[] */
     private $phrases = array();
+
+    /** @var ExecutorInterface */
+    private $decorated;
+
+    public function __construct(ExecutorInterface $decorated)
+    {
+        $this->decorated = $decorated;
+    }
 
     public function addPhrase(Phrase $phrase)
     {
-        if (!$phrase instanceof ExecutablePhrase) {
-            return;
-        }
         $this->phrases[] = $phrase;
-    }
-
-    /** @return Phrase\ExecutablePhraseInterface[] */
-    public function getPhrases()
-    {
-        return $this->phrases;
     }
 
     public function execute(Container $container)
     {
         foreach ($this->phrases as $phrase) {
-            $phrase->execute($container);
-
-            if ($container->isTerminated()) {
-                break;
+            if ($phrase instanceof ContainerAwarePhrase) {
+                $phrase->setContainer($container);
             }
+            $this->decorated->addPhrase($phrase);
         }
-
-        return $container->getResult();
+        return $this->decorated->execute($container);
     }
 }

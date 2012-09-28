@@ -40,4 +40,3 @@ class InfoTest extends TestCase
         $this->assertSame(array('type' => 'info'), $phrase->getOptions());
     }
 }
-

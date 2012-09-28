@@ -68,4 +68,3 @@ interface ContainerInterface
     /** @return Response|ViewModel */
     public function getResult();
 }
-

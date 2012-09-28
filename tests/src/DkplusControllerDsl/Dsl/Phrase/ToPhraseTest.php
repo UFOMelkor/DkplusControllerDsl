@@ -59,4 +59,3 @@ class ToPhraseTest extends TestCase
         $this->assertNotInstanceOf('DkplusControllerDsl\Dsl\Phrase\PostPhraseInterface', new ToPhrase());
     }
 }
-

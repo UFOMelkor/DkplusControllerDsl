@@ -60,4 +60,3 @@ class Message implements ModifiablePhraseInterface
         $flashMessenger->addMessage($this->getMessage());
     }
 }
-

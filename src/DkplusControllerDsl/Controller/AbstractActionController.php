@@ -33,4 +33,3 @@ abstract class AbstractActionController extends BaseController
         return $result;
     }
 }
-

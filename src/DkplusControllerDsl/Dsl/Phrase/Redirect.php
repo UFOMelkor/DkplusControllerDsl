@@ -60,4 +60,3 @@ class Redirect implements ModifiablePhraseInterface
         }
     }
 }
-

@@ -32,4 +32,3 @@ class Into implements PostPhraseInterface
         return array('target' => $this->target);
     }
 }
-

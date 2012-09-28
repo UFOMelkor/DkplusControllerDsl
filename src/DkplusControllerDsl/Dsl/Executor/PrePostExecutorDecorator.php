@@ -71,4 +71,3 @@ class PrePostExecutorDecorator implements ExecutorInterface
         return $this->decorated->execute($container);
     }
 }
-

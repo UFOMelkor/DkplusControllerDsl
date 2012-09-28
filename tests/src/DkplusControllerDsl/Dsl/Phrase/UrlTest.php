@@ -41,4 +41,3 @@ class UrlTest extends TestCase
         $this->assertSame(array('url' => $url), $phrase->getOptions());
     }
 }
-

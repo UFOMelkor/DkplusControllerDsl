@@ -97,4 +97,3 @@ class DslTest extends TestCase
         $this->assertNotSame($firstDsl, $this->plugin->__invoke());
     }
 }
-
