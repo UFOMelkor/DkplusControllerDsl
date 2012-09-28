@@ -10,9 +10,6 @@ namespace DkplusControllerDsl\Dsl\Executor;
 
 use PHPUnit_Framework_TestCase as TestCase;
 
-require_once __DIR__ . '/__assets/PostAndModifiableInterface.php';
-require_once __DIR__ . '/__assets/PreAndModifiableInterface.php';
-
 /**
  * @category   Dkplus
  * @package    ControllerDsl
@@ -26,6 +23,13 @@ class ContainerInjectionExecutorTest extends TestCase
 
     /** @var ContainerInjectionExecutor */
     private $executor;
+
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+        require_once __DIR__ . '/__assets/PostAndModifiableInterface.php';
+        require_once __DIR__ . '/__assets/PreAndModifiableInterface.php';
+    }
 
     protected function setUp()
     {
