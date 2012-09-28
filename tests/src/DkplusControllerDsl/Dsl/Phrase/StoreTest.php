@@ -112,4 +112,25 @@ class StoreTest extends TestCase
         $phrase->setOptions(array('target' => array($storage, 'store')));
         $phrase->execute($this->getMockForAbstractClass('DkplusControllerDsl\Dsl\ContainerInterface'));
     }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     */
+    public function canHandleAdditionalArguments()
+    {
+        $data = array('data' => 'to store');
+        $foo  = 'foo';
+        $bar  = 'bar';
+
+        $storage = $this->getMock('stdClass', array('store'));
+        $storage->expects($this->once())
+                ->method('store')
+                ->with($data, $foo, $bar);
+
+        $phrase = new Store(array($data));
+        $phrase->setOptions(array('target' => array($storage, 'store'), 'with' => array('foo', 'bar')));
+        $phrase->execute($this->getMockForAbstractClass('DkplusControllerDsl\Dsl\ContainerInterface'));
+    }
 }

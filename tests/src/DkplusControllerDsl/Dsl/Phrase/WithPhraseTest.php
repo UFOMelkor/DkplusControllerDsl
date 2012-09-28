@@ -22,40 +22,22 @@ class WithPhraseTest extends TestCase
      * @test
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
-     * @testdox is a phrase
+     * @testdox is a post phrase
      */
-    public function isPhrase()
+    public function isPostPhrase()
     {
-        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\PhraseInterface', new WithPhrase());
+        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\PostPhraseInterface', new WithPhrase(array()));
     }
 
     /**
      * @test
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
+     * @testdox is a post phrase
      */
-    public function isNoExecutablePhrase()
+    public function providesWithOption()
     {
-        $this->assertNotInstanceOf('DkplusControllerDsl\Dsl\Phrase\ExecutablePhraseInterface', new WithPhrase());
-    }
-
-    /**
-     * @test
-     * @group Component/Dsl
-     * @group Module/DkplusControllerDsl
-     */
-    public function isNoPrePhrase()
-    {
-        $this->assertNotInstanceOf('DkplusControllerDsl\Dsl\Phrase\PrePhraseInterface', new WithPhrase());
-    }
-
-    /**
-     * @test
-     * @group Component/Dsl
-     * @group Module/DkplusControllerDsl
-     */
-    public function isNoPostPhrase()
-    {
-        $this->assertNotInstanceOf('DkplusControllerDsl\Dsl\Phrase\PostPhraseInterface', new WithPhrase());
+        $phrase = new WithPhrase(array('foo'));
+        $this->assertSame(array('with' => array('foo')), $phrase->getOptions());
     }
 }
