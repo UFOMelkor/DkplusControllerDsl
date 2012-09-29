@@ -42,7 +42,7 @@ class TestCase extends BaseTestCase
      * @param MockObject $dsl
      * @param int $position
      */
-    public function registerDsl($dsl, $position)
+    public function registerDsl(MockObject $dsl, $position)
     {
         $this->dslPlugin->addDsl($dsl, $position);
     }
