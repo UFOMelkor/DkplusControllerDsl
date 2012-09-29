@@ -42,7 +42,7 @@ class DslMockBuilder extends MockBuilder
      */
     public function setMethods($methods)
     {
-        $methods = \array_merge($methods, array('__call', 'execute'));
+        $methods = \array_merge(array('__call', 'execute'), $methods);
         parent::setMethods($methods);
         return $this;
     }
@@ -74,14 +74,6 @@ class DslMockBuilder extends MockBuilder
     /** @return \DkplusControllerDsl\Dsl\DslInterface|\PHPUnit_Framework_MockObject_MockObject */
     public function getMockForAbstractClass()
     {
-        $mock = parent::getMockForAbstractClass();
-        $mock->expects($this->testCase->any())
-             ->method('__call')
-             ->will($this->testCase->returnSelf());
-        $mock->expects($this->testCase->any())
-             ->method('execute')
-             ->will($this->testCase->returnSelf());
-        $this->testCase->registerDsl($mock, $this->position);
-        return $mock;
+        return $this->getMock();
     }
 }
