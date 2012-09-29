@@ -27,6 +27,9 @@ class Dsl extends AbstractPlugin
     /** @var int */
     private $creationCounter = 0;
 
+    /** @var int */
+    private $getCounter = 0;
+
     public function createMock()
     {
         $this->creationCounter = 0;

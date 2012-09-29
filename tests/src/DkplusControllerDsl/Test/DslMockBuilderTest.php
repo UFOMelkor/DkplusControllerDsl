@@ -61,13 +61,13 @@ class DslMockBuilderTest extends BaseTestCase
 
     private function stubMockingWithMockResult(MockObject $dslMock)
     {
+        $invocation = $this->getMockForAbstractClass('PHPUnit_Framework_MockObject_Matcher_Invocation');
         $this->testCase->expects($this->any())
                        ->method('getMock')
-                       ->with('DkplusControllerDsl\Dsl\DslInterface')
                        ->will($this->returnValue($dslMock));
         $this->testCase->staticExpects($this->any())
                        ->method('any')
-                       ->will($this->returnValue($this->getMockForAbstractClass('PHPUnit_Framework_MockObject_Matcher_Invocation')));
+                       ->will($this->returnValue($invocation));
         $this->testCase->staticExpects($this->any())
                        ->method('returnSelf')
                        ->will($this->returnValue($this->getMock('PHPUnit_Framework_MockObject_Stub')));
