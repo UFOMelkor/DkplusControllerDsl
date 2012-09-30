@@ -58,7 +58,8 @@ class DslExpectations
     {
         $mock = $this->getMockWithPhrases(array('redirect', 'url'));
         $mock->expects($this->testCase->once())
-             ->method('redirect');
+             ->method('redirect')
+             ->will($this->testCase->returnSelf());
         $mock->expects($this->testCase->once())
              ->method('url')
              ->with($url)
