@@ -10,9 +10,6 @@ namespace DkplusControllerDsl\Dsl\Executor;
 
 use PHPUnit_Framework_TestCase as TestCase;
 
-require_once __DIR__ . '/__assets/PostAndModifiableInterface.php';
-require_once __DIR__ . '/__assets/PreAndModifiableInterface.php';
-
 /**
  * @category   Dkplus
  * @package    ControllerDsl
@@ -29,6 +26,8 @@ class PrePostExecutorDecoratorTest extends TestCase
 
     protected function setUp()
     {
+        require_once __DIR__ . '/__assets/PostAndModifiableInterface.php';
+        require_once __DIR__ . '/__assets/PreAndModifiableInterface.php';
         $this->decorated = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\Executor\ExecutorInterface');
         $this->executor  = new PrePostExecutorDecorator($this->decorated);
     }
