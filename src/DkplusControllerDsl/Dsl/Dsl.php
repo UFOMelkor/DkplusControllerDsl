@@ -31,7 +31,7 @@ use Zend\View\Model\ViewModel;
  * @method \DkplusControllerDsl\Dsl\Dsl formMessages() formMessages(\Zend\Form\FormInterface|string $form = null)
  * @method \DkplusControllerDsl\Dsl\Dsl info() info()
  * @method \DkplusControllerDsl\Dsl\Dsl into() into(callable $callable)
- * @method \DkplusControllerDsl\Dsl\Dsl message() message(string $message)
+ * @method \DkplusControllerDsl\Dsl\Dsl message() message(string $message, string $namespace = 'default')
  * @method \DkplusControllerDsl\Dsl\Dsl onAjax() onAjax(\DkplusControllerDsl\Dsl\DslInterface $dsl)
  * @method \DkplusControllerDsl\Dsl\Dsl onAjaxRequest() onAjaxRequest(\DkplusControllerDsl\Dsl\DslInterface $dsl)
  * @method \DkplusControllerDsl\Dsl\Dsl onFailure() onFailure(\DkplusControllerDsl\Dsl\DslInterface $dsl)
