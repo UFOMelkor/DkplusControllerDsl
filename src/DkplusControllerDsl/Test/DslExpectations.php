@@ -23,9 +23,6 @@ class DslExpectations
     /** @var TestCase */
     protected $testCase;
 
-    /** @var int */
-    protected $starting = 0;
-
     public function __construct(TestCase $testCase, $position = null)
     {
         $this->position = $position;
@@ -33,20 +30,13 @@ class DslExpectations
     }
 
     /** @return \DkplusControllerDsl\Dsl\DslInterface|\PHPUnit_Framework_MockObject_MockObject */
-    public function startingFromPhraseNumber($number)
-    {
-        $this->starting = $number;
-        return $this;
-    }
-
-    /** @return \DkplusControllerDsl\Dsl\DslInterface|\PHPUnit_Framework_MockObject_MockObject */
     public function toRedirectToRoute($route)
     {
         $mock = $this->getMockWithPhrases(array('redirect', 'route'));
-        $mock->expects($this->testCase->once())
+        $mock->expects($this->testCase->atLeastOnce())
              ->method('redirect')
              ->will($this->testCase->returnSelf());
-        $mock->expects($this->testCase->once())
+        $mock->expects($this->testCase->atLeastOnce())
              ->method('route')
              ->with($route)
              ->will($this->testCase->returnSelf());
@@ -57,10 +47,10 @@ class DslExpectations
     public function toRedirectToUrl($url)
     {
         $mock = $this->getMockWithPhrases(array('redirect', 'url'));
-        $mock->expects($this->testCase->once())
+        $mock->expects($this->testCase->atLeastOnce())
              ->method('redirect')
              ->will($this->testCase->returnSelf());
-        $mock->expects($this->testCase->once())
+        $mock->expects($this->testCase->atLeastOnce())
              ->method('url')
              ->with($url)
              ->will($this->testCase->returnSelf());
@@ -68,22 +58,28 @@ class DslExpectations
     }
 
     /** @return \DkplusControllerDsl\Dsl\DslInterface|\PHPUnit_Framework_MockObject_MockObject */
-    public function toAddFlashMessage($message, $namespace = null)
+    public function toAddFlashMessage($message = null, $namespace = null)
     {
         $mock = $namespace == null
               ? $this->getMockWithPhrases(array('message'))
               : $this->getMockWithPhrases(array('message', $namespace));
 
-        if ($namespace != null) {
-            $mock->expects($this->testCase->once())
+        if ($namespace !== null) {
+            $mock->expects($this->testCase->atLeastOnce())
                  ->method($namespace)
                  ->will($this->testCase->returnSelf());
         }
 
-        $mock->expects($this->testCase->once())
-             ->method('message')
-             ->with($message)
-             ->will($this->testCase->returnSelf());
+        if ($message === null) {
+            $mock->expects($this->testCase->atLeastOnce())
+                 ->method('message')
+                 ->will($this->testCase->returnSelf());
+        } else {
+            $mock->expects($this->testCase->atLeastOnce())
+                 ->method('message')
+                 ->with($message)
+                 ->will($this->testCase->returnSelf());
+        }
         return $mock;
     }
 
@@ -93,19 +89,6 @@ class DslExpectations
         $mock = $this->getMockWithPhrases(array('disableLayout'));
         $mock->expects($this->testCase->once())
              ->method('disableLayout')
-             ->will($this->testCase->returnSelf());
-        return $mock;
-    }
-
-    /** @return \DkplusControllerDsl\Dsl\DslInterface|\PHPUnit_Framework_MockObject_MockObject */
-    public function toDisableLayoutOnAjax()
-    {
-        $mock = $this->getMockWithPhrases(array('disableLayout', 'onAjax'));
-        $mock->expects($this->testCase->at($this->starting))
-             ->method('disableLayout')
-             ->will($this->testCase->returnSelf());
-        $mock->expects($this->testCase->at($this->starting))
-             ->method('onAjax')
              ->will($this->testCase->returnSelf());
         return $mock;
     }
@@ -121,14 +104,19 @@ class DslExpectations
     }
 
     /** @return \DkplusControllerDsl\Dsl\DslInterface|\PHPUnit_Framework_MockObject_MockObject */
-    public function toAssignAs($variable, $key = null)
+    public function toAssign($variable, $key = null)
     {
         $mock = $this->getMockWithPhrases(array('assign'));
-        $mock->expects($this->testCase->at($this->starting++))
+        $mock->expects($this->testCase->atLeastOnce())
              ->method('assign')
              ->with($variable)
              ->will($this->testCase->returnSelf());
-        $mock->expects($this->testCase->at($this->starting++))
+
+        if ($key === null) {
+            return $mock;
+        }
+
+        $mock->expects($this->testCase->atLeastOnce())
              ->method('__call')
              ->with('as', array($key))
              ->will($this->testCase->returnSelf());
