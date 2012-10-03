@@ -147,14 +147,69 @@ class RedirectTest extends TestCase
      * @test
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
+     * @testdox needs an url or a route
      * @expectedException RuntimeException
-     * @expectedExceptionMessage Needs url or route
+     * @expectedExceptionMessage Needs an url or a route
      */
     public function needsUrlOrRoute()
     {
         $container = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\ContainerInterface');
 
         $phrase = new Redirect();
+        $phrase->execute($container);
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     * @testdox can use params in addition to a route
+     */
+    public function canUseParamsInAdditionToRoute()
+    {
+        $params   = array('foo' => 'bar');
+        $response = $this->getMockForAbstractClass('Zend\Stdlib\ResponseInterface');
+
+        $redirector = $this->getMock('Zend\Mvc\Controller\Plugin\Redirect');
+        $redirector->expects($this->once())
+                   ->method('toRoute')
+                   ->with($this->anything(), $params)
+                   ->will($this->returnValue($response));
+
+        $container = $this->getContainerMockRedirector($redirector);
+
+        $phrase = new Redirect();
+        $phrase->setOptions(array('route' => 'foo/bar', 'with' => $params));
+        $phrase->execute($container);
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     * @testdox can use a callable as params in addition to a route
+     */
+    public function canUseCallableAsParamsInAdditionToRoute()
+    {
+        $params   = array('foo' => 'bar');
+        $response = $this->getMockForAbstractClass('Zend\Stdlib\ResponseInterface');
+
+        $redirector = $this->getMock('Zend\Mvc\Controller\Plugin\Redirect');
+        $redirector->expects($this->once())
+                   ->method('toRoute')
+                   ->with($this->anything(), $params)
+                   ->will($this->returnValue($response));
+
+        $container = $this->getContainerMockRedirector($redirector);
+
+        $callable = $this->getMock('stdClass', array('exec'));
+        $callable->expects($this->once())
+                 ->method('exec')
+                 ->with($container)
+                 ->will($this->returnValue($params));
+
+        $phrase = new Redirect();
+        $phrase->setOptions(array('route' => 'foo/bar', 'with' => array($callable, 'exec')));
         $phrase->execute($container);
     }
 }
