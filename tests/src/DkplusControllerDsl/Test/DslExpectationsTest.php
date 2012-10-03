@@ -411,4 +411,14 @@ class DslExpectationsTest extends TestCase
             $dsl->as('my-alias');
         }
     }
+
+    /**
+     * @test
+     * @group Module/DkplusControllerDsl
+     * @group Component/Test
+     */
+    public function canTestWhetherNoFlashMessageHasBeenAdded()
+    {
+        $dsl = $this->expectsDsl()->toDoNotAddFlashMessages();
+    }
 }

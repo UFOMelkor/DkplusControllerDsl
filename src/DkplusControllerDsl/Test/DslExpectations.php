@@ -70,6 +70,16 @@ class DslExpectations
     }
 
     /** @return \DkplusControllerDsl\Dsl\DslInterface|\PHPUnit_Framework_MockObject_MockObject */
+    public function toDoNotAddFlashMessages()
+    {
+        $mock = $this->getMockWithPhrases(array('message'));
+        $mock->expects($this->testCase->never())
+             ->method('message')
+             ->will($this->testCase->returnSelf());
+        return $mock;
+    }
+
+    /** @return \DkplusControllerDsl\Dsl\DslInterface|\PHPUnit_Framework_MockObject_MockObject */
     public function toAddFlashMessage($message = null, $namespace = null)
     {
         $mock = $namespace == null
