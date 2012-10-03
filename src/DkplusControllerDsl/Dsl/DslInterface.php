@@ -13,6 +13,11 @@ namespace DkplusControllerDsl\Dsl;
  * @package    ControllerDsl
  * @subpackage Dsl
  * @author     Oskar Bley <oskar@programming-php.net>
+ * @method DslInterface against() against(mixed $data)
+ * @method DslInterface and() and()
+ * @method DslInterface as() as(string $alias)
+ * @method DslInterface asJson() asJson()
+ * @method DslInterface assign() assign(mixed $variable[, string $alias])
  */
 interface DslInterface
 {

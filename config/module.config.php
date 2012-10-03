@@ -8,6 +8,7 @@
 return array(
     'phrases' => array(
         'aliases' => array(
+            'against'       => 'DkplusControllerDsl\Dsl\Phrase\Against',
             'and'           => 'DkplusControllerDsl\Dsl\Phrase\AndPhrase',
             'asJson'        => 'DkplusControllerDsl\Dsl\Phrase\AsJson',
             'as'            => 'DkplusControllerDsl\Dsl\Phrase\As',

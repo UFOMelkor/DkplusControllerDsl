@@ -17,6 +17,7 @@ use Zend\Mvc\MvcEvent;
  * @package    ControllerDsl
  * @subpackage Controller
  * @author     Oskar Bley <oskar@programming-php.net>
+ * @method Dsl dsl() dsl()
  */
 abstract class AbstractActionController extends BaseController
 {
