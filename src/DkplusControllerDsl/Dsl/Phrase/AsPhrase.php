@@ -14,7 +14,7 @@ namespace DkplusControllerDsl\Dsl\Phrase;
  * @subpackage Dsl\Phrase
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class AsPhrase implements PostPhraseInterface
+class AsPhrase implements PrePhraseInterface, PostPhraseInterface
 {
     /** @var string */
     private $alias;

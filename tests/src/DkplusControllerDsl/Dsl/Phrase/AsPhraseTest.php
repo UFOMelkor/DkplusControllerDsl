@@ -22,6 +22,17 @@ class AsPhraseTest extends TestCase
      * @test
      * @group Component/Dsl
      * @group Module/DkplusControllerDsl
+     * @testdox is a pre phrase
+     */
+    public function isPrePhrase()
+    {
+        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\PrePhraseInterface', new AsPhrase(array()));
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
      * @testdox is a post phrase
      */
     public function isPostPhrase()

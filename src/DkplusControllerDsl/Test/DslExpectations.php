@@ -124,24 +124,6 @@ class DslExpectations
     }
 
     /** @return \DkplusControllerDsl\Dsl\DslInterface|\PHPUnit_Framework_MockObject_MockObject */
-    public function toUseAndAssignAs($variable, $key = null)
-    {
-        $mock = $this->getMockWithPhrases(array('assign'));
-        $mock->expects($this->testCase->at($this->starting++))
-             ->method('__call')
-             ->with('use', array($variable))
-             ->will($this->testCase->returnSelf());
-        $mock->expects($this->testCase->at($this->starting++))
-             ->method('assign')
-             ->will($this->testCase->returnSelf());
-        $mock->expects($this->testCase->at($this->starting++))
-             ->method('__call')
-             ->with('as', array($key))
-             ->will($this->testCase->returnSelf());
-        return $mock;
-    }
-
-    /** @return \DkplusControllerDsl\Dsl\DslInterface|\PHPUnit_Framework_MockObject_MockObject */
     private function getMockWithPhrases(array $phrases)
     {
         return $this->testCase->getDslMockBuilder()

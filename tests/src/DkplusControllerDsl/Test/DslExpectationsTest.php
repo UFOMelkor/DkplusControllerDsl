@@ -315,7 +315,7 @@ class DslExpectationsTest extends TestCase
      * @group Component/Test
      * @testdox fails test whether a variable has been assigned to view when no variable has been assigned
      */
-    public function failsTestWhetherWhetherVariableHasBeenAssignedToViewWhenNoVariableHasBeenAssigned()
+    public function failsTestWhetherVariableHasBeenAssignedToViewWhenNoVariableHasBeenAssigned()
     {
         try {
             $dsl = $this->expectsDsl()->toAssign('my-var');
@@ -331,7 +331,7 @@ class DslExpectationsTest extends TestCase
      * @group Component/Test
      * @testdox fails test whether a variable has been assigned to view when another variable has been assigned
      */
-    public function failsTestWhetherWhetherVariableHasBeenAssignedToViewWhenAnotherVariableHasBeenAssigned()
+    public function failsTestWhetherVariableHasBeenAssignedToViewWhenAnotherVariableHasBeenAssigned()
     {
         try {
             $dsl = $this->expectsDsl()->toAssign('my-var');
@@ -360,7 +360,7 @@ class DslExpectationsTest extends TestCase
      * @group Component/Test
      * @testdox fails test whether a variable has been assigned with an alias when no alias has been given
      */
-    public function failsTestWhetherWhetherVariableHasBeenAssignedWithAnAliasWhenNoAliasHasBeenGiven()
+    public function failsTestWhetherVariableHasBeenAssignedWithAnAliasWhenNoAliasHasBeenGiven()
     {
         try {
             $dsl = $this->expectsDsl()->toAssign('my-var', 'my-alias');
@@ -377,7 +377,7 @@ class DslExpectationsTest extends TestCase
      * @group Component/Test
      * @testdox fails test whether a variable has been assigned with an alias when a wrong alias has been given
      */
-    public function failsTestWhetherWhetherVariableHasBeenAssignedWithAnAliasWhenWrongAliasHasBeenGiven()
+    public function failsTestWhetherVariableHasBeenAssignedWithAnAliasWhenWrongAliasHasBeenGiven()
     {
         try {
             $dsl = $this->expectsDsl()->toAssign('my-var', 'my-alias');
