@@ -14,6 +14,7 @@ return array(
             'as'            => 'DkplusControllerDsl\Dsl\Phrase\As',
             'assign'        => 'DkplusControllerDsl\Dsl\Phrase\Assign',
             'data'          => 'DkplusControllerDsl\Dsl\Phrase\Data',
+            'disableLayout' => 'DkplusControllerDsl\Dsl\Phrase\DisableLayout',
             'error'         => 'DkplusControllerDsl\Dsl\Phrase\Error',
             'fill'          => 'DkplusControllerDsl\Dsl\Phrase\Fill',
             'form'          => 'DkplusControllerDsl\Dsl\Phrase\Form',

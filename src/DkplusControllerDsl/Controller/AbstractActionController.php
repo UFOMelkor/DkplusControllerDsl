@@ -17,12 +17,13 @@ use Zend\Mvc\MvcEvent;
  * @package    ControllerDsl
  * @subpackage Controller
  * @author     Oskar Bley <oskar@programming-php.net>
- * @method Dsl dsl() dsl()
+ * @method \DkplusControllerDsl\Dsl\Dsl dsl() dsl()
  */
 abstract class AbstractActionController extends BaseController
 {
     public function onDispatch(MvcEvent $event)
     {
+        $this->dsl()->f
         $parentResult = parent::onDispatch($event);
 
         if (!$parentResult instanceof Dsl) {

@@ -17,6 +17,34 @@ use Zend\View\Model\ViewModel;
  * @package    ControllerDsl
  * @subpackage Dsl
  * @author     Oskar Bley <oskar@programming-php.net>
+ * @method \DkplusControllerDsl\Dsl\Dsl against() against(mixed $data)
+ * @method \DkplusControllerDsl\Dsl\Dsl and() and()
+ * @method \DkplusControllerDsl\Dsl\Dsl as() as(string $alias)
+ * @method \DkplusControllerDsl\Dsl\Dsl asJson() asJson()
+ * @method \DkplusControllerDsl\Dsl\Dsl assign() assign(mixed $variable, string $alias = null)
+ * @method \DkplusControllerDsl\Dsl\Dsl data() data(mixed $data)
+ * @method \DkplusControllerDsl\Dsl\Dsl disableLayout() disableLayout()
+ * @method \DkplusControllerDsl\Dsl\Dsl error() error()
+ * @method \DkplusControllerDsl\Dsl\Dsl fill() fill(\Zend\Form\FormInterface|string $form = null)
+ * @method \DkplusControllerDsl\Dsl\Dsl form() form(\Zend\Form\FormInterface|string $form = null)
+ * @method \DkplusControllerDsl\Dsl\Dsl formData() formData(\Zend\Form\FormInterface|string $form = null)
+ * @method \DkplusControllerDsl\Dsl\Dsl formMessages() formMessages(\Zend\Form\FormInterface|string $form = null)
+ * @method \DkplusControllerDsl\Dsl\Dsl info() info()
+ * @method \DkplusControllerDsl\Dsl\Dsl into() into(callable $callable)
+ * @method \DkplusControllerDsl\Dsl\Dsl onAjax() onAjax(\DkplusControllerDsl\Dsl\DslInterface $dsl)
+ * @method \DkplusControllerDsl\Dsl\Dsl onAjaxRequest() onAjaxRequest(\DkplusControllerDsl\Dsl\DslInterface $dsl)
+ * @method \DkplusControllerDsl\Dsl\Dsl onFailure() onFailure(\DkplusControllerDsl\Dsl\DslInterface $dsl)
+ * @method \DkplusControllerDsl\Dsl\Dsl onSuccess() onSuccess(\DkplusControllerDsl\Dsl\DslInterface $dsl)
+ * @method \DkplusControllerDsl\Dsl\Dsl redirect() redirect()
+ * @method \DkplusControllerDsl\Dsl\Dsl route() route(string $route)
+ * @method \DkplusControllerDsl\Dsl\Dsl store() store(mixed $data = null)
+ * @method \DkplusControllerDsl\Dsl\Dsl success() success()
+ * @method \DkplusControllerDsl\Dsl\Dsl to() to()
+ * @method \DkplusControllerDsl\Dsl\Dsl url() url(string $url)
+ * @method \DkplusControllerDsl\Dsl\Dsl use() use(mixed $variable, string $alias = null)
+ * @method \DkplusControllerDsl\Dsl\Dsl validate() validate(\Zend\Form\FormInterface|string $form = null)
+ * @method \DkplusControllerDsl\Dsl\Dsl warning() warning()
+ * @method \DkplusControllerDsl\Dsl\Dsl with() with()
  */
 class Dsl implements DslInterface
 {
