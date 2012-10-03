@@ -81,6 +81,18 @@ class DslExpectationsTest extends TestCase
      */
     public function canTestWhetherRedirectToRouteHasBeenDone()
     {
+        $dsl = $this->expectsDsl()->toRedirectToRoute();
+        $dsl->redirect()->route('foo/bar'); //also ->redirect()->to()->route() will be possible
+    }
+
+    /**
+     * @test
+     * @group Module/DkplusControllerDsl
+     * @group Component/Test
+     * @testdox can test whether a redirect to a route has been done
+     */
+    public function canTestWhetherRedirectToSpecificRouteHasBeenDone()
+    {
         $dsl = $this->expectsDsl()->toRedirectToRoute('foo/bar');
         $dsl->redirect()->route('foo/bar'); //also ->redirect()->to()->route() will be possible
     }
@@ -142,7 +154,19 @@ class DslExpectationsTest extends TestCase
      * @group Component/Test
      * @testdox can test whether a redirect to an url has been done
      */
-    public function canTestWhetherRedirectToUrlHasBeenDone()
+    public function canTestWhetherRedirectToAnUrlHasBeenDone()
+    {
+        $dsl = $this->expectsDsl()->toRedirectToUrl();
+        $dsl->redirect()->url('http://www.example.org/'); //also ->redirect()->to()->url() will be possible
+    }
+
+    /**
+     * @test
+     * @group Module/DkplusControllerDsl
+     * @group Component/Test
+     * @testdox can test whether a redirect to a specific url has been done
+     */
+    public function canTestWhetherRedirectToSpecificUrlHasBeenDone()
     {
         $dsl = $this->expectsDsl()->toRedirectToUrl('http://www.example.org/');
         $dsl->redirect()->url('http://www.example.org/'); //also ->redirect()->to()->url() will be possible

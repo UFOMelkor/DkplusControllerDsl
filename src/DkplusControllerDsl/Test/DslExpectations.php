@@ -30,30 +30,42 @@ class DslExpectations
     }
 
     /** @return \DkplusControllerDsl\Dsl\DslInterface|\PHPUnit_Framework_MockObject_MockObject */
-    public function toRedirectToRoute($route)
+    public function toRedirectToRoute($route = null)
     {
         $mock = $this->getMockWithPhrases(array('redirect', 'route'));
         $mock->expects($this->testCase->atLeastOnce())
              ->method('redirect')
              ->will($this->testCase->returnSelf());
-        $mock->expects($this->testCase->atLeastOnce())
-             ->method('route')
-             ->with($route)
-             ->will($this->testCase->returnSelf());
+        if ($route === null) {
+            $mock->expects($this->testCase->atLeastOnce())
+                 ->method('route')
+                 ->will($this->testCase->returnSelf());
+        } else {
+            $mock->expects($this->testCase->atLeastOnce())
+                 ->method('route')
+                 ->with($route)
+                 ->will($this->testCase->returnSelf());
+        }
         return $mock;
     }
 
     /** @return \DkplusControllerDsl\Dsl\DslInterface|\PHPUnit_Framework_MockObject_MockObject */
-    public function toRedirectToUrl($url)
+    public function toRedirectToUrl($url = null)
     {
         $mock = $this->getMockWithPhrases(array('redirect', 'url'));
         $mock->expects($this->testCase->atLeastOnce())
              ->method('redirect')
              ->will($this->testCase->returnSelf());
-        $mock->expects($this->testCase->atLeastOnce())
-             ->method('url')
-             ->with($url)
-             ->will($this->testCase->returnSelf());
+        if ($url === null) {
+            $mock->expects($this->testCase->atLeastOnce())
+                 ->method('url')
+                 ->will($this->testCase->returnSelf());
+        } else {
+            $mock->expects($this->testCase->atLeastOnce())
+                 ->method('url')
+                 ->with($url)
+                 ->will($this->testCase->returnSelf());
+        }
         return $mock;
     }
 
