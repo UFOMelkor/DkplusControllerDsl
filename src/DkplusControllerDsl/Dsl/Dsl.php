@@ -21,7 +21,7 @@ use Zend\View\Model\ViewModel;
  * @method \DkplusControllerDsl\Dsl\Dsl and() and()
  * @method \DkplusControllerDsl\Dsl\Dsl as() as(string $alias)
  * @method \DkplusControllerDsl\Dsl\Dsl asJson() asJson()
- * @method \DkplusControllerDsl\Dsl\Dsl assign() assign(mixed $variable, string $alias = null)
+ * @method \DkplusControllerDsl\Dsl\Dsl assign() assign(mixed $variable = null, string $alias = null)
  * @method \DkplusControllerDsl\Dsl\Dsl data() data(mixed $data)
  * @method \DkplusControllerDsl\Dsl\Dsl disableLayout() disableLayout()
  * @method \DkplusControllerDsl\Dsl\Dsl error() error()
