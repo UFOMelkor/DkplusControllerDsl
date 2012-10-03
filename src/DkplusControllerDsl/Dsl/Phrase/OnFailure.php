@@ -34,6 +34,11 @@ class OnFailure implements ExecutablePhraseInterface
         $form = $container->getVariable('__FORM__');
 
         if (!$form->isValid()) {
+
+            if (\is_callable($this->failureHandler)) {
+                $this->failureHandler = \call_user_func($this->failureHandler);
+            }
+
             $this->failureHandler->execute($container);
         }
     }

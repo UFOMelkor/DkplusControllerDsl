@@ -34,6 +34,9 @@ class OnSuccess implements ExecutablePhraseInterface
         $form = $container->getVariable('__FORM__');
 
         if ($form->isValid()) {
+            if (\is_callable($this->successHandler)) {
+                $this->successHandler = \call_user_func($this->successHandler);
+            }
             $this->successHandler->execute($container);
         }
     }

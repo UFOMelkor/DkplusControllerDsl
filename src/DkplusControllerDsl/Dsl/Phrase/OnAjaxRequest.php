@@ -32,6 +32,10 @@ class OnAjaxRequest implements ExecutablePhraseInterface
     public function execute(Container $container)
     {
         if ($container->getRequest()->isXmlHttpRequest()) {
+
+            if (\is_callable($this->ajaxHandler)) {
+                $this->ajaxHandler = \call_user_func($this->ajaxHandler);
+            }
             $this->ajaxHandler->execute($container);
         }
     }

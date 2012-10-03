@@ -78,4 +78,36 @@ class OnAjaxRequestTest extends TestCase
         $phrase = new OnAjaxRequest(array($ajaxHandler));
         $phrase->execute($container);
     }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     * @testdox can have a callable as ajax handler
+     */
+    public function canHaveCallableAsAjaxHandler()
+    {
+        $request = $this->getMock('Zend\Http\Request');
+        $request->expects($this->any())
+                ->method('isXmlHttpRequest')
+                ->will($this->returnValue(true));
+
+        $container = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\ContainerInterface');
+        $container->expects($this->any())
+                  ->method('getRequest')
+                  ->will($this->returnValue($request));
+
+        $dsl = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\DslInterface');
+        $dsl->expects($this->once())
+            ->method('execute')
+            ->with($container);
+
+        $callable = $this->getMock('stdClass', array('ajaxHandler'));
+        $callable->expects($this->once())
+                 ->method('ajaxHandler')
+                 ->will($this->returnValue($dsl));
+
+        $phrase = new OnAjaxRequest(array(array($callable, 'ajaxHandler')));
+        $phrase->execute($container);
+    }
 }
