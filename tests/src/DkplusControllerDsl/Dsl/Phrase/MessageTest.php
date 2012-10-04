@@ -138,4 +138,32 @@ class MessageTest extends TestCase
         $phrase = new Message(array('foo', $namespace));
         $phrase->execute($container);
     }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     * @testdox can use a callable as message
+     */
+    public function canUseCallableAsMessage()
+    {
+        $message = 'veritas dicendum est';
+
+        $flashMessenger = $this->getMock('Zend\Mvc\Controller\Plugin\FlashMessenger');
+        $flashMessenger->expects($this->once())
+                       ->method('addMessage')
+                       ->with($message);
+
+        $container = $this->getContainerMockFlashMessenger($flashMessenger);
+
+        $callable = $this->getMock('stdClass', array('exec'));
+        $callable->expects($this->once())
+                 ->method('exec')
+                 ->with($container)
+                 ->will($this->returnValue($message));
+
+
+        $phrase = new Message(array(array($callable, 'exec')));
+        $phrase->execute($container);
+    }
 }

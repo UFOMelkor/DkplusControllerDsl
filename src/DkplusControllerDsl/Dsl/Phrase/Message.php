@@ -55,8 +55,12 @@ class Message implements ModifiablePhraseInterface
 
     public function execute(Container $container)
     {
+        $message = \is_callable($this->getMessage())
+                 ? \call_user_func($this->getMessage(), $container)
+                 : $this->getMessage();
+
         $flashMessenger = $container->getController()->flashMessenger();
         $flashMessenger->setNamespace($this->getNamespace());
-        $flashMessenger->addMessage($this->getMessage());
+        $flashMessenger->addMessage($message);
     }
 }
