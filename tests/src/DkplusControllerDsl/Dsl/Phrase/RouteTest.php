@@ -40,4 +40,19 @@ class RouteTest extends TestCase
         $phrase = new Route(array($route));
         $this->assertSame(array('route' => $route), $phrase->getOptions());
     }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group Module/DkplusControllerDsl
+     */
+    public function canRetrieveRouteParametersFromConstructorOptions()
+    {
+        $parameters  = array('foo' => 'bar');
+
+        $phrase = new Route(array('home', $parameters));
+        $result = $phrase->getOptions();
+
+        $this->assertSame($parameters, $result['with']);
+    }
 }

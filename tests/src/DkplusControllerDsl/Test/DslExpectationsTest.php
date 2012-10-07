@@ -39,12 +39,15 @@ class DslExpectationsTest extends TestCase
      */
     public function failsTestWhetherDslReturnsJsonIfAsJsonIsNotExecuted()
     {
+        $exceptionThrown = false;
         try {
             $dsl = $this->expectsDsl()->toReturnJson();
             $dsl->__phpunit_verify();
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $dsl->asJson();
+            $exceptionThrown = true;
         }
+        $this->assertTrue($exceptionThrown);
     }
 
     /**
@@ -65,12 +68,15 @@ class DslExpectationsTest extends TestCase
      */
     public function failsTestWhetherLayoutHasBeenDisabledIfItHasNot()
     {
+        $exceptionThrown = false;
         try {
             $dsl = $this->expectsDsl()->toDisableLayout();
             $dsl->__phpunit_verify();
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $dsl->disableLayout();
+            $exceptionThrown = true;
         }
+        $this->assertTrue($exceptionThrown);
     }
 
     /**
@@ -105,13 +111,16 @@ class DslExpectationsTest extends TestCase
      */
     public function failsTestWhetherRedirectToRouteHasBeenDoneIfRedirectHasBeenDoneToUrl()
     {
+        $exceptionThrown = false;
         try {
             $dsl = $this->expectsDsl()->toRedirectToRoute('foo/bar');
             $dsl->redirect()->url('http://www.example.org/');
             $dsl->__phpunit_verify();
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $dsl->route('foo/bar');
+            $exceptionThrown = true;
         }
+        $this->assertTrue($exceptionThrown);
     }
 
     /**
@@ -122,13 +131,16 @@ class DslExpectationsTest extends TestCase
      */
     public function failsTestWhetherRedirectToRouteHasBeenDoneIfRedirectHasBeenDoneToWrongRoute()
     {
+        $exceptionThrown = false;
         try {
             $dsl = $this->expectsDsl()->toRedirectToRoute('foo/bar');
             $dsl->redirect()->route('baz');
             $dsl->__phpunit_verify();
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $dsl->route('foo/bar');
+            $exceptionThrown = true;
         }
+        $this->assertTrue($exceptionThrown);
     }
 
     /**
@@ -139,13 +151,49 @@ class DslExpectationsTest extends TestCase
      */
     public function failsTestWhetherRedirectToRouteHasBeenDoneIfNoRedirectHasBeenDone()
     {
+        $exceptionThrown = false;
         try {
             $dsl = $this->expectsDsl()->toRedirectToRoute('foo/bar');
             $dsl->route('foo/bar');
             $dsl->__phpunit_verify();
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $dsl->redirect();
+            $exceptionThrown = true;
         }
+        $this->assertTrue($exceptionThrown);
+    }
+
+    /**
+     * @test
+     * @group Module/DkplusControllerDsl
+     * @group Component/Test
+     * @testdox wan test whether a redirect to a route with parameters has been done.
+     */
+    public function canTestWhetherRedirectToRouteWithParametersHasBeenDone()
+    {
+        $dsl = $this->expectsDsl()->toRedirectToRoute('foo/bar', array('foo' => 'bar'));
+        $dsl->redirect()->route('foo/bar', array('foo' => 'bar'));
+        $dsl->__phpunit_verify();
+    }
+
+    /**
+     * @test
+     * @group Module/DkplusControllerDsl
+     * @group Component/Test
+     * @testdox fails test whether redirect to a route has been done if no redirect has been done
+     */
+    public function failsTestWhetherRedirectToRouteHasBeenDoneWithParametersIfNoParametersHasBeenGiven()
+    {
+        $exceptionThrown = false;
+        try {
+            $dsl = $this->expectsDsl()->toRedirectToRoute('foo/bar', array('foo' => 'bar'));
+            $dsl->redirect()->route('foo/bar');
+            $dsl->__phpunit_verify();
+        } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
+            $dsl->route('foo/bar', array('foo' => 'bar'));
+            $exceptionThrown = true;
+        }
+        $this->assertTrue($exceptionThrown);
     }
 
     /**
@@ -180,13 +228,16 @@ class DslExpectationsTest extends TestCase
      */
     public function failsTestWhetherRedirectToUrlHasBeenDoneIfRedirectHasBeenDoneToRoute()
     {
+        $exceptionThrown = false;
         try {
             $dsl = $this->expectsDsl()->toRedirectToUrl('http://www.example.org/');
             $dsl->redirect()->route('foo/bar');
             $dsl->__phpunit_verify();
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $dsl->url('http://www.example.org/');
+            $exceptionThrown = true;
         }
+        $this->assertTrue($exceptionThrown);
     }
 
     /**
@@ -197,13 +248,16 @@ class DslExpectationsTest extends TestCase
      */
     public function failsTestWhetherRedirectToUrlHasBeenDoneIfRedirectHasBeenDoneToWrongUrl()
     {
+        $exceptionThrown = false;
         try {
             $dsl = $this->expectsDsl()->toRedirectToUrl('http://www.example.org/');
             $dsl->redirect()->url('http://www.foobar.baz/');
             $dsl->__phpunit_verify();
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $dsl->url('http://www.example.org/');
+            $exceptionThrown = true;
         }
+        $this->assertTrue($exceptionThrown);
     }
 
     /**
@@ -214,13 +268,16 @@ class DslExpectationsTest extends TestCase
      */
     public function failsTestWhetherRedirectToUrlHasBeenDoneIfNoRedirectHasBeenDone()
     {
+        $exceptionThrown = false;
         try {
             $dsl = $this->expectsDsl()->toRedirectToUrl('http://www.example.org/');
             $dsl->url('http://www.example.org/');
             $dsl->__phpunit_verify();
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $dsl->redirect();
+            $exceptionThrown = true;
         }
+        $this->assertTrue($exceptionThrown);
     }
 
     /**
@@ -279,12 +336,15 @@ class DslExpectationsTest extends TestCase
      */
     public function failsTestWhetherFlashMessageHasBeenAddedWhenNoMessageHasBeenAdded()
     {
+        $exceptionThrown = false;
         try {
             $dsl = $this->expectsDsl()->toAddFlashMessage();
             $dsl->__phpunit_verify();
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $dsl->message('my-message');
+            $exceptionThrown = true;
         }
+        $this->assertTrue($exceptionThrown);
     }
 
     /**
@@ -295,13 +355,16 @@ class DslExpectationsTest extends TestCase
      */
     public function failsTestWhetherFlashMessageHasBeenAddedWhenWrongMessageHasBeenAdded()
     {
+        $exceptionThrown = false;
         try {
             $dsl = $this->expectsDsl()->toAddFlashMessage('my-message');
             $dsl->message('wrong-message');
             $dsl->__phpunit_verify();
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $dsl->message('my-message');
+            $exceptionThrown = true;
         }
+        $this->assertTrue($exceptionThrown);
     }
 
     /**
@@ -312,13 +375,16 @@ class DslExpectationsTest extends TestCase
      */
     public function failsTestWhetherFlashMessageHasBeenAddedWithSpecificNSWhenThisNSHasNotBeenSet()
     {
+        $exceptionThrown = false;
         try {
             $dsl = $this->expectsDsl()->toAddFlashMessage('my-message', 'success');
             $dsl->failure()->message('my-message');
             $dsl->__phpunit_verify();
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $dsl->success();
+            $exceptionThrown = true;
         }
+        $this->assertTrue($exceptionThrown);
     }
 
     /**
@@ -341,12 +407,15 @@ class DslExpectationsTest extends TestCase
      */
     public function failsTestWhetherVariableHasBeenAssignedToViewWhenNoVariableHasBeenAssigned()
     {
+        $exceptionThrown = false;
         try {
             $dsl = $this->expectsDsl()->toAssign('my-var');
             $dsl->__phpunit_verify();
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $dsl->assign('my-var');
+            $exceptionThrown = true;
         }
+        $this->assertTrue($exceptionThrown);
     }
 
     /**
@@ -357,13 +426,16 @@ class DslExpectationsTest extends TestCase
      */
     public function failsTestWhetherVariableHasBeenAssignedToViewWhenAnotherVariableHasBeenAssigned()
     {
+        $exceptionThrown = false;
         try {
             $dsl = $this->expectsDsl()->toAssign('my-var');
             $dsl->assign('another-var');
             $dsl->__phpunit_verify();
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $dsl->assign('my-var');
+            $exceptionThrown = true;
         }
+        $this->assertTrue($exceptionThrown);
     }
 
     /**
@@ -386,13 +458,16 @@ class DslExpectationsTest extends TestCase
      */
     public function failsTestWhetherVariableHasBeenAssignedWithAnAliasWhenNoAliasHasBeenGiven()
     {
+        $exceptionThrown = false;
         try {
             $dsl = $this->expectsDsl()->toAssign('my-var', 'my-alias');
             $dsl->assign('my-var');
             $dsl->__phpunit_verify();
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $dsl->as('my-alias');
+            $exceptionThrown = true;
         }
+        $this->assertTrue($exceptionThrown);
     }
 
     /**
@@ -403,13 +478,16 @@ class DslExpectationsTest extends TestCase
      */
     public function failsTestWhetherVariableHasBeenAssignedWithAnAliasWhenWrongAliasHasBeenGiven()
     {
+        $exceptionThrown = false;
         try {
             $dsl = $this->expectsDsl()->toAssign('my-var', 'my-alias');
             $dsl->assign('my-var')->as('wrong-alias');
             $dsl->__phpunit_verify();
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $dsl->as('my-alias');
+            $exceptionThrown = true;
         }
+        $this->assertTrue($exceptionThrown);
     }
 
     /**
@@ -419,6 +497,6 @@ class DslExpectationsTest extends TestCase
      */
     public function canTestWhetherNoFlashMessageHasBeenAdded()
     {
-        $dsl = $this->expectsDsl()->toDoNotAddFlashMessages();
+        $this->expectsDsl()->toDoNotAddFlashMessages();
     }
 }

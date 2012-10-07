@@ -30,7 +30,7 @@ class DslExpectations
     }
 
     /** @return \DkplusControllerDsl\Dsl\DslInterface|\PHPUnit_Framework_MockObject_MockObject */
-    public function toRedirectToRoute($route = null)
+    public function toRedirectToRoute($route = null, $parameters = null)
     {
         $mock = $this->getMockWithPhrases(array('redirect', 'route'));
         $mock->expects($this->testCase->atLeastOnce())
@@ -40,10 +40,15 @@ class DslExpectations
             $mock->expects($this->testCase->atLeastOnce())
                  ->method('route')
                  ->will($this->testCase->returnSelf());
-        } else {
+        } elseif ($parameters === null) {
             $mock->expects($this->testCase->atLeastOnce())
                  ->method('route')
                  ->with($route)
+                 ->will($this->testCase->returnSelf());
+        } else {
+            $mock->expects($this->testCase->atLeastOnce())
+                 ->method('route')
+                 ->with($route, $parameters)
                  ->will($this->testCase->returnSelf());
         }
         return $mock;
