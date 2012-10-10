@@ -81,6 +81,9 @@ class Fill implements ModifiablePhraseInterface
                 $this->data = $container->getRequest()->getPost();
             } else {
                 $this->data = $container->getController()->postredirectget();
+                if ($this->data === false) {
+                    $this->data = array();
+                }
             }
         }
         return $this->data;
