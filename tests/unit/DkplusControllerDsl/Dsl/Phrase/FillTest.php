@@ -231,8 +231,39 @@ class FillTest extends TestCase
      * @group Component/Dsl
      * @group unit
      */
+    public function doesNothingWhenUsingPrgAndFalseIsReturned()
+    {
+        $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
+        $form->expects($this->never())
+             ->method('setData');
+
+        $controller = $this->getMock('Zend\Mvc\Controller\AbstractActionController', array('postredirectget'));
+        $controller->expects($this->any())
+                   ->method('postredirectget')
+                   ->will($this->returnValue(false));
+
+        $container = $this->getContainerWithRequest();
+        $container->expects($this->any())
+                  ->method('getController')
+                  ->will($this->returnValue($controller));
+
+        $container->expects($this->never())
+                  ->method('setResponse');
+        $container->expects($this->never())
+                  ->method('terminate');
+
+        $phrase = new Fill(array($form, 'postredirectget'));
+        $phrase->execute($container);
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group unit
+     */
     public function redirectsWhenUsingPostRedirectGetAndPostDataAreGiven()
     {
+
         $response = $this->getMockForAbstractClass('Zend\Stdlib\ResponseInterface');
 
         $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
@@ -253,32 +284,6 @@ class FillTest extends TestCase
                   ->with($response);
         $container->expects($this->once())
                   ->method('terminate');
-
-        $phrase = new Fill(array($form, 'postredirectget'));
-        $phrase->execute($container);
-    }
-
-    /**
-     * @test
-     * @group Component/Dsl
-     * @group unit
-     */
-    public function setsAnEmptyArrayAsDataIfPostRedirectGetReturnsFalse()
-    {
-        $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
-        $form->expects($this->once())
-             ->method('setData')
-             ->with(array());
-
-        $controller = $this->getMock('Zend\Mvc\Controller\AbstractActionController', array('postredirectget'));
-        $controller->expects($this->any())
-                   ->method('postredirectget')
-                   ->will($this->returnValue(false));
-
-        $container = $this->getContainerWithRequest();
-        $container->expects($this->any())
-                  ->method('getController')
-                  ->will($this->returnValue($controller));
 
         $phrase = new Fill(array($form, 'postredirectget'));
         $phrase->execute($container);
