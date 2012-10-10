@@ -66,12 +66,13 @@ class Store implements ModifiablePhraseInterface
 
     public function execute(Container $container)
     {
-
         $target = $this->getTarget();
 
         $data = $this->additionalData;
         \array_unshift($data, $this->getData());
 
-        \call_user_func_array($target, $data);
+        $storeResult = \call_user_func_array($target, $data);
+
+        $container->setVariable('__RESULT__', $storeResult);
     }
 }
