@@ -24,7 +24,7 @@ class Assign implements ModifiablePhraseInterface
     /** @var string */
     private $alias;
 
-    public function __construct(array $options)
+    public function __construct(array $options = array())
     {
         if (isset($options[0])) {
             $this->variable = $options[0];

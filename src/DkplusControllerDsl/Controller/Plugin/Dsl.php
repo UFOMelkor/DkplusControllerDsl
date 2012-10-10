@@ -32,7 +32,11 @@ class Dsl extends AbstractPlugin
 
     public function __invoke()
     {
-        $executor = new PrePostExecutorDecorator(new DslExecutor());
+        $executor = new \DkplusControllerDsl\Dsl\Executor\ContainerInjectionExecutor(
+            new PrePostExecutorDecorator(
+                new DslExecutor()
+            )
+        );
         return new DslInstance($this->pluginManager, $executor, $this->getController());
     }
 }

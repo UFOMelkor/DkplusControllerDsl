@@ -7,11 +7,11 @@
  */
 return array(
     'phrases' => array(
-        'aliases' => array(
+        'invokables' => array(
             'against'       => 'DkplusControllerDsl\Dsl\Phrase\Against',
             'and'           => 'DkplusControllerDsl\Dsl\Phrase\AndPhrase',
             'asJson'        => 'DkplusControllerDsl\Dsl\Phrase\AsJson',
-            'as'            => 'DkplusControllerDsl\Dsl\Phrase\As',
+            'as'            => 'DkplusControllerDsl\Dsl\Phrase\AsPhrase',
             'assign'        => 'DkplusControllerDsl\Dsl\Phrase\Assign',
             'data'          => 'DkplusControllerDsl\Dsl\Phrase\Data',
             'disableLayout' => 'DkplusControllerDsl\Dsl\Phrase\DisableLayout',
@@ -23,7 +23,6 @@ return array(
             'info'          => 'DkplusControllerDsl\Dsl\Phrase\Info',
             'into'          => 'DkplusControllerDsl\Dsl\Phrase\Into',
             'message'       => 'DkplusControllerDsl\Dsl\Phrase\Message',
-            'onAjax'        => 'DkplusControllerDsl\Dsl\Phrase\OnAjaxRequest',
             'onAjaxRequest' => 'DkplusControllerDsl\Dsl\Phrase\OnAjaxRequest',
             'onFailure'     => 'DkplusControllerDsl\Dsl\Phrase\OnFailure',
             'onSuccess'     => 'DkplusControllerDsl\Dsl\Phrase\OnSuccess',
@@ -34,9 +33,12 @@ return array(
             'to'            => 'DkplusControllerDsl\Dsl\Phrase\ToPhrase',
             'url'           => 'DkplusControllerDsl\Dsl\Phrase\Url',
             'use'           => 'DkplusControllerDsl\Dsl\Phrase\UsePhrase',
-            'validate'      => 'DkplusControllerDsl\Dsl\Phrase\Fill',
             'warning'       => 'DkplusControllerDsl\Dsl\Phrase\Warning',
             'with'          => 'DkplusControllerDsl\Dsl\Phrase\WithPhrase',
+        ),
+        'aliases' => array(
+            'onAjax'   => 'onAjaxRequest',
+            'validate' => 'fill'
         )
     )
 );

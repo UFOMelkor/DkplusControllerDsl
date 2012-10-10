@@ -27,7 +27,7 @@ class Store implements ModifiablePhraseInterface
     /** @var callable */
     private $target;
 
-    public function __construct(array $options)
+    public function __construct(array $options = array())
     {
         if (isset($options[0])) {
             $this->data = $options[0];
