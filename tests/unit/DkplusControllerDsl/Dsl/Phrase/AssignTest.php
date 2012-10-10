@@ -134,4 +134,23 @@ class AssignTest extends TestCase
         $phrase = new Assign(array($variables, 'my alias'));
         $phrase->execute($container);
     }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group unit
+     * @testdox uses a default alias for forms if none given
+     */
+    public function usesDefaultAliasForFormsIfNoneGiven()
+    {
+        $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
+
+        $container = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\ContainerInterface');
+        $container->expects($this->once())
+                  ->method('setViewVariable')
+                  ->with('form', $form);
+
+        $phrase = new Assign(array($form));
+        $phrase->execute($container);
+    }
 }

@@ -9,6 +9,7 @@
 namespace DkplusControllerDsl\Dsl\Phrase;
 
 use DkplusControllerDsl\Dsl\ContainerInterface as Container;
+use Zend\Form\FormInterface as Form;
 
 /**
  * @category   Dkplus
@@ -44,6 +45,11 @@ class Assign implements ModifiablePhraseInterface
     /** @return string */
     public function getAlias()
     {
+        if ($this->alias === null
+            && $this->variable instanceof Form
+        ) {
+            return 'form';
+        }
         return $this->alias;
     }
 
