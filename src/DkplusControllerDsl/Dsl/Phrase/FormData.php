@@ -24,7 +24,7 @@ class FormData implements PostPhraseInterface, ContainerAwarePhraseInterface
     /** @var Container */
     private $container;
 
-    public function __construct(array $options)
+    public function __construct(array $options = array())
     {
         $this->form = isset($options[0])
                     ? $options[0]

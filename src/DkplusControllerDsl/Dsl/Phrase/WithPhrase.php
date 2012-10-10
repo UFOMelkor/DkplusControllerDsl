@@ -19,7 +19,7 @@ class WithPhrase implements PostPhraseInterface
     /** @var array */
     private $with;
 
-    public function __construct(array $options)
+    public function __construct(array $options = array())
     {
         $this->with = $options;
     }
