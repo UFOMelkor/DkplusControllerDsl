@@ -32,6 +32,10 @@ class OnSuccess implements ExecutablePhraseInterface
 
     public function execute(Container $container)
     {
+        if ($container->getRequest()->isXmlHttpRequest()) {
+            return;
+        }
+
         $form = $container->getVariable('__FORM__');
 
         try {

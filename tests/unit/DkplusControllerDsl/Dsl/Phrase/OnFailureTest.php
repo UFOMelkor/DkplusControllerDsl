@@ -40,7 +40,7 @@ class OnFailureTest extends TestCase
              ->method('isValid')
              ->will($this->returnValue(false));
 
-        $container = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\ContainerInterface');
+        $container = $this->getContainerMock(false);
         $container->expects($this->any())
                   ->method('getVariable')
                   ->with('__FORM__')
@@ -55,6 +55,22 @@ class OnFailureTest extends TestCase
         $phrase->execute($container);
     }
 
+    /** @return \DkplusControllerDsl\Dsl\ContainerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    private function getContainerMock($isAjaxRequest)
+    {
+        $request = $this->getMock('Zend\Http\Request');
+        $request->expects($this->any())
+                ->method('isXmlHttpRequest')
+                ->will($this->returnValue($isAjaxRequest));
+
+        $container = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\ContainerInterface');
+        $container->expects($this->any())
+                  ->method('getRequest')
+                  ->will($this->returnValue($request));
+
+        return $container;
+    }
+
     /**
      * @test
      * @group Component/Dsl
@@ -67,7 +83,7 @@ class OnFailureTest extends TestCase
              ->method('isValid')
              ->will($this->returnValue(true));
 
-        $container = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\ContainerInterface');
+        $container = $this->getContainerMock(false);
         $container->expects($this->any())
                   ->method('getVariable')
                   ->with('__FORM__')
@@ -96,7 +112,33 @@ class OnFailureTest extends TestCase
              ->method('isValid')
              ->will($this->throwException($exception));
 
-        $container = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\ContainerInterface');
+        $container = $this->getContainerMock(false);
+        $container->expects($this->any())
+                  ->method('getVariable')
+                  ->with('__FORM__')
+                  ->will($this->returnValue($form));
+
+        $failureHandler = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\DslInterface');
+        $failureHandler->expects($this->never())
+                       ->method('execute');
+
+        $phrase = new OnFailure(array($failureHandler));
+        $phrase->execute($container);
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group unit
+     */
+    public function executesGivenDslNotIfAnAjaxRequestIsDetected()
+    {
+        $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
+        $form->expects($this->any())
+             ->method('isValid')
+             ->will($this->returnValue(false));
+
+        $container = $this->getContainerMock(true);
         $container->expects($this->any())
                   ->method('getVariable')
                   ->with('__FORM__')
@@ -123,7 +165,7 @@ class OnFailureTest extends TestCase
              ->method('isValid')
              ->will($this->returnValue(false));
 
-        $container = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\ContainerInterface');
+        $container = $this->getContainerMock(false);
         $container->expects($this->any())
                   ->method('getVariable')
                   ->with('__FORM__')
