@@ -32,6 +32,7 @@ return array(
     'DkplusControllerDsl\Dsl\Phrase\Into'                          => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/Into.php',
     'DkplusControllerDsl\Dsl\Phrase\Message'                       => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/Message.php',
     'DkplusControllerDsl\Dsl\Phrase\ModifiablePhraseInterface'     => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/ModifiablePhraseInterface.php',
+    'DkplusControllerDsl\Dsl\Phrase\NotFound'                      => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/NotFound.php',
     'DkplusControllerDsl\Dsl\Phrase\OnAjaxRequest'                 => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/OnAjaxRequest.php',
     'DkplusControllerDsl\Dsl\Phrase\OnFailure'                     => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/OnFailure.php',
     'DkplusControllerDsl\Dsl\Phrase\OnSuccess'                     => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/OnSuccess.php',

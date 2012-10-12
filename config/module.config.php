@@ -23,6 +23,7 @@ return array(
             'info'          => 'DkplusControllerDsl\Dsl\Phrase\Info',
             'into'          => 'DkplusControllerDsl\Dsl\Phrase\Into',
             'message'       => 'DkplusControllerDsl\Dsl\Phrase\Message',
+            'notFound'      => 'DkplusControllerDsl\Dsl\Phrase\NotFound',
             'onAjaxRequest' => 'DkplusControllerDsl\Dsl\Phrase\OnAjaxRequest',
             'onFailure'     => 'DkplusControllerDsl\Dsl\Phrase\OnFailure',
             'onSuccess'     => 'DkplusControllerDsl\Dsl\Phrase\OnSuccess',

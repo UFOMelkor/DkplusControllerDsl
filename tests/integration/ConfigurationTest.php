@@ -91,6 +91,7 @@ class ConfigurationTest extends TestCase
             array('info'),
             array('into'),
             array('message'),
+            array('notFound'),
             array('onAjax'),
             array('onAjaxRequest'),
             array('onSuccess'),
