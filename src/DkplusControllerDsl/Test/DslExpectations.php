@@ -30,6 +30,25 @@ class DslExpectations
     }
 
     /** @return \DkplusControllerDsl\Dsl\DslInterface|\PHPUnit_Framework_MockObject_MockObject */
+    public function toMarkPageAsNotFound($ignore404NotFoundController = false)
+    {
+        $phrases = $ignore404NotFoundController
+                 ? array('pageNotFound', 'ignore404NotFoundController')
+                 : array('pageNotFound');
+
+        $mock    = $this->getMockWithPhrases($phrases);
+        $mock->expects($this->testCase->atLeastOnce())
+             ->method('pageNotFound')
+             ->will($this->testCase->returnSelf());
+        if ($ignore404NotFoundController) {
+            $mock->expects($this->testCase->atLeastOnce())
+                 ->method('ignore404NotFoundController')
+                 ->will($this->testCase->returnSelf());
+        }
+        return $mock;
+    }
+
+    /** @return \DkplusControllerDsl\Dsl\DslInterface|\PHPUnit_Framework_MockObject_MockObject */
     public function toReplaceContentWithControllerAction($controller = null, $action = null, $routeParams = null)
     {
         $mock = $this->getMockWithPhrases(array('replaceContent', 'controllerAction'));

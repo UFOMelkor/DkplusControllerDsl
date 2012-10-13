@@ -24,6 +24,65 @@ class DslExpectationsTest extends TestCase
      * @group unit
      * @group Component/Test
      */
+    public function canTestWhetherThePageIsMarkedAsNotFound()
+    {
+        $dsl = $this->expectsDsl()->toMarkPageAsNotFound();
+        $dsl->pageNotFound();
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group Component/Test
+     */
+    public function failsTestWhetherThePageIsMarkedAsNotFoundWhenNotMarked()
+    {
+        $exceptionThrown = false;
+        try {
+            $dsl = $this->expectsDsl()->toMarkPageAsNotFound();
+            $dsl->__phpunit_verify();
+        } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
+            $dsl->pageNotFound();
+            $exceptionThrown = true;
+        }
+        $this->assertTrue($exceptionThrown);
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group Component/Test
+     */
+    public function canTestWhetherThePageIsMarkedAsNotFoundAndIgnoresZf404Handling()
+    {
+        $dsl = $this->expectsDsl()->toMarkPageAsNotFound(true);
+        $dsl->pageNotFound()->ignore404NotFoundController();
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group Component/Test
+     */
+    public function failsTestWhetherThePageIsMarkedAsNotFoundAndIgnoresZf404HandlingWhenNotIgnoring()
+    {
+        $exceptionThrown = false;
+        try {
+            $dsl = $this->expectsDsl()->toMarkPageAsNotFound(true);
+            $dsl->pageNotFound();
+            $dsl->__phpunit_verify();
+        } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
+            $dsl->ignore404NotFoundController();
+            $exceptionThrown = true;
+        }
+        $this->assertTrue($exceptionThrown);
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group Component/Test
+     */
     public function canTestWhetherTheContentIsReplacedWithAnotherControllerAction()
     {
         $dsl = $this->expectsDsl()->toReplaceContentWithControllerAction();

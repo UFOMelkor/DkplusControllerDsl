@@ -28,6 +28,7 @@ return array(
     'DkplusControllerDsl\Dsl\Phrase\Form'                          => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/Form.php',
     'DkplusControllerDsl\Dsl\Phrase\FormData'                      => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/FormData.php',
     'DkplusControllerDsl\Dsl\Phrase\FormMessages'                  => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/FormMessages.php',
+    'DkplusControllerDsl\Dsl\Phrase\Ignore404NotFoundController'   => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/Ignore404NotFoundController.php',
     'DkplusControllerDsl\Dsl\Phrase\Info'                          => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/Info.php',
     'DkplusControllerDsl\Dsl\Phrase\Into'                          => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/Into.php',
     'DkplusControllerDsl\Dsl\Phrase\Message'                       => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/Message.php',
