@@ -17,11 +17,15 @@ use Zend\View\Model\ViewModel;
  * @package    ControllerDsl
  * @subpackage Dsl
  * @author     Oskar Bley <oskar@programming-php.net>
+ * @method \DkplusControllerDsl\Dsl\Dsl add() add()
  * @method \DkplusControllerDsl\Dsl\Dsl against() against(mixed $data)
  * @method \DkplusControllerDsl\Dsl\Dsl and() and()
  * @method \DkplusControllerDsl\Dsl\Dsl as() as(string $alias)
  * @method \DkplusControllerDsl\Dsl\Dsl asJson() asJson()
  * @method \DkplusControllerDsl\Dsl\Dsl assign() assign(mixed $variable = null, string $alias = null)
+ * @method \DkplusControllerDsl\Dsl\Dsl
+ *          controllerAction()
+ *          controllerAction(string $controller, string $action, array $routeParams = array())
  * @method \DkplusControllerDsl\Dsl\Dsl data() data(mixed $data)
  * @method \DkplusControllerDsl\Dsl\Dsl disableLayout() disableLayout()
  * @method \DkplusControllerDsl\Dsl\Dsl error() error()
@@ -37,6 +41,7 @@ use Zend\View\Model\ViewModel;
  * @method \DkplusControllerDsl\Dsl\Dsl onFailure() onFailure(\DkplusControllerDsl\Dsl\DslInterface $dsl)
  * @method \DkplusControllerDsl\Dsl\Dsl onSuccess() onSuccess(\DkplusControllerDsl\Dsl\DslInterface $dsl)
  * @method \DkplusControllerDsl\Dsl\Dsl redirect() redirect()
+ * @method \DkplusControllerDsl\Dsl\Dsl replaceContent() replaceContent()
  * @method \DkplusControllerDsl\Dsl\Dsl route() route(string $route)
  * @method \DkplusControllerDsl\Dsl\Dsl store() store(mixed $data = null)
  * @method \DkplusControllerDsl\Dsl\Dsl success() success()
