@@ -42,10 +42,14 @@ class ReplaceContent implements ModifiablePhraseInterface
 
     public function execute(Container $container)
     {
-        if ($this->route) {
-            $routeMatch = $container->getController()->getEvent()->getRouteMatch();
-            $routeMatch->setMatchedRouteName($this->route);
-        }
+        $routeMatch = $container->getController()->getEvent()->getRouteMatch();
+        $routeMatchClass = \get_class($routeMatch);
+        $routeParameters = array(array('controller' => $this->controller), $this->routeParameters);
+
+        $mergeRouteMatch = new $routeMatchClass($routeParameters);
+        $mergeRouteMatch->setMatchedRouteName($this->route ? $this->route : $routeMatch->getMatchedRouteName());
+
+        $routeMatch->merge($mergeRouteMatch);
 
         $oldStatusCode = $container->getResponse()->getStatusCode();
         $container->getResponse()->setStatusCode(200);

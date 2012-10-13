@@ -12,6 +12,7 @@ use DkplusUnitTest\TestCase;
 use Zend\Mvc\Controller\Plugin\Forward as ForwardPlugin;
 use Zend\View\Model\ModelInterface as ViewModel;
 use Zend\Http\Response;
+use Zend\Mvc\Router\RouteMatch;
 
 /**
  * @category   Dkplus
@@ -76,25 +77,19 @@ class ReplaceContentTest extends TestCase
      * @test
      * @group Component/Dsl
      * @group unit
-     * @testdox can set a route
+     * @testdox can set a route and route params by merging
      */
-    public function canSetRoute()
+    public function canSetRouteAndRouteParamsByMerging()
     {
-        $routeMatch = $this->getMockIgnoringConstructor('Zend\Mvc\Router\RouteMatch');
+        $routeMatch = $this->getMockIgnoringConstructor(
+            'Zend\Mvc\Router\RouteMatch',
+            array('merge', 'setMatchedRouteName', 'getMatchedRouteName')
+        );
         $routeMatch->expects($this->once())
-                   ->method('setMatchedRouteName')
-                   ->with('my/route');
+                   ->method('merge')
+                   ->with($this->isInstanceOf(\get_class($routeMatch)));
 
-        $event = $this->getMockIgnoringConstructor('Zend\Mvc\MvcEvent');
-        $event->expects($this->any())
-              ->method('getRouteMatch')
-              ->will($this->returnValue($routeMatch));
-
-        $container = $this->getContainerMock();
-        $container->getController()
-                  ->expects($this->any())
-                  ->method('getEvent')
-                  ->will($this->returnValue($event));
+        $container = $this->getContainerMock(null, null, null, $routeMatch);
 
         $phrase = new ReplaceContent();
         $phrase->setOptions(
@@ -141,12 +136,14 @@ class ReplaceContentTest extends TestCase
      * @param \Zend\Mvc\Controller\Plugin\Forward $forwardPlugin
      * @param \Zend\View\Model\ModelInterface $viewModel
      * @param \Zend\Http\Response $response
+     * @param \Zend\Mvc\Router\RouteMatch $routeMatch
      * @return \DkplusControllerDsl\Dsl\ContainerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function getContainerMock(
         ForwardPlugin $forwardPlugin = null,
         ViewModel $viewModel = null,
-        Response $response = null
+        Response $response = null,
+        RouteMatch $routeMatch = null
     ) {
         if (!$viewModel) {
             $viewModel = $this->getMock('Zend\View\Model\ModelInterface');
@@ -157,6 +154,12 @@ class ReplaceContentTest extends TestCase
                           ->method('dispatch')
                           ->will($this->returnValue($viewModel));
         }
+        if (!$routeMatch) {
+            $routeMatch = $this->getMockIgnoringConstructor(
+                'Zend\Mvc\Router\RouteMatch',
+                array('merge', 'setMatchedRouteName', 'getMatchedRouteName')
+            );
+        }
 
         if (!$response) {
             $response = $this->getMock('Zend\Http\Response');
@@ -165,10 +168,19 @@ class ReplaceContentTest extends TestCase
                      ->will($this->returnValue(200));
         }
 
+        $event = $this->getMockIgnoringConstructor('Zend\Mvc\MvcEvent');
+        $event->expects($this->any())
+              ->method('getRouteMatch')
+              ->will($this->returnValue($routeMatch));
+
         $controller = $this->getMock('Zend\Mvc\Controller\AbstractActionController', array('getEvent', 'forward'));
         $controller->expects($this->any())
                    ->method('forward')
                    ->will($this->returnValue($forwardPlugin));
+
+        $controller->expects($this->any())
+                   ->method('getEvent')
+                   ->will($this->returnValue($event));
 
         $container = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\ContainerInterface');
         $container->expects($this->any())
