@@ -62,53 +62,55 @@ class ConfigurationTest extends TestCase
      * @group integration
      * @dataProvider provideDslPhrases
      */
-    public function canLoadTheDslPhrases($phrase)
+    public function canLoadTheDslPhrases($phrase, array $params)
     {
         $dsl = $this->controller->dsl();
 
         // we must at a modifiable phrase before
         $dsl->validate();
 
-        // we must use at least one arguments for phrases that needs an array as parameter
-        $this->assertInstanceOf('\DkplusControllerDsl\Dsl\DslInterface', $dsl->$phrase('foo'));
+        $this->assertInstanceOf(
+            '\DkplusControllerDsl\Dsl\DslInterface',
+            \call_user_func_array(array($dsl, $phrase), $params)
+        );
     }
 
     public static function provideDslPhrases()
     {
         return array(
-            array('add'),
-            array('against'),
-            array('and'),
-            array('asJson'),
-            array('as'),
-            array('data'),
-            array('assign'),
-            array('controllerAction'),
-            array('disableLayout'),
-            array('error'),
-            array('fill'),
-            array('form'),
-            array('formData'),
-            array('formMessages'),
-            array('info'),
-            array('into'),
-            array('message'),
-            array('notFound'),
-            array('onAjax'),
-            array('onAjaxRequest'),
-            array('onSuccess'),
-            array('onFailure'),
-            array('redirect'),
-            array('replaceContent'),
-            array('route'),
-            array('store'),
-            array('success'),
-            array('to'),
-            array('url'),
-            array('use'),
-            array('validate'),
-            array('warning'),
-            array('with')
+            array('add', array()),
+            array('against', array(array())),
+            array('and', array()),
+            array('asJson', array()),
+            array('as', array('alias')),
+            array('data', array(array())),
+            array('assign', array()),
+            array('controllerAction', array('UserController', 'index')),
+            array('disableLayout', array()),
+            array('error', array()),
+            array('fill', array()),
+            array('form', array()),
+            array('formData', array()),
+            array('formMessages', array()),
+            array('info', array()),
+            array('into', array('strtrim')),
+            array('message', array('everything ok')),
+            array('notFound', array()),
+            array('onAjax', array('sub-dsl')),
+            array('onAjaxRequest', array('sub-dsl')),
+            array('onSuccess', array('sub-dsl')),
+            array('onFailure', array('sub-dsl')),
+            array('redirect', array()),
+            array('replaceContent', array()),
+            array('route', array('my/route')),
+            array('store', array()),
+            array('success', array()),
+            array('to', array()),
+            array('url', array('http://www.example.org/')),
+            array('use', array('variable')),
+            array('validate', array()),
+            array('warning', array()),
+            array('with', array())
         );
     }
 }
