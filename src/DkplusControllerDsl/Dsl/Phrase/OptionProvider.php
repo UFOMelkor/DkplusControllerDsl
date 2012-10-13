@@ -24,10 +24,14 @@ class OptionProvider implements OptionProviderPhraseInterface
     /** @var string[] */
     protected $optionNames;
 
+    /** @var boolean */
+    protected $throwsExceptionOnMissingValues;
+
     public function __construct(array $optionNames, array $options, $allowMissingOptions = true)
     {
-        $this->options     = $options;
-        $this->optionNames = $optionNames;
+        $this->options                        = $options;
+        $this->optionNames                    = $optionNames;
+        $this->throwsExceptionOnMissingValues = !$allowMissingOptions;
 
         if (count($this->optionNames) < count($this->options)) {
             throw new RuntimeException(
@@ -39,7 +43,7 @@ class OptionProvider implements OptionProviderPhraseInterface
             );
         }
 
-        if (!$allowMissingOptions
+        if ($this->throwsExceptionOnMissingValues
             && count($this->optionNames) > count($this->options)
         ) {
             throw new RuntimeException(
@@ -66,5 +70,11 @@ class OptionProvider implements OptionProviderPhraseInterface
             $result[\array_shift($this->optionNames)] = $option;
         }
         return $result;
+    }
+
+    /** @return boolean */
+    public function isThrowingExceptionOnMissingValues()
+    {
+        return $this->throwsExceptionOnMissingValues;
     }
 }

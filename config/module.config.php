@@ -41,5 +41,10 @@ return array(
             'onAjax'   => 'onAjaxRequest',
             'validate' => 'fill'
         )
-    )
+    ),
+    'view_manager' => array(
+        'template_map' => array(
+            'dsl/replace-content' => __DIR__ . '/../view/dsl/replace-content.phtml',
+        ),
+    ),
 );

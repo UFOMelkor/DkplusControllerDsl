@@ -76,12 +76,14 @@ class ConfigurationTest extends TestCase
     public static function provideDslPhrases()
     {
         return array(
+            array('add'),
             array('against'),
             array('and'),
             array('asJson'),
             array('as'),
             array('data'),
             array('assign'),
+            array('controllerAction'),
             array('disableLayout'),
             array('error'),
             array('fill'),
@@ -97,6 +99,7 @@ class ConfigurationTest extends TestCase
             array('onSuccess'),
             array('onFailure'),
             array('redirect'),
+            array('replaceContent'),
             array('route'),
             array('store'),
             array('success'),

@@ -143,4 +143,22 @@ class OptionProviderTest extends TestCase
 
         new OptionProvider($alias, $values, false);
     }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group unit
+     * @dataProvider provideBooleans
+     * @param boolean $throwException
+     */
+    public function canConfigurateWhetherExceptionsShouldBeThrownOnMissingValues($throwException)
+    {
+        $phrase = new OptionProvider(array(), array(), !$throwException);
+        $this->assertEquals($throwException, $phrase->isThrowingExceptionOnMissingValues());
+    }
+
+    public static function provideBooleans()
+    {
+        return array(array(true), array(false));
+    }
 }
