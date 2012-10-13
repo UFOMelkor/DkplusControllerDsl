@@ -26,7 +26,10 @@ class IntoTest extends TestCase
      */
     public function isPostPhrase()
     {
-        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\PostPhraseInterface', new Into(array()));
+        $this->assertInstanceOf(
+            'DkplusControllerDsl\Dsl\Phrase\PostPhraseInterface',
+            new Into(array(array('foo', 'barMethod')))
+        );
     }
 
     /**

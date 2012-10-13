@@ -14,21 +14,10 @@ namespace DkplusControllerDsl\Dsl\Phrase;
  * @subpackage Dsl\Phrase
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class AsPhrase implements PrePhraseInterface, PostPhraseInterface
+class AsPhrase extends OptionProvider implements PrePhraseInterface, PostPhraseInterface
 {
-    /** @var string */
-    private $alias;
-
     public function __construct(array $options)
     {
-        if (isset($options[0])) {
-            $this->alias = $options[0];
-        }
-    }
-
-    /** @return array */
-    public function getOptions()
-    {
-        return array('alias' => $this->alias);
+        parent::__construct(array('alias'), $options, false);
     }
 }

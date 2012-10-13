@@ -26,7 +26,8 @@ class UrlTest extends TestCase
      */
     public function isPostPhrase()
     {
-        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\PostPhraseInterface', new Url(array()));
+        $url = 'http://www.example.org/';
+        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\PostPhraseInterface', new Url(array($url)));
     }
 
     /**

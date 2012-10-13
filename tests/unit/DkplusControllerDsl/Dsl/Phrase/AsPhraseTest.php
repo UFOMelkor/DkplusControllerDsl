@@ -26,7 +26,7 @@ class AsPhraseTest extends TestCase
      */
     public function isPrePhrase()
     {
-        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\PrePhraseInterface', new AsPhrase(array()));
+        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\PrePhraseInterface', new AsPhrase(array('foo')));
     }
 
     /**
@@ -37,7 +37,7 @@ class AsPhraseTest extends TestCase
      */
     public function isPostPhrase()
     {
-        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\PostPhraseInterface', new AsPhrase(array()));
+        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\PostPhraseInterface', new AsPhrase(array('foo')));
     }
 
     /**

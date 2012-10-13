@@ -26,7 +26,7 @@ class DataTest extends TestCase
      */
     public function isPostPhrase()
     {
-        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\PostPhraseInterface', new Data(array()));
+        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\PostPhraseInterface', new Data(array('foo')));
     }
 
     /**

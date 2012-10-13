@@ -14,21 +14,10 @@ namespace DkplusControllerDsl\Dsl\Phrase;
  * @subpackage Dsl\Phrase
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class Url implements PostPhraseInterface
+class Url extends OptionProvider implements PostPhraseInterface
 {
-    /** @var string */
-    private $url;
-
     public function __construct(array $options)
     {
-        if (isset($options[0])) {
-            $this->url = $options[0];
-        }
-    }
-
-    /** @return array */
-    public function getOptions()
-    {
-        return array('url' => $this->url);
+        parent::__construct(array('url'), $options, false);
     }
 }
