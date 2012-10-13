@@ -26,6 +26,7 @@ use Zend\View\Model\ViewModel;
  * @method \DkplusControllerDsl\Dsl\Dsl
  *          controllerAction()
  *          controllerAction(string $controller, string $action, array $routeParams = array())
+ * @method \DkplusControllerDsl\Dsl\Dsl but() but()
  * @method \DkplusControllerDsl\Dsl\Dsl data() data(mixed $data)
  * @method \DkplusControllerDsl\Dsl\Dsl disableLayout() disableLayout()
  * @method \DkplusControllerDsl\Dsl\Dsl error() error()
@@ -33,6 +34,7 @@ use Zend\View\Model\ViewModel;
  * @method \DkplusControllerDsl\Dsl\Dsl form() form(\Zend\Form\FormInterface|string $form = null)
  * @method \DkplusControllerDsl\Dsl\Dsl formData() formData(\Zend\Form\FormInterface|string $form = null)
  * @method \DkplusControllerDsl\Dsl\Dsl formMessages() formMessages(\Zend\Form\FormInterface|string $form = null)
+ * @method \DkplusControllerDsl\Dsl\Dsl ignore404NotFoundController() ignore404NotFoundController()
  * @method \DkplusControllerDsl\Dsl\Dsl info() info()
  * @method \DkplusControllerDsl\Dsl\Dsl into() into(callable $callable)
  * @method \DkplusControllerDsl\Dsl\Dsl message() message(string $message, string $namespace = 'default')
@@ -40,6 +42,7 @@ use Zend\View\Model\ViewModel;
  * @method \DkplusControllerDsl\Dsl\Dsl onAjaxRequest() onAjaxRequest(\DkplusControllerDsl\Dsl\DslInterface $dsl)
  * @method \DkplusControllerDsl\Dsl\Dsl onFailure() onFailure(\DkplusControllerDsl\Dsl\DslInterface $dsl)
  * @method \DkplusControllerDsl\Dsl\Dsl onSuccess() onSuccess(\DkplusControllerDsl\Dsl\DslInterface $dsl)
+ * @method \DkplusControllerDsl\Dsl\Dsl pageNotFound() pageNotFound()
  * @method \DkplusControllerDsl\Dsl\Dsl redirect() redirect()
  * @method \DkplusControllerDsl\Dsl\Dsl replaceContent() replaceContent()
  * @method \DkplusControllerDsl\Dsl\Dsl responseCode() responseCode(int $responseCode)

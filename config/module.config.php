@@ -14,6 +14,7 @@ return array(
             'asJson'           => 'DkplusControllerDsl\Dsl\Phrase\AsJson',
             'as'               => 'DkplusControllerDsl\Dsl\Phrase\AsPhrase',
             'assign'           => 'DkplusControllerDsl\Dsl\Phrase\Assign',
+            'but'              => 'DkplusControllerDsl\Dsl\Phrase\NullPhrase',
             'controllerAction' => 'DkplusControllerDsl\Dsl\Phrase\ControllerAction',
             'data'             => 'DkplusControllerDsl\Dsl\Phrase\Data',
             'disableLayout'    => 'DkplusControllerDsl\Dsl\Phrase\DisableLayout',
@@ -22,6 +23,7 @@ return array(
             'form'             => 'DkplusControllerDsl\Dsl\Phrase\Form',
             'formData'         => 'DkplusControllerDsl\Dsl\Phrase\FormData',
             'formMessages'     => 'DkplusControllerDsl\Dsl\Phrase\FormMessages',
+            'ignore404NotFoundController' => 'DkplusControllerDsl\Dsl\Phrase\Ignore404NotFoundController',
             'info'             => 'DkplusControllerDsl\Dsl\Phrase\Info',
             'into'             => 'DkplusControllerDsl\Dsl\Phrase\Into',
             'message'          => 'DkplusControllerDsl\Dsl\Phrase\Message',
@@ -43,8 +45,9 @@ return array(
             'with'             => 'DkplusControllerDsl\Dsl\Phrase\WithPhrase',
         ),
         'aliases' => array(
-            'onAjax'   => 'onAjaxRequest',
-            'validate' => 'fill'
+            'onAjax'       => 'onAjaxRequest',
+            'validate'     => 'fill',
+            'pageNotFound' => 'notFound'
         )
     ),
     'view_manager' => array(

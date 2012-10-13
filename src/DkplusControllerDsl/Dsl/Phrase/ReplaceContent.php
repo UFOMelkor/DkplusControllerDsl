@@ -9,8 +9,6 @@
 namespace DkplusControllerDsl\Dsl\Phrase;
 
 use DkplusControllerDsl\Dsl\ContainerInterface as Container;
-use Zend\ServiceManager\ServiceLocatorInterface as ServiceLocator;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 /**
  * @category   Dkplus
@@ -18,7 +16,7 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
  * @subpackage Dsl\Phrase
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class ReplaceContent implements ModifiablePhraseInterface, ServiceLocatorAwareInterface
+class ReplaceContent implements ModifiablePhraseInterface
 {
     /** @var string */
     private $controller;
@@ -26,8 +24,8 @@ class ReplaceContent implements ModifiablePhraseInterface, ServiceLocatorAwareIn
     /** @var array */
     private $routeParameters;
 
-    /** @var ServiceLocator */
-    private $serviceLocator;
+    /** @var string */
+    private $route;
 
     public function setOptions(array $options)
     {
@@ -37,30 +35,32 @@ class ReplaceContent implements ModifiablePhraseInterface, ServiceLocatorAwareIn
         if (isset($options['route_params'])) {
             $this->routeParameters = $options['route_params'];
         }
+        if (isset($options['route'])) {
+            $this->route = $options['route'];
+        }
     }
 
     public function execute(Container $container)
     {
-        $content = $container->getController()->forward()->dispatch($this->controller, $this->routeParameters);
-        $container->setViewVariable('content', $content);
-        $container->getViewModel()->setTemplate('dsl/replace-content');
-
-        if ($this->getServiceLocator()) {
-            $viewManager  = $this->getServiceLocator()->get('ViewManager');
-            $route404Strategy = $viewManager->getRouteNotFoundStrategy();
-            /* @var $route404Strategy \Zend\Mvc\View\Http\RouteNotFoundStrategy */
-            $route404Strategy->setNotFoundTemplate('dsl/replace-content');
+        if ($this->route) {
+            $routeMatch = $container->getController()->getEvent()->getRouteMatch();
+            $oldRoute   = $routeMatch->getMatchedRouteName();
+            $routeMatch->setMatchedRouteName($this->route);
         }
-    }
 
-    /** @return ServiceLocator */
-    public function getServiceLocator()
-    {
-        return $this->serviceLocator;
-    }
+        $oldStatusCode = $container->getResponse()->getStatusCode();
+        $container->getResponse()->setStatusCode(200);
 
-    public function setServiceLocator(ServiceLocator $serviceLocator)
-    {
-        $this->serviceLocator = $serviceLocator;
+
+        $model = $container->getController()->forward()->dispatch($this->controller, $this->routeParameters);
+        /* @var $model \Zend\View\Model\ModelInterface */
+        $container->setViewModel($model);
+
+
+        $container->getResponse()->setStatusCode($oldStatusCode);
+
+        if (isset($routeMatch)) {
+            $routeMatch->setMatchedRouteName($oldRoute);
+        }
     }
 }

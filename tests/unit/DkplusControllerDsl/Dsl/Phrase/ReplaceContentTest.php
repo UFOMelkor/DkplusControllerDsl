@@ -8,9 +8,10 @@
 
 namespace DkplusControllerDsl\Dsl\Phrase;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use DkplusUnitTest\TestCase;
 use Zend\Mvc\Controller\Plugin\Forward as ForwardPlugin;
 use Zend\View\Model\ModelInterface as ViewModel;
+use Zend\Http\Response;
 
 /**
  * @category   Dkplus
@@ -36,9 +37,20 @@ class ReplaceContentTest extends TestCase
      * @group Component/Dsl
      * @group unit
      */
-    public function implementsServiceLocatorAwareInterface()
+    public function dispatchesAnotherControllerAction()
     {
-        $this->assertInstanceOf('Zend\ServiceManager\ServiceLocatorAwareInterface', new ReplaceContent());
+        $viewModel     = $this->getMock('Zend\View\Model\ModelInterface');
+        $forwardPlugin = $this->getMock('Zend\Mvc\Controller\Plugin\Forward');
+        $forwardPlugin->expects($this->once())
+                      ->method('dispatch')
+                      ->with('UserController', array('action' => 'foo'))
+                      ->will($this->returnValue($viewModel));
+
+        $container = $this->getContainerMock($forwardPlugin, $viewModel);
+
+        $phrase = new ReplaceContent();
+        $phrase->setOptions(array('controller' => 'UserController', 'route_params' => array('action' => 'foo')));
+        $phrase->execute($container);
     }
 
     /**
@@ -46,25 +58,120 @@ class ReplaceContentTest extends TestCase
      * @group Component/Dsl
      * @group unit
      */
-    public function dispatchesAnotherControllerAction()
+    public function setsViewModelToForwardResult()
     {
-        $forwardPlugin = $this->getMock('Zend\Mvc\Controller\Plugin\Forward');
-        $forwardPlugin->expects($this->once())
-                      ->method('dispatch')
-                      ->with('UserController', array('action' => 'foo'));
-
         $viewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
 
-        $container = $this->getContainerMockWithForwardPluginAndViewModel($forwardPlugin, $viewModel);
+        $container = $this->getContainerMock(null, $viewModel);
+        $container->expects($this->once())
+                 ->method('setViewModel')
+                 ->with($viewModel);
 
         $phrase = new ReplaceContent();
         $phrase->setOptions(array('controller' => 'UserController', 'route_params' => array('action' => 'foo')));
         $phrase->execute($container);
     }
 
-    protected function getContainerMockWithForwardPluginAndViewModel(ForwardPlugin $forwardPlugin, ViewModel $viewModel)
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group unit
+     * @testdox can set a route
+     */
+    public function canSetRoute()
     {
-        $controller = $this->getMock('Zend\Mvc\Controller\AbstractActionController', array('forward'));
+        $routeMatch = $this->getMockIgnoringConstructor('Zend\Mvc\Router\RouteMatch');
+        $routeMatch->expects($this->at(0))
+                   ->method('getMatchedRouteName')
+                   ->will($this->returnValue('old/route'));
+        $routeMatch->expects($this->at(1))
+                   ->method('setMatchedRouteName')
+                   ->with('my/route');
+        $routeMatch->expects($this->at(2))
+                   ->method('setMatchedRouteName')
+                   ->with('old/route');
+
+        $event = $this->getMockIgnoringConstructor('Zend\Mvc\MvcEvent');
+        $event->expects($this->any())
+              ->method('getRouteMatch')
+              ->will($this->returnValue($routeMatch));
+
+        $container = $this->getContainerMock();
+        $container->getController()
+                  ->expects($this->any())
+                  ->method('getEvent')
+                  ->will($this->returnValue($event));
+
+        $phrase = new ReplaceContent();
+        $phrase->setOptions(
+            array(
+                'route'        => 'my/route',
+                'controller'   => 'UserController',
+                'route_params' => array('action' => 'foo')
+            )
+        );
+        $phrase->execute($container);
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group unit
+     */
+    public function setsTheResponseCodeBeforeForwardTo200AndAfterBackToTheOld()
+    {
+        $response = $this->getMock('Zend\Http\Response');
+        $response->expects($this->at(0))
+                 ->method('getStatusCode')
+                 ->will($this->returnValue(400));
+        $response->expects($this->at(1))
+                 ->method('setStatusCode')
+                 ->with(200);
+        $response->expects($this->at(2))
+                 ->method('setStatusCode')
+                 ->with(400);
+
+        $container = $this->getContainerMock(null, null, $response);
+
+        $phrase = new ReplaceContent();
+        $phrase->setOptions(
+            array(
+                'controller'   => 'UserController',
+                'route_params' => array('action' => 'foo')
+            )
+        );
+        $phrase->execute($container);
+    }
+
+    /**
+     * @param \Zend\Mvc\Controller\Plugin\Forward $forwardPlugin
+     * @param \Zend\View\Model\ModelInterface $viewModel
+     * @param \Zend\Http\Response $response
+     * @return \DkplusControllerDsl\Dsl\ContainerInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function getContainerMock(
+        ForwardPlugin $forwardPlugin = null,
+        ViewModel $viewModel = null,
+        Response $response = null
+    ) {
+        if (!$viewModel) {
+            $viewModel = $this->getMock('Zend\View\Model\ModelInterface');
+        }
+        if (!$forwardPlugin) {
+            $forwardPlugin = $this->getMock('Zend\Mvc\Controller\Plugin\Forward');
+            $forwardPlugin->expects($this->any())
+                          ->method('dispatch')
+                          ->will($this->returnValue($viewModel));
+        }
+
+        if (!$response) {
+            $response = $this->getMock('Zend\Http\Response');
+            $response->expects($this->any())
+                     ->method('getStatusCode')
+                     ->will($this->returnValue(200));
+        }
+
+        $controller = $this->getMock('Zend\Mvc\Controller\AbstractActionController', array('getEvent', 'forward'));
         $controller->expects($this->any())
                    ->method('forward')
                    ->will($this->returnValue($forwardPlugin));
@@ -73,100 +180,13 @@ class ReplaceContentTest extends TestCase
         $container->expects($this->any())
                   ->method('getController')
                   ->will($this->returnValue($controller));
+        $container->expects($this->any())
+                  ->method('getResponse')
+                  ->will($this->returnValue($response));
 
         $container->expects($this->any())
                  ->method('getViewModel')
                  ->will($this->returnValue($viewModel));
         return $container;
-    }
-
-    /**
-     * @test
-     * @group Component/Dsl
-     * @group unit
-     */
-    public function setsViewModelVariableToControllerActionResult()
-    {
-        $forwardPlugin = $this->getMock('Zend\Mvc\Controller\Plugin\Forward');
-        $forwardPlugin->expects($this->any())
-                      ->method('dispatch')
-                      ->will($this->returnValue('my-content'));
-
-        $viewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
-
-        $container = $this->getContainerMockWithForwardPluginAndViewModel($forwardPlugin, $viewModel);
-        $container->expects($this->once())
-                 ->method('setViewVariable')
-                 ->with('content', 'my-content');
-
-        $phrase = new ReplaceContent();
-        $phrase->setOptions(array('controller' => 'UserController', 'route_params' => array('action' => 'foo')));
-        $phrase->execute($container);
-    }
-
-    /**
-     * @test
-     * @group Component/Dsl
-     * @group unit
-     */
-    public function setsTemplateOfTheViewModel()
-    {
-        $forwardPlugin = $this->getMock('Zend\Mvc\Controller\Plugin\Forward');
-        $viewModel     = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
-        $viewModel->expects($this->once())
-                  ->method('setTemplate')
-                  ->with('dsl/replace-content');
-
-        $container = $this->getContainerMockWithForwardPluginAndViewModel($forwardPlugin, $viewModel);
-
-        $phrase = new ReplaceContent();
-        $phrase->setOptions(array('controller' => 'UserController', 'route_params' => array('action' => 'foo')));
-        $phrase->execute($container);
-    }
-
-    /**
-     * @test
-     * @group Component/Dsl
-     * @group unit
-     */
-    public function canGetTheServiceLocator()
-    {
-        $serviceLocator = $this->getMockForAbstractClass('Zend\ServiceManager\ServiceLocatorInterface');
-
-        $phrase = new ReplaceContent();
-        $phrase->setServiceLocator($serviceLocator);
-        $this->assertSame($serviceLocator, $phrase->getServiceLocator());
-    }
-
-    /**
-     * @test
-     * @group Component/Dsl
-     * @group unit
-     */
-    public function setsTheRouteNotFoundTemplateOn404ResponseCode()
-    {
-        $forwardPlugin = $this->getMock('Zend\Mvc\Controller\Plugin\Forward');
-        $viewModel     = $this->getMock('Zend\View\Model\ModelInterface');
-
-        $route404Strategy = $this->getMock('Zend\Mvc\View\Http\RouteNotFoundStrategy');
-        $route404Strategy->expects($this->once())
-                         ->method('setNotFoundTemplate')
-                         ->with('dsl/replace-content');
-
-        $viewManager = $this->getMock('Zend\Mvc\View\Http\ViewManager');
-        $viewManager->expects($this->any())
-                    ->method('getRouteNotFoundStrategy')
-                    ->will($this->returnValue($route404Strategy));
-
-        $serviceLocator = $this->getMockForAbstractClass('Zend\ServiceManager\ServiceLocatorInterface');
-        $serviceLocator->expects($this->any())
-                       ->method('get')
-                       ->with('ViewManager')
-                       ->will($this->returnValue($viewManager));
-
-        $phrase = new ReplaceContent();
-        $phrase->setServiceLocator($serviceLocator);
-        $phrase->setOptions(array('controller' => 'UserController', 'route_params' => array('action' => 'foo')));
-        $phrase->execute($this->getContainerMockWithForwardPluginAndViewModel($forwardPlugin, $viewModel));
     }
 }
