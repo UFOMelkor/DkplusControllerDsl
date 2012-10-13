@@ -23,6 +23,155 @@ class DslExpectationsTest extends TestCase
      * @test
      * @group unit
      * @group Component/Test
+     */
+    public function canTestWhetherTheContentIsReplacedWithAnotherControllerAction()
+    {
+        $dsl = $this->expectsDsl()->toReplaceContentWithControllerAction();
+        $dsl->replaceContent()->controllerAction('FooController', 'bar');
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group Component/Test
+     */
+    public function failsTestWhetherTheContentIsReplacedWhenNoContentReplacingHasBeenDone()
+    {
+        $exceptionThrown = false;
+        try {
+            $dsl = $this->expectsDsl()->toReplaceContentWithControllerAction();
+            $dsl->controllerAction('FooController', 'bar');
+            $dsl->__phpunit_verify();
+        } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
+            $dsl->replaceContent();
+            $exceptionThrown = true;
+        }
+        $this->assertTrue($exceptionThrown);
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group Component/Test
+     */
+    public function failsTestWhetherTheContentIsReplacedWhenNoControllerActionHasBeenGiven()
+    {
+        $exceptionThrown = false;
+        try {
+            $dsl = $this->expectsDsl()->toReplaceContentWithControllerAction();
+            $dsl->replaceContent();
+            $dsl->__phpunit_verify();
+        } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
+            $dsl->controllerAction('FooController', 'bar');
+            $exceptionThrown = true;
+        }
+        $this->assertTrue($exceptionThrown);
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group Component/Test
+     */
+    public function canTestWhetherTheContentIsReplacedWithSpecificControllerAction()
+    {
+        $dsl = $this->expectsDsl()->toReplaceContentWithControllerAction('FooController', 'bar');
+        $dsl->replaceContent()->controllerAction('FooController', 'bar');
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group Component/Test
+     */
+    public function failsTestWhetherTheContentIsReplacedWithSpecificControllerActionWhenAnotherControllerHasBeenGiven()
+    {
+        $exceptionThrown = false;
+        try {
+            $dsl = $this->expectsDsl()->toReplaceContentWithControllerAction('FooController', 'bar');
+            $dsl->replaceContent()->controllerAction('BarController', 'bar');
+            $dsl->__phpunit_verify();
+        } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
+            $dsl->controllerAction('FooController', 'bar');
+            $exceptionThrown = true;
+        }
+        $this->assertTrue($exceptionThrown);
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group Component/Test
+     */
+    public function failsTestWhetherTheContentIsReplacedWithSpecificControllerActionWhenAnotherActionHasBeenGiven()
+    {
+        $exceptionThrown = false;
+        try {
+            $dsl = $this->expectsDsl()->toReplaceContentWithControllerAction('FooController', 'bar');
+            $dsl->replaceContent()->controllerAction('FooController', 'baz');
+            $dsl->__phpunit_verify();
+        } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
+            $dsl->controllerAction('FooController', 'bar');
+            $exceptionThrown = true;
+        }
+        $this->assertTrue($exceptionThrown);
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group Component/Test
+     */
+    public function canTestWhetherTheContentIsReplacedWithSpecificRouteParams()
+    {
+        $dsl = $this->expectsDsl()->toReplaceContentWithControllerAction('FooController', 'bar', array('foo' => 'bar'));
+        $dsl->replaceContent()->controllerAction('FooController', 'bar', array('foo' => 'bar'));
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group Component/Test
+     */
+    public function failsTestWhetherTheContentIsReplacedWithSpecificRouteParamsWhenNoParamsHasBeenGiven()
+    {
+        $exceptionThrown = false;
+        try {
+            $dsl = $this->expectsDsl()
+                        ->toReplaceContentWithControllerAction('FooController', 'bar', array('foo' => 'bar'));
+            $dsl->replaceContent()->controllerAction('FooController', 'bar');
+            $dsl->__phpunit_verify();
+        } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
+            $dsl->controllerAction('FooController', 'bar', array('foo' => 'bar'));
+            $exceptionThrown = true;
+        }
+        $this->assertTrue($exceptionThrown);
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group Component/Test
+     */
+    public function failsTestWhetherTheContentIsReplacedWithSpecificRouteParamsWhenOtherParamsHasBeenGiven()
+    {
+        $exceptionThrown = false;
+        try {
+            $dsl = $this->expectsDsl()
+                        ->toReplaceContentWithControllerAction('FooController', 'bar', array('foo' => 'bar'));
+            $dsl->replaceContent()->controllerAction('FooController', 'bar', array('anything' => 'else'));
+            $dsl->__phpunit_verify();
+        } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
+            $dsl->controllerAction('FooController', 'bar', array('foo' => 'bar'));
+            $exceptionThrown = true;
+        }
+        $this->assertTrue($exceptionThrown);
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group Component/Test
      * @testdox can test whether a dsl returns json
      */
     public function canTestWhetherDslReturnsJson()

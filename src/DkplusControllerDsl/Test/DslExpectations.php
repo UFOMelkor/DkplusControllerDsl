@@ -30,6 +30,31 @@ class DslExpectations
     }
 
     /** @return \DkplusControllerDsl\Dsl\DslInterface|\PHPUnit_Framework_MockObject_MockObject */
+    public function toReplaceContentWithControllerAction($controller = null, $action = null, $routeParams = null)
+    {
+        $mock = $this->getMockWithPhrases(array('replaceContent', 'controllerAction'));
+        $mock->expects($this->testCase->atLeastOnce())
+             ->method('replaceContent')
+             ->will($this->testCase->returnSelf());
+        if ($controller === null) {
+            $mock->expects($this->testCase->atLeastOnce())
+                 ->method('controllerAction')
+                 ->will($this->testCase->returnSelf());
+        } elseif ($routeParams === null) {
+            $mock->expects($this->testCase->atLeastOnce())
+                 ->method('controllerAction')
+                 ->with($controller, $action)
+                 ->will($this->testCase->returnSelf());
+        } else {
+            $mock->expects($this->testCase->atLeastOnce())
+                 ->method('controllerAction')
+                 ->with($controller, $action, $routeParams)
+                 ->will($this->testCase->returnSelf());
+        }
+        return $mock;
+    }
+
+    /** @return \DkplusControllerDsl\Dsl\DslInterface|\PHPUnit_Framework_MockObject_MockObject */
     public function toRedirectToRoute($route = null, $parameters = null)
     {
         $mock = $this->getMockWithPhrases(array('redirect', 'route'));
