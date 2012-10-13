@@ -81,15 +81,9 @@ class ReplaceContentTest extends TestCase
     public function canSetRoute()
     {
         $routeMatch = $this->getMockIgnoringConstructor('Zend\Mvc\Router\RouteMatch');
-        $routeMatch->expects($this->at(0))
-                   ->method('getMatchedRouteName')
-                   ->will($this->returnValue('old/route'));
-        $routeMatch->expects($this->at(1))
+        $routeMatch->expects($this->once())
                    ->method('setMatchedRouteName')
                    ->with('my/route');
-        $routeMatch->expects($this->at(2))
-                   ->method('setMatchedRouteName')
-                   ->with('old/route');
 
         $event = $this->getMockIgnoringConstructor('Zend\Mvc\MvcEvent');
         $event->expects($this->any())

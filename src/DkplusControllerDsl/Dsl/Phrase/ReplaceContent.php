@@ -44,7 +44,6 @@ class ReplaceContent implements ModifiablePhraseInterface
     {
         if ($this->route) {
             $routeMatch = $container->getController()->getEvent()->getRouteMatch();
-            $oldRoute   = $routeMatch->getMatchedRouteName();
             $routeMatch->setMatchedRouteName($this->route);
         }
 
@@ -58,9 +57,5 @@ class ReplaceContent implements ModifiablePhraseInterface
 
 
         $container->getResponse()->setStatusCode($oldStatusCode);
-
-        if (isset($routeMatch)) {
-            $routeMatch->setMatchedRouteName($oldRoute);
-        }
     }
 }
