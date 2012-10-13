@@ -25,29 +25,36 @@ class OptionProviderTest extends TestCase
      */
     public function isAnOptionProviderPhrase()
     {
-        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\OptionProviderPhraseInterface', new OptionProvider(array(), array()));
+        $this->assertInstanceOf(
+            'DkplusControllerDsl\Dsl\Phrase\OptionProviderPhraseInterface',
+            new OptionProvider(array(), array())
+        );
     }
 
     /**
      * @test
      * @group Component/Dsl
      * @group unit
-     * @testdox is a post phrase
      */
     public function isNoPostPhrase()
     {
-        $this->assertNotInstanceOf('DkplusControllerDsl\Dsl\Phrase\PostPhraseInterface', new OptionProvider(array(), array()));
+        $this->assertNotInstanceOf(
+            'DkplusControllerDsl\Dsl\Phrase\PostPhraseInterface',
+            new OptionProvider(array(), array())
+        );
     }
 
     /**
      * @test
      * @group Component/Dsl
      * @group unit
-     * @testdox is a post phrase
      */
     public function isNoPrePhrase()
     {
-        $this->assertNotInstanceOf('DkplusControllerDsl\Dsl\Phrase\PrePhraseInterface', new OptionProvider(array(), array()));
+        $this->assertNotInstanceOf(
+            'DkplusControllerDsl\Dsl\Phrase\PrePhraseInterface',
+            new OptionProvider(array(), array())
+        );
     }
 
     /**

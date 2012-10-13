@@ -25,7 +25,10 @@ class ResponseCodeTest extends TestCase
      */
     public function isAnExecutablePhrase()
     {
-        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\ExecutablePhraseInterface', new ResponseCode(array(200)));
+        $this->assertInstanceOf(
+            'DkplusControllerDsl\Dsl\Phrase\ExecutablePhraseInterface',
+            new ResponseCode(array(200))
+        );
     }
 
     /**
