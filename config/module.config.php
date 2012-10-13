@@ -32,6 +32,7 @@ return array(
             'redirect'         => 'DkplusControllerDsl\Dsl\Phrase\Redirect',
             'replaceContent'   => 'DkplusControllerDsl\Dsl\Phrase\ReplaceContent',
             'route'            => 'DkplusControllerDsl\Dsl\Phrase\Route',
+            'set'              => 'DkplusControllerDsl\Dsl\Phrase\NullPhrase',
             'store'            => 'DkplusControllerDsl\Dsl\Phrase\Store',
             'success'          => 'DkplusControllerDsl\Dsl\Phrase\Success',
             'to'               => 'DkplusControllerDsl\Dsl\Phrase\NullPhrase',

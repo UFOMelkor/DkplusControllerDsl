@@ -103,6 +103,7 @@ class ConfigurationTest extends TestCase
             array('redirect', array()),
             array('replaceContent', array()),
             array('route', array('my/route')),
+            array('set', array()),
             array('store', array()),
             array('success', array()),
             array('to', array()),

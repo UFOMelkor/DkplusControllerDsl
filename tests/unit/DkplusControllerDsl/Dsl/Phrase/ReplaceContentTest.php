@@ -36,6 +36,16 @@ class ReplaceContentTest extends TestCase
      * @group Component/Dsl
      * @group unit
      */
+    public function implementsServiceLocatorAwareInterface()
+    {
+        $this->assertInstanceOf('Zend\ServiceManager\ServiceLocatorAwareInterface', new ReplaceContent());
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group unit
+     */
     public function dispatchesAnotherControllerAction()
     {
         $forwardPlugin = $this->getMock('Zend\Mvc\Controller\Plugin\Forward');
@@ -112,5 +122,53 @@ class ReplaceContentTest extends TestCase
         $phrase = new ReplaceContent();
         $phrase->setOptions(array('controller' => 'UserController', 'route_params' => array('action' => 'foo')));
         $phrase->execute($container);
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group unit
+     */
+    public function canGetTheServiceLocator()
+    {
+        $serviceLocator = $this->getMockForAbstractClass('Zend\ServiceManager\ServiceLocatorInterface');
+
+        $phrase = new ReplaceContent();
+        $phrase->setServiceLocator($serviceLocator);
+        $this->assertSame($serviceLocator, $phrase->getServiceLocator());
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group unit
+     */
+    public function detachesTheRouteNotFoundStrategyOn404ResponseCode()
+    {
+        $forwardPlugin = $this->getMock('Zend\Mvc\Controller\Plugin\Forward');
+        $viewModel     = $this->getMock('Zend\View\Model\ModelInterface');
+
+        $eventManager     = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
+        $route404Strategy = $this->getMockForAbstractClass('Zend\EventManager\ListenerAggregateInterface');
+        $route404Strategy->expects($this->once())
+                         ->method('detach')
+                         ->with($eventManager);
+
+        $viewManager = $this->getMock('Zend\Mvc\View\Http\ViewManager');
+        $viewManager->expects($this->any())
+                    ->method('getRouteNotFoundStrategy')
+                    ->will($this->returnValue($route404Strategy));
+
+        $serviceLocatorMap = array(array('ViewManager', $viewManager), array('EventManager', $eventManager));
+
+        $serviceLocator = $this->getMockForAbstractClass('Zend\ServiceManager\ServiceLocatorInterface');
+        $serviceLocator->expects($this->any())
+                       ->method('get')
+                       ->will($this->returnValueMap($serviceLocatorMap));
+
+        $phrase = new ReplaceContent();
+        $phrase->setServiceLocator($serviceLocator);
+        $phrase->setOptions(array('controller' => 'UserController', 'route_params' => array('action' => 'foo')));
+        $phrase->execute($this->getContainerMockWithForwardPluginAndViewModel($forwardPlugin, $viewModel));
     }
 }
