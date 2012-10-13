@@ -101,6 +101,7 @@ class ConfigurationTest extends TestCase
             array('onSuccess', array('sub-dsl')),
             array('onFailure', array('sub-dsl')),
             array('redirect', array()),
+            array('responseCode', array(404)),
             array('replaceContent', array()),
             array('route', array('my/route')),
             array('set', array()),

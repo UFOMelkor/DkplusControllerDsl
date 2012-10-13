@@ -42,6 +42,7 @@ use Zend\View\Model\ViewModel;
  * @method \DkplusControllerDsl\Dsl\Dsl onSuccess() onSuccess(\DkplusControllerDsl\Dsl\DslInterface $dsl)
  * @method \DkplusControllerDsl\Dsl\Dsl redirect() redirect()
  * @method \DkplusControllerDsl\Dsl\Dsl replaceContent() replaceContent()
+ * @method \DkplusControllerDsl\Dsl\Dsl responseCode() responseCode(int $responseCode)
  * @method \DkplusControllerDsl\Dsl\Dsl route() route(string $route)
  * @method \DkplusControllerDsl\Dsl\Dsl store() store(mixed $data = null)
  * @method \DkplusControllerDsl\Dsl\Dsl success() success()

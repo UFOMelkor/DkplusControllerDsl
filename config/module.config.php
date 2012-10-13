@@ -31,6 +31,7 @@ return array(
             'onSuccess'        => 'DkplusControllerDsl\Dsl\Phrase\OnSuccess',
             'redirect'         => 'DkplusControllerDsl\Dsl\Phrase\Redirect',
             'replaceContent'   => 'DkplusControllerDsl\Dsl\Phrase\ReplaceContent',
+            'responseCode'     => 'DkplusControllerDsl\Dsl\Phrase\ResponseCode',
             'route'            => 'DkplusControllerDsl\Dsl\Phrase\Route',
             'set'              => 'DkplusControllerDsl\Dsl\Phrase\NullPhrase',
             'store'            => 'DkplusControllerDsl\Dsl\Phrase\Store',
