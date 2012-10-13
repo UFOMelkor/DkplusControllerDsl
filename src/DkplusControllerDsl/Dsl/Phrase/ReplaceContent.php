@@ -46,9 +46,10 @@ class ReplaceContent implements ModifiablePhraseInterface, ServiceLocatorAwareIn
         $container->getViewModel()->setTemplate('dsl/replace-content');
 
         if ($this->getServiceLocator()) {
-            $eventManager = $this->getServiceLocator()->get('EventManager');
             $viewManager  = $this->getServiceLocator()->get('ViewManager');
-            $viewManager->getRouteNotFoundStrategy()->detach($eventManager);
+            $route404Strategy = $viewManager->getRouteNotFoundStrategy();
+            /* @var $route404Strategy \Zend\Mvc\View\Http\RouteNotFoundStrategy */
+            $route404Strategy->setNotFoundTemplate('dsl/replace-content');
         }
     }
 
