@@ -14,8 +14,13 @@ namespace DkplusControllerDsl\Dsl\Phrase;
  * @subpackage Dsl\Phrase
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class NotFound implements PrePhraseInterface
+class NotFound extends ResponseCode implements PrePhraseInterface
 {
+    public function __construct()
+    {
+        parent::__construct(array(404));
+    }
+
     /** @return array */
     public function getOptions()
     {

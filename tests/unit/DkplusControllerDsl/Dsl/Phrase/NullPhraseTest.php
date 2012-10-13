@@ -16,7 +16,7 @@ use PHPUnit_Framework_TestCase as TestCase;
  * @subpackage Dsl\Phrase
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class ToPhraseTest extends TestCase
+class NullPhraseTest extends TestCase
 {
     /**
      * @test
@@ -26,7 +26,7 @@ class ToPhraseTest extends TestCase
      */
     public function isPhrase()
     {
-        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\PhraseInterface', new ToPhrase());
+        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\PhraseInterface', new NullPhrase());
     }
 
     /**
@@ -36,7 +36,7 @@ class ToPhraseTest extends TestCase
      */
     public function isNoExecutablePhrase()
     {
-        $this->assertNotInstanceOf('DkplusControllerDsl\Dsl\Phrase\ExecutablePhraseInterface', new ToPhrase());
+        $this->assertNotInstanceOf('DkplusControllerDsl\Dsl\Phrase\ExecutablePhraseInterface', new NullPhrase());
     }
 
     /**
@@ -46,7 +46,7 @@ class ToPhraseTest extends TestCase
      */
     public function isNoPrePhrase()
     {
-        $this->assertNotInstanceOf('DkplusControllerDsl\Dsl\Phrase\PrePhraseInterface', new ToPhrase());
+        $this->assertNotInstanceOf('DkplusControllerDsl\Dsl\Phrase\PrePhraseInterface', new NullPhrase());
     }
 
     /**
@@ -56,6 +56,6 @@ class ToPhraseTest extends TestCase
      */
     public function isNoPostPhrase()
     {
-        $this->assertNotInstanceOf('DkplusControllerDsl\Dsl\Phrase\PostPhraseInterface', new ToPhrase());
+        $this->assertNotInstanceOf('DkplusControllerDsl\Dsl\Phrase\PostPhraseInterface', new NullPhrase());
     }
 }

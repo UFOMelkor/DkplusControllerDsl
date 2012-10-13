@@ -16,19 +16,8 @@ use PHPUnit_Framework_TestCase as TestCase;
  * @subpackage Dsl\Phrase
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class NotFoundTest extends TestCase
+class ResponseCodeTest extends TestCase
 {
-    /**
-     * @test
-     * @group Component/Dsl
-     * @group unit
-     * @testdox is a pre phrase
-     */
-    public function isPrePhrase()
-    {
-        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\PrePhraseInterface', new NotFound());
-    }
-
     /**
      * @test
      * @group Component/Dsl
@@ -36,7 +25,7 @@ class NotFoundTest extends TestCase
      */
     public function isAnExecutablePhrase()
     {
-        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\ExecutablePhraseInterface', new NotFound());
+        $this->assertInstanceOf('DkplusControllerDsl\Dsl\Phrase\ExecutablePhraseInterface', new ResponseCode(array(200)));
     }
 
     /**
@@ -44,18 +33,7 @@ class NotFoundTest extends TestCase
      * @group Component/Dsl
      * @group unit
      */
-    public function hasTypeOption404NotFound()
-    {
-        $phrase = new NotFound();
-        $this->assertSame(array('type' => '404-not-found'), $phrase->getOptions());
-    }
-
-    /**
-     * @test
-     * @group Component/Dsl
-     * @group unit
-     */
-    public function sets404ResponseCode()
+    public function setsResponseCode()
     {
         $response = $this->getMock('Zend\Http\Response');
         $response->expects($this->once())
@@ -67,7 +45,7 @@ class NotFoundTest extends TestCase
                   ->method('getResponse')
                   ->will($this->returnValue($response));
 
-        $phrase = new NotFound();
+        $phrase = new ResponseCode(array(404));
         $phrase->execute($container);
     }
 }

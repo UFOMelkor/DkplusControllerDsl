@@ -14,6 +14,6 @@ namespace DkplusControllerDsl\Dsl\Phrase;
  * @subpackage Dsl\Phrase
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class AndPhrase implements PhraseInterface
+class NullPhrase implements PhraseInterface
 {
 }

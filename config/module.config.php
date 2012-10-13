@@ -9,7 +9,7 @@ return array(
     'phrases' => array(
         'invokables' => array(
             'against'       => 'DkplusControllerDsl\Dsl\Phrase\Against',
-            'and'           => 'DkplusControllerDsl\Dsl\Phrase\AndPhrase',
+            'and'           => 'DkplusControllerDsl\Dsl\Phrase\NullPhrase',
             'asJson'        => 'DkplusControllerDsl\Dsl\Phrase\AsJson',
             'as'            => 'DkplusControllerDsl\Dsl\Phrase\AsPhrase',
             'assign'        => 'DkplusControllerDsl\Dsl\Phrase\Assign',
@@ -31,7 +31,7 @@ return array(
             'route'         => 'DkplusControllerDsl\Dsl\Phrase\Route',
             'store'         => 'DkplusControllerDsl\Dsl\Phrase\Store',
             'success'       => 'DkplusControllerDsl\Dsl\Phrase\Success',
-            'to'            => 'DkplusControllerDsl\Dsl\Phrase\ToPhrase',
+            'to'            => 'DkplusControllerDsl\Dsl\Phrase\NullPhrase',
             'url'           => 'DkplusControllerDsl\Dsl\Phrase\Url',
             'use'           => 'DkplusControllerDsl\Dsl\Phrase\UsePhrase',
             'warning'       => 'DkplusControllerDsl\Dsl\Phrase\Warning',
