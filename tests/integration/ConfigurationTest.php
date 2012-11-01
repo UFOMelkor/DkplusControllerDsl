@@ -104,6 +104,7 @@ class ConfigurationTest extends TestCase
             array('onFailure', array('sub-dsl')),
             array('pageNotFound', array()),
             array('redirect', array()),
+            array('render', array('dsl/read.phtml')),
             array('responseCode', array(404)),
             array('replaceContent', array()),
             array('route', array('my/route')),
