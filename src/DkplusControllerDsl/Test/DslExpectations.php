@@ -195,6 +195,17 @@ class DslExpectations
     }
 
     /** @return \DkplusControllerDsl\Dsl\DslInterface|\PHPUnit_Framework_MockObject_MockObject */
+    public function toRender($template)
+    {
+        $mock = $this->getMockWithPhrases(array('render'));
+        $mock->expects($this->testCase->atLeastOnce())
+             ->method('render')
+             ->with($template)
+             ->will($this->testCase->returnSelf());
+        return $mock;
+    }
+
+    /** @return \DkplusControllerDsl\Dsl\DslInterface|\PHPUnit_Framework_MockObject_MockObject */
     private function getMockWithPhrases(array $phrases)
     {
         return $this->testCase->getDslMockBuilder()
