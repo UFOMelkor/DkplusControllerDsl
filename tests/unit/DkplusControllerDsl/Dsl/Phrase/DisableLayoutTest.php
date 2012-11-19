@@ -65,7 +65,8 @@ class DisableLayoutTest extends TestCase
     public function disableLayout()
     {
         $this->container->getViewModel()->expects($this->once())
-                                        ->method('terminate');
+                                        ->method('setTerminale')
+                                        ->with(true);
 
         $phrase = new DisableLayout(array());
         $phrase->execute($this->container);
