@@ -707,4 +707,55 @@ class DslExpectationsTest extends TestCase
     {
         $this->expectsDsl()->toDoNotAddFlashMessages();
     }
+
+    /**
+     * @test
+     * @group unit
+     * @group Component/Test
+     * @testdox can test whether a template has been rendered
+     */
+    public function canTestWhetherTemplateHasBeenRendered()
+    {
+        $dsl = $this->expectsDsl()->toRender('user/login.phtml');
+        $dsl->render('user/login.phtml');
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group Component/Test
+     * @testdox fails test whether a template has been rendered when no template has been rendered
+     */
+    public function failsTestWhetherTemplateHasBeenRenderedWhenNoTemplateHasBeenRendered()
+    {
+        $exceptionThrown = false;
+        try {
+            $dsl = $this->expectsDsl()->toRender('user/login.phtml');
+            $dsl->__phpunit_verify();
+        } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
+            $dsl->render('user/login.phtml');
+            $exceptionThrown = true;
+        }
+        $this->assertTrue($exceptionThrown);
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group Component/Test
+     * @testdox fails test whether a template has been rendered when a wrong template has been rendered
+     */
+    public function failsTestWhetherTemplateHasBeenRenderedWhenWrongTemplateHasBeenRendered()
+    {
+        $exceptionThrown = false;
+        try {
+            $dsl = $this->expectsDsl()->toRender('user/login.phtml');
+            $dsl->render('foo/login.phtml');
+            $dsl->__phpunit_verify();
+        } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
+            $dsl->render('user/login.phtml');
+            $exceptionThrown = true;
+        }
+        $this->assertTrue($exceptionThrown);
+    }
 }

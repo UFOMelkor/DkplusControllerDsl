@@ -21,6 +21,6 @@ class DisableLayout implements ExecutablePhraseInterface
     public function execute(Container $container)
     {
         $container->lockViewModel();
-        $container->getViewModel()->terminate();
+        $container->getViewModel()->setTerminal(1);
     }
 }
