@@ -45,6 +45,7 @@ return array(
     'DkplusControllerDsl\Dsl\Phrase\PostPhraseInterface'           => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/PostPhraseInterface.php',
     'DkplusControllerDsl\Dsl\Phrase\PrePhraseInterface'            => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/PrePhraseInterface.php',
     'DkplusControllerDsl\Dsl\Phrase\Redirect'                      => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/Redirect.php',
+    'DkplusControllerDsl\Dsl\Phrase\Render'                        => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/Render.php',
     'DkplusControllerDsl\Dsl\Phrase\ReplaceContent'                => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/ReplaceContent.php',
     'DkplusControllerDsl\Dsl\Phrase\ResponseCode'                  => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/ResponseCode.php',
     'DkplusControllerDsl\Dsl\Phrase\Route'                         => __DIR__ . '/src/DkplusControllerDsl/Dsl/Phrase/Route.php',
