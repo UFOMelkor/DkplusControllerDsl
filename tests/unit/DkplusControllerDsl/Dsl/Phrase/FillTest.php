@@ -326,11 +326,34 @@ class FillTest extends TestCase
         $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
 
         $container = $this->getContainerWithRequest();
-        $container->expects($this->once())
+        $container->expects($this->at(0))
                   ->method('setVariable')
                   ->with('__FORM__', $form);
 
         $phrase = new Fill(array($form));
+        $phrase->execute($container);
+    }
+
+    /**
+     * @test
+     * @group Component/Dsl
+     * @group unit
+     */
+    public function setsATrueMustValidateFlagWhenNoAjaxRequestIsDetectedAndFormDataExisting()
+    {
+        $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
+
+        $container = $this->getContainerWithRequest();
+        $container->expects($this->at(4))
+                  ->method('setVariable')
+                  ->with('__MUST_VALIDATE__', true);
+
+        $request   = $container->getRequest();
+        $request->expects($this->any())
+                ->method('getQuery')
+                ->will($this->returnValue(array('foo' => 'bar')));
+
+        $phrase = new Fill(array($form, 'query'));
         $phrase->execute($container);
     }
 }

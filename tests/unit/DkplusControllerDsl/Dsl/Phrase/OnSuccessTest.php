@@ -33,7 +33,7 @@ class OnSuccessTest extends TestCase
      * @group Component/Dsl
      * @group unit
      */
-    public function executesGivenDslIfFormIsValid()
+    public function executesGivenDslIfItMustBeValidatedAndIsTheFormValid()
     {
         $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
         $form->expects($this->any())
@@ -41,10 +41,14 @@ class OnSuccessTest extends TestCase
              ->will($this->returnValue(true));
 
         $container = $this->getContainerMock(false);
-        $container->expects($this->any())
+        $container->expects($this->at(2))
                   ->method('getVariable')
                   ->with('__FORM__')
                   ->will($this->returnValue($form));
+        $container->expects($this->at(1))
+                  ->method('getVariable')
+                  ->with('__MUST_VALIDATE__')
+                  ->will($this->returnValue(true));
 
         $successHandler = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\DslInterface');
         $successHandler->expects($this->once())
@@ -54,6 +58,7 @@ class OnSuccessTest extends TestCase
         $phrase = new OnSuccess(array($successHandler));
         $phrase->execute($container);
     }
+
 
     /** @return \DkplusControllerDsl\Dsl\ContainerInterface|\PHPUnit_Framework_MockObject_MockObject */
     private function getContainerMock($isAjaxRequest)
@@ -84,10 +89,14 @@ class OnSuccessTest extends TestCase
              ->will($this->returnValue(false));
 
         $container = $this->getContainerMock(false);
-        $container->expects($this->any())
+        $container->expects($this->at(2))
                   ->method('getVariable')
                   ->with('__FORM__')
                   ->will($this->returnValue($form));
+        $container->expects($this->at(1))
+                  ->method('getVariable')
+                  ->with('__MUST_VALIDATE__')
+                  ->will($this->returnValue(true));
 
         $successHandler = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\DslInterface');
         $successHandler->expects($this->never())
@@ -101,22 +110,14 @@ class OnSuccessTest extends TestCase
      * @test
      * @group Component/Dsl
      * @group unit
-     * @testdox executes the given dsl not if a form exception is thrown
      */
-    public function executesGivenDslNotIfFormExceptionIsThrown()
+    public function executesGivenDslNotIfItMustNotBeValidated()
     {
-        $exception = $this->getMockIgnoringConstructor('Zend\Form\Exception\DomainException');
-
-        $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
-        $form->expects($this->any())
-             ->method('isValid')
-             ->will($this->throwException($exception));
-
         $container = $this->getContainerMock(false);
-        $container->expects($this->any())
+        $container->expects($this->at(1))
                   ->method('getVariable')
-                  ->with('__FORM__')
-                  ->will($this->returnValue($form));
+                  ->with('__MUST_VALIDATE__')
+                  ->will($this->returnValue(false));
 
         $successHandler = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\DslInterface');
         $successHandler->expects($this->never())
@@ -133,16 +134,7 @@ class OnSuccessTest extends TestCase
      */
     public function executesGivenDslNotIfAnAjaxRequestIsDetected()
     {
-        $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
-        $form->expects($this->any())
-             ->method('isValid')
-             ->will($this->returnValue(true));
-
         $container = $this->getContainerMock(true);
-        $container->expects($this->any())
-                  ->method('getVariable')
-                  ->with('__FORM__')
-                  ->will($this->returnValue($form));
 
         $successHandler = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\DslInterface');
         $successHandler->expects($this->never())
@@ -166,10 +158,14 @@ class OnSuccessTest extends TestCase
              ->will($this->returnValue(true));
 
         $container = $this->getContainerMock(false);
-        $container->expects($this->any())
+        $container->expects($this->at(2))
                   ->method('getVariable')
                   ->with('__FORM__')
                   ->will($this->returnValue($form));
+        $container->expects($this->at(1))
+                  ->method('getVariable')
+                  ->with('__MUST_VALIDATE__')
+                  ->will($this->returnValue(true));
 
         $dsl = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\DslInterface');
         $dsl->expects($this->once())

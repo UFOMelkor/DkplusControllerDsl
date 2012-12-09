@@ -10,7 +10,6 @@ namespace DkplusControllerDsl\Dsl\Phrase;
 
 use DkplusControllerDsl\Dsl\DslInterface as Dsl;
 use DkplusControllerDsl\Dsl\ContainerInterface as Container;
-use Zend\Form\Exception\DomainException as FormDomainException;
 
 /**
  * @category   Dkplus
@@ -32,19 +31,15 @@ class OnSuccess implements ExecutablePhraseInterface
 
     public function execute(Container $container)
     {
-        if ($container->getRequest()->isXmlHttpRequest()) {
+        if ($container->getRequest()->isXmlHttpRequest()
+            || !$container->getVariable('__MUST_VALIDATE__')
+        ) {
             return;
         }
 
         $form = $container->getVariable('__FORM__');
 
-        try {
-            $isValid = $form->isValid();
-        } catch (FormDomainException $e) {
-            $isValid = false;
-        }
-
-        if ($isValid) {
+        if ($form->isValid()) {
             if (\is_callable($this->successHandler)) {
                 $this->successHandler = \call_user_func($this->successHandler);
             }

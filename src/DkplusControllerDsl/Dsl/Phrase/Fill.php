@@ -9,7 +9,6 @@
 namespace DkplusControllerDsl\Dsl\Phrase;
 
 use DkplusControllerDsl\Dsl\ContainerInterface as Container;
-use DkplusControllerDsl\Dsl\DslInterface as Dsl;
 use Zend\Stdlib\ResponseInterface as Response;
 
 /**
@@ -57,6 +56,7 @@ class Fill implements ModifiablePhraseInterface
         $data = $this->getData($container);
 
         $container->setVariable('__FORM__', $form);
+        $mustValidate = false;
 
         if (!$container->getRequest()->isXmlHttpRequest()
             && $data instanceOf Response
@@ -65,7 +65,10 @@ class Fill implements ModifiablePhraseInterface
             $container->terminate();
         } elseif ($data !== false) {
             $form->setData($data);
+            $mustValidate = true;
         }
+
+        $container->setVariable('__MUST_VALIDATE__', $mustValidate);
     }
 
     private function getData(Container $container)
