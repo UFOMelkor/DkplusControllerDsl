@@ -33,7 +33,6 @@ class Render implements ExecutablePhraseInterface
     {
         if ($container->getViewModel() instanceof ViewModel) {
             $container->getViewModel()->setTemplate($this->template);
-            $container->lockViewModel();
             return;
         }
         throw new \RuntimeException('Needs an instance of Zend\View\Model\ViewModel as view model');

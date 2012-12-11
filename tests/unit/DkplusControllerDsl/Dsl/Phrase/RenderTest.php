@@ -58,25 +58,6 @@ class RenderTest extends TestCase
      * @test
      * @group Component/Dsl
      * @group unit
-     */
-    public function locksTheViewModelWhenViewModelIsGiven()
-    {
-        $viewModel = $this->getMock('Zend\View\Model\ViewModel');
-        $container = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\ContainerInterface');
-        $container->expects($this->any())
-                  ->method('getViewModel')
-                  ->will($this->returnValue($viewModel));
-        $container->expects($this->once())
-                  ->method('lockViewModel');
-
-        $phrase = new Render(array('crud/update.phtml'));
-        $phrase->execute($container);
-    }
-
-    /**
-     * @test
-     * @group Component/Dsl
-     * @group unit
      * @expectedException RuntimeException
      * @expectedExceptionMessage Needs an instance of Zend\View\Model\ViewModel as view model
      */
