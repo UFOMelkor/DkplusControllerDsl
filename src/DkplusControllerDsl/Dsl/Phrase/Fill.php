@@ -68,6 +68,7 @@ class Fill implements ModifiablePhraseInterface
             $mustValidate = true;
         }
 
+        // @todo this must be replaced by a direct isValid (Phrase\Validate).
         $container->setVariable('__MUST_VALIDATE__', $mustValidate);
     }
 

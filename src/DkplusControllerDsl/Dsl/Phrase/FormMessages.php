@@ -38,6 +38,8 @@ class FormMessages implements ContainerAwarePhraseInterface, PostPhraseInterface
               ? $this->container->getVariable($this->form)
               : $this->form;
 
+        // @todo this must be removed
+        $form->isValid();
         return array('variable' => $form->getMessages());
     }
 
