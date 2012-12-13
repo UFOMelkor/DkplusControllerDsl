@@ -41,15 +41,15 @@ class Redirect implements ModifiablePhraseInterface
 
     public function setOptions(array $options)
     {
-        if (isset($options['route'])) {
+        if (!empty($options['route'])) {
             $this->route = $options['route'];
         }
 
-        if (isset($options['url'])) {
+        if (!empty($options['url'])) {
             $this->url = $options['url'];
         }
 
-        if (isset($options['with'])) {
+        if (!empty($options['with'])) {
             $this->params = $options['with'];
         }
     }
