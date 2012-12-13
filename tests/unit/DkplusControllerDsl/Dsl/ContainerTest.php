@@ -194,10 +194,10 @@ class ContainerTest extends TestCase
      * @group Component/Dsl
      * @group unit
      */
-    public function doesNotReplaceViewVariablesBySettingMultiplesAtOnce()
+    public function clearsExistingVariablesWhenSettingMultiple()
     {
-        $this->container->setViewVariables(array('foo' => 'baz'));
-        $this->container->setViewVariables(array('bar' => 'baz'));
+        $this->container->setViewVariable('baz', 'foobar');
+        $this->container->setViewVariables(array('foo' => 'baz', 'bar' => 'baz'));
         $this->assertSame(array('foo' => 'baz', 'bar' => 'baz'), $this->container->getViewVariables());
     }
 

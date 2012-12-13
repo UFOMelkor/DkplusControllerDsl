@@ -53,6 +53,9 @@ interface ContainerInterface
 
     public function setViewVariable($variable, $value);
 
+    /**
+     * Overwrites all view variables
+     */
     public function setViewVariables(array $variables);
 
     public function getViewVariables();

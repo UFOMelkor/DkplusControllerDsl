@@ -133,7 +133,7 @@ class Container implements ContainerInterface
 
     public function setViewVariables(array $variables)
     {
-        $this->viewVariables = \array_merge($this->viewVariables, $variables);
+        $this->viewVariables = $variables;
     }
 
     /** @return boolean */
